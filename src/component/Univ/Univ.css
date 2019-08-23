@@ -1,0 +1,11 @@
+.buttonTest{
+    top:90%;
+    left: 93vw;
+}
+
+@media screen and (max-width:600px){
+    .buttonTest{
+        top:90%;
+        left: 80vw;
+    }
+}

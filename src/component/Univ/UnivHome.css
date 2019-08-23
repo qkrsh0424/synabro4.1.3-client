@@ -1,0 +1,46 @@
+@media screen and (max-width:568px){
+    /* .mainThum{
+        min-height: 30vh !important;
+    } */
+    .bene_Big_Size{
+        width: 100%;
+        height: 30vh !important;
+    }
+}
+.hot_topic {
+    position: relative;
+    height: 39vh;
+    background-color: #f5f5f6;
+    padding: 20px 0 15px;
+    overflow: scroll;
+    margin-bottom:2rem;
+}
+
+.univ_title{
+    color: #5f9ea0;
+}
+
+.pagination_tab{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    margin: 0;
+}
+
+.mainThum{
+    /* background-image: url("../../images/Logo/logomain.png");
+    background-size: contain; */
+    min-height: 40vh;
+}
+
+.bene_Big_Size{
+    width: 100%;
+    height: 400px;
+}
+
+.wrap{
+    height: 100vh;
+}
+
+
+/* notice 미리보기 데모 */

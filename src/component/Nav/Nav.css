@@ -1,0 +1,14 @@
+.fixed_Liner{
+    margin-top:64px;
+}
+
+@media screen and (max-width:600px){
+    .fixed_Liner{
+        margin-top:56px;
+    }
+}
+
+.__Nav_Style{
+    background: white !important;
+    color: black !important;
+}
