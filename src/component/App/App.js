@@ -10,9 +10,18 @@ import 'bootstrap/dist/js/bootstrap.js';
 import { connect } from 'react-redux';
 import * as actions from '../../action';
 
-import PageLoading from './PageLoading'
+// 로딩 관련 컴포넌트
+import PageLoading from './PageLoading';
+
+//메인 관련 컴포넌트
 import Main from '../Main/Main';
+
+//계정관련 컴포넌트
+import Signup from '../Signup/Signup';
 import Login from '../Login/Login';
+import Profile from '../Profile/Profile';
+
+//각종 하위 컴포넌트
 import Univ from '../Univ/Univ';
 import RichText from'../RichText/RichText';
 
@@ -69,21 +78,39 @@ class App extends React.Component{
             return(
                 <div>
                     <Route exact path='/' component={Main}/>
-                    <Route 
-                        exact path='/login' 
-                        component={Login}
-                    />
+
+                    {/* 계정 관련 라우터 */}
+                        {/* 회원가입 */}
+                        <Route
+                            exact path='/signup' 
+                            component={Signup}
+                        />
+                        {/* 로그인 */}
+                        <Route 
+                            exact path='/login' 
+                            component={Login}
+                        />
+                        {/* 프로필 */}
+                        <Route exact path='/profile' component={Profile}/>
+                        <Route exact path='/profile/:conType' component={Profile}/>
+
+                    {/* 포스터 관련 라우터 */}
                     <Route 
                         exact path='/univ/:univ_id/:board_type/richtext' 
                         component={RichText}
                     />
+
+                    {/* Univ 관련 라우터 */}
+                    <Route exact path='/univ/:univ_id/:board_type/v/:post_id' component={Univ}/>
                     <Route exact path='/univ/:univ_id/:board_type' component={Univ}/>
                     <Route exact path='/univ/:univ_id' component={Univ}/>
                 </div>
             );
         }else{
             return(
-                <div><PageLoading/></div>
+                <div>
+                    <PageLoading/>
+                </div>
             );
         }
             

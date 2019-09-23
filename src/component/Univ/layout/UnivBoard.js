@@ -6,6 +6,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CreateIcon from '@material-ui/icons/Create';
 
@@ -30,17 +31,20 @@ class UnivBoard extends React.Component {
             startPostIndex: 0,
             currentPostIndex: 20,
             nextBtnOn: true,
-            isLoading:false
+            isLoading:false,
+            mainLoading:true,
         }
 
         this._getPostApi = this._getPostApi.bind(this);
         this._getMorePost = this._getMorePost.bind(this);
         this._reloadPost = this._reloadPost.bind(this);
+        this._onClickReloadPost = this._onClickReloadPost.bind(this);
     }
 
     async componentDidMount() {
         await Promise.all([this._getPostApi(), this._getBoardTitle()])
-            .then(([res1, res2]) => this.setState({ post: res1, board_title: res2.univ_item_title }))
+            .then(([res1, res2]) => this.setState({ post: res1, board_title: res2.univ_item_title }));
+        await this.setState({mainLoading:false});
     }
 
     // async componentWillReceiveProps(nextProps) {
@@ -51,8 +55,11 @@ class UnivBoard extends React.Component {
     // }
     async componentDidUpdate(prevProps) {
         if (prevProps.board_type !== this.props.board_type) {
+            await this.setState({mainLoading:true});
+            await this.setState({...this.state,currentPostIndex:20, nextBtnOn:true});
             await Promise.all([this._getPostApi(), this._getBoardTitle()])
-                .then(([res1, res2]) => this.setState({ post: res1, board_title: res2.univ_item_title }))
+                .then(([res1, res2]) => this.setState({ post: res1, board_title: res2.univ_item_title }));
+            await this.setState({mainLoading:false});
         }
     }
 
@@ -89,10 +96,25 @@ class UnivBoard extends React.Component {
     }
 
     async _reloadPost() {
-        await this.setState({ isLoading:true, currentPostIndex: 20 });
-        document.documentElement.scrollTop=document.body.scrollTop=0;
+        
+        await this.setState({ mainLoading:true,isLoading:true, currentPostIndex: 20 });
+        
+        // await document.getElementById('board_ScrollTop').scrollIntoView({
+        //     behavior: 'smooth'
+        //   });
+        // document.documentElement.scrollTop=document.body.scrollTop=0;
         await this._getPostApi().then(data => {
-            return this.setState({ post: data, nextBtnOn: true, isLoading:false })
+            return this.setState({ post: data, nextBtnOn: true, isLoading:false, mainLoading:false })
+        });
+        
+        
+    }
+
+    async _onClickReloadPost(){
+        // await this.setState({ isLoading:true });
+        await this._getPostApi().then(data => {
+            // return this.setState({ post: data, isLoading:false })
+            return this.setState({ post: data })
         });
     }
     render() {
@@ -111,7 +133,7 @@ class UnivBoard extends React.Component {
 
         }
         return (
-            <div className='container animate slideIn'>
+            <div className='container' id='board_ScrollTop'>
                 <div style={style.Grid}>
                     <Grid
                         container
@@ -135,10 +157,17 @@ class UnivBoard extends React.Component {
                                 </Link>
                             </Paper>
                         </Grid>
+                        
                         <Grid item xs={12} sm={9} className='clearfix'>
-                            <PostLists
+                        {this.state.mainLoading===false?
+                            <div>
+                                <PostLists
                                 post={this.state.post}
+                                univ_id = {this.props.univ_id}
+                                board_type = {this.props.board_type}
+                                _onClickReloadPost = {this._onClickReloadPost}
                             />
+                            
                             {this.state.nextBtnOn ?
                                 <button
                                     className='btn btn-outline-info float-right'
@@ -152,6 +181,9 @@ class UnivBoard extends React.Component {
                             </button>
                             }
                             {this.state.isLoading?<h1>Loading...</h1>:""}
+                            </div>
+                            :<p className='text-center'><CircularProgress/></p>}
+                            
                         </Grid>
                         <Grid item xs={12} sm={3}>
                             <div className='jumbotron'>
@@ -162,6 +194,7 @@ class UnivBoard extends React.Component {
                 </div>
             </div>
         );
+        
     }
 }
 

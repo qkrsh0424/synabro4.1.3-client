@@ -1,0 +1,19 @@
+.__border_radius{
+    border-radius: 1rem;
+}
+
+label{
+    float: left;
+    line-height: 20px;
+    color: #737373;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: right;
+    margin-right: 15px;
+    width: 70px;
+}
+
+.danger_text{
+    color:#de4351;
+    font-size: 12px;
+}

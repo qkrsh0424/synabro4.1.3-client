@@ -1,0 +1,15 @@
+.test__t{
+    max-width:100%;
+    padding: 0px 15%;
+    flex:100%;
+    min-width:40%;
+}
+
+.test__t label{
+    width:auto;
+}
+
+.test__t .danger_text{
+    color:#de4351;
+    font-size: 12px;
+}

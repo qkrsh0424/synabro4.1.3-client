@@ -40,6 +40,7 @@ class Univ extends React.Component {
         this._callBigBene = this._callBigBene.bind(this);
         this._getNoticePost = this._getNoticePost.bind(this);
         this._scrollUp = this._scrollUp.bind(this);
+        this._PageBack = this._PageBack.bind(this);
     }
 
     async componentDidMount() {
@@ -126,6 +127,10 @@ class Univ extends React.Component {
     _scrollUp() {
         document.documentElement.scrollTop = document.body.scrollTop = 0;
     }
+
+    _PageBack(){
+        this.props.history.goBack();
+    }
     render() {
         document.documentElement.scrollTop = document.body.scrollTop = 0;
         return (
@@ -142,8 +147,10 @@ class Univ extends React.Component {
                     board_type={this.props.match.params.board_type}
                     beneBig={this.state.beneBig}
                     notice_post={this.state.notice_post}
+                    post_id = {this.props.match.params.post_id}
                 />
-                <button className="btn btn-light shadow-lg position-fixed buttonTest" onClick={this._scrollUp}><ArrowUp_icon /></button>
+                <button className="btn shadow-lg position-fixed buttonTest2" onClick={this._PageBack}>BACK</button>
+                <button className="btn shadow-lg position-fixed buttonTest" onClick={this._scrollUp}><ArrowUp_icon /></button>
             </div>
         );
     }

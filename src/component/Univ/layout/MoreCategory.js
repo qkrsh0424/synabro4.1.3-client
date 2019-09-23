@@ -29,12 +29,12 @@ class MoreCategory extends React.Component {
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
                         sit amet blandit leo lobortis eget.
                     </Typography> */}
-                    <div class="container overflow-auto" style={style.Categorys}>
-                        <div class="row">
-                            <div class="col-sm">
+                    <div className="container overflow-auto" style={style.Categorys}>
+                        <div className="row">
+                            <div className="col-sm">
                                 <p>동아리</p>
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item list-group-item-action">
+                                <div className="list-group">
+                                    <a href="#" className="list-group-item list-group-item-action">
                                         Cras justo odio
                                     </a>
                                 </div>

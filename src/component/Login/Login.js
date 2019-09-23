@@ -26,7 +26,7 @@ class Login extends React.Component{
         super(props);
 
         this.state = {
-            user_email:"",
+            user_uid:"",
             user_password:""
         }
 
@@ -50,19 +50,25 @@ class Login extends React.Component{
         this.props.history.push('/');
     }
 
-    AuthenticateUser = () =>{
+    AuthenticateUser = async() =>{
         const url = "/api/auth/login";
-        let formData = new FormData();
-        formData.append("user_email", this.state.user_email);
-        formData.append("user_password", this.state.user_password);
+        // let formData = new FormData();
+        // formData.append("user_email", this.state.user_email);
+        // formData.append("user_password", this.state.user_password);
 
-        Axios.post(url,{
-            user_email:this.state.user_email,
+        await Axios.post(url,{
+            user_uid:this.state.user_uid,
             user_password:this.state.user_password,
         })
         .then(response => response.data)
         .then(data=>{
-            this.props.handleLogin(data.sessid, data.user_nickname);
+            if(data.message==='success'){
+                this.props.handleLogin(data.sessid, data.user_nickname);
+                window.history.back();
+            }else{
+                alert('아이디 혹은 패스워드를 확인해 주세요.');
+            }
+            
         })
         .catch(function (error) {
             console.log(error);
@@ -78,7 +84,7 @@ class Login extends React.Component{
             return(
                 <LoginBody
                     className='animate'
-                    user_email={this.state.user_email}
+                    user_uid={this.state.user_uid}
                     user_password={this.state.user_password}
                     handleValueChange = {this.handleValueChange}
                     handleFormSubmit = {this.handleFormSubmit}

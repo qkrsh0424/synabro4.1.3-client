@@ -17,7 +17,7 @@ export default class PostPreview extends React.Component{
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <div>{renderHTML(this.props.post_desc)}</div>
+                                <div className='_TextField'>{renderHTML(this.props.post_desc)}</div>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -227,7 +227,7 @@ class Nav extends React.Component{
                             open={open}
                             onClose={this.handleClose}
                         >
-                            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                            <MenuItem component={PageLink} to={'/profile'}>내 프로필</MenuItem>
                             <MenuItem onClick={this.handleClose}>My account</MenuItem>
                             <MenuItem onClick={this.handleLogout}>로그아웃</MenuItem>
                         </Menu>
@@ -243,7 +243,7 @@ class Nav extends React.Component{
                             <Button 
                                 color="inherit"
                                 component={AdapterLink} 
-                                to={'/register'}
+                                to={'/signup'}
                             >
                                 회원가입
                             </Button>

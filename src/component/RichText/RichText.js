@@ -2,13 +2,17 @@ import React from 'react';
 import RichTextStyle from './RichText.css';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
-import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom';
+
 import ReactQuill, { Quill } from 'react-quill';
+import { ImageUpload } from 'quill-image-upload';
+import ImageResize from 'quill-image-resize-module';
 
 import { connect } from 'react-redux';
 import * as actions from '../../action';
 
 import Paper from '@material-ui/core/Paper';
+import Progress from '@material-ui/core/CircularProgress';
 
 import Nav from '../Nav/Nav';
 import UnivNav from '../Univ/layout/UnivNav';
@@ -16,8 +20,6 @@ import UnivNav from '../Univ/layout/UnivNav';
 //api
 import { __get_OneUnivItem } from '../../handler/cliApi/Univ_item';
 import { __sendPost } from '../../handler/cliApi/PostApi';
-
-
 
 const propTypes = {
 
@@ -27,18 +29,93 @@ const defaultProps = {
 
 }
 
+
 class RichText extends React.Component {
+
     constructor(props) {
+        Quill.register('modules/imageUpload', ImageUpload);
+        Quill.register('modules/imageResize', ImageResize);
         super(props);
         this.state = {
             board: '',
             post_topic: '',
             Data: '포스터 작성을 시작해 보세요 !',
             image: "",
+            imgLoading: false
         }
         this.onHanldeTitleChange = this.onHanldeTitleChange.bind(this);
         this.onHanldeContentChange = this.onHanldeContentChange.bind(this);
         this.onHandleSubmit = this.onHandleSubmit.bind(this);
+
+        Quill.modules = {
+            toolbar: {
+                container: [
+                    [{ header: '1' }, { header: '2' }, { font: [] }],
+                    ['align'], [{ align: 'center' }], [{ align: 'right' }], [{ align: 'justify' }],
+                    [{ size: [] }],
+                    [{ color: [] }],
+                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    ['link', 'image', 'video'],
+                    ['clean'],
+                    ['code-block'],
+                ]
+            },
+            imageResize: {
+                modules: ['Resize', 'DisplaySize']
+            },
+            imageUpload: {
+                url: "/api/uploadimg/richTextImg", // server url
+                method: "POST", // change query method, default 'POST'
+                name: "name", // 아래 설정으로 image upload form의 key 값을 변경할 수 있다.
+                withCredentials: false,
+
+                headers: {
+                    //   Authorization: `Bearer asdasdasd`,
+                    //   'X-Total-Count': 0,
+                },
+
+                csrf: { token: 'token', hash: '' },
+
+                callbackOK: (serverResponse, next) => { // 성공하면 리턴되는 함수
+
+                    if (serverResponse.status === 'success') {
+                        console.log('ok upload');
+                        this.setState({ imgLoading: false });
+                        next(serverResponse.url);
+                    } else {
+                        console.log('failed upload');
+                        alert('이미지 업로드 에러');
+                        this.setState({ imgLoading: false });
+                    }
+                },
+                callbackKO: (serverError) => { // 실패하면 리턴되는 함수
+                    this.setState({ imgLoading: false });
+                    console.log('upload Error ')
+                    alert('이미지 업로드 실패, 다시 시도해주세요.');
+                },
+                // optional
+                // add callback when a image have been chosen
+                checkBeforeSend: (file, next) => {
+                    this.setState({ imgLoading: true });
+                    
+                    if (file) {
+                        next(file);
+                    } else {
+                        alert('이미지 업로드 실패, 다시 시도해주세요.');
+                    }
+
+                },
+            },
+        };
+
+        Quill.formats = [
+            'header', 'font', 'size', 'align',
+            'bold', 'italic', 'underline', 'strike', 'blockquote',
+            'list', 'bullet',
+            'link', 'image', 'video', 'code-block',
+            'color'
+        ];
     }
 
     async componentDidMount() {
@@ -57,16 +134,21 @@ class RichText extends React.Component {
 
     async onHandleSubmit(e) {
         e.preventDefault();
-        await __sendPost(this.props.match.params.univ_id, this.props.match.params.board_type, this.state.post_topic, this.state.Data)
-        .then(data=>{
-            if(data.message==='success'){
-                this.props.history.push('./');
-            }else{
-                alert('포스팅 에러');
-                window.location.reload();
-            }
-        });
+        if(window.confirm("정말로 포스팅 하시겠습니까?")){
+            await __sendPost(this.props.match.params.univ_id, this.props.match.params.board_type, this.state.post_topic, this.state.Data)
+            .then(data => {
+                if (data.message === 'success') {
+                    this.props.history.push('./');
+                } else {
+                    alert('포스팅 에러');
+                    window.location.reload();
+                }
+            });
+        }else{
+            return;
+        }
         
+
     }
 
     render() {
@@ -92,9 +174,8 @@ class RichText extends React.Component {
                         <Paper style={style.paperHeader}>
                             <button className="btn btn-primary" onClick={() => this.props.history.push('./')}>이전</button>
                         </Paper>
-
                         <Paper style={style.paperBody} className='clearfix'>
-                            <form onSubmit={(e)=>this.onHandleSubmit(e)}>
+                            <form onSubmit={(e) => this.onHandleSubmit(e)}>
                                 <p>작성지 : {this.state.board.univ_item_title}</p>
                                 <p>작성자 : {this.props._nickname}</p>
                                 <div className="input-group mb-3">
@@ -109,8 +190,6 @@ class RichText extends React.Component {
                                         onChange={this.onHanldeTitleChange}
                                         required />
                                 </div>
-
-
                                 <div className="form-group">
                                     <ReactQuill
                                         modules={Quill.modules}
@@ -118,8 +197,14 @@ class RichText extends React.Component {
                                         value={this.state.Data}
                                         onChange={this.onHanldeContentChange}
                                     />
+                                    
                                 </div>
-                                <input type="submit" className="btn btn-primary float-right" value='제출'/>
+                                {this.state.imgLoading ?
+                                    <h4>
+                                        <span>이미지를 업로드 중입니다... 이미지 업로드 중에는 포스터를 제출 할 수 없습니다.</span>
+                                        <Progress />
+                                    </h4>
+                                    :<input type="submit" className="btn btn-primary float-right" value='제출' />}
                             </form>
                         </Paper>
                     </div>
@@ -131,85 +216,22 @@ class RichText extends React.Component {
                 <Redirect to='/login' />
             );
         }
-
+            
     }
 }
-
-Quill.modules = {
-    toolbar: {
-        container: [
-            [{ header: '1' }, { header: '2' }, { font: [] }],
-            ['align'], [{ align: 'right' }], [{ align: 'center' }], [{ align: 'justify' }],
-            [{ size: [] }],
-            [{ color: [] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['link', 'image', 'video'],
-            ['clean'],
-            ['code-block'],
-        ]
-    },
-    // imageResize: {
-    //     modules: [ 'Resize', 'DisplaySize' ]
-    // },
-    // imageUpload: {
-    //     url: "/api/quillimg", // server url
-    //     method: "POST", // change query method, default 'POST'
-    //     name : "name", // 아래 설정으로 image upload form의 key 값을 변경할 수 있다.
-    //     withCredentials: false,
-
-    //     headers: {
-    //     //   Authorization: `Bearer asdasdasd`,
-    //     //   'X-Total-Count': 0,
-    //     },
-
-    //     csrf: { token: 'token', hash: '' },
-
-    //     callbackOK: (serverResponse, next) => { // 성공하면 리턴되는 함수
-    //         next(serverResponse);
-    //     },
-    //     callbackKO: (serverError) => { // 실패하면 리턴되는 함수
-    //       console.log(serverError);
-    //     },
-    //     // optional
-    //     // add callback when a image have been chosen
-    //     checkBeforeSend: (file, next) => {
-    //         next(file);
-    //     },
-    // },
-    // imageDrop: (e)=>{
-    //     e.preventDefault();
-    //     console.log('hi')
-    // },
-    // imageResize: {}
-
-    // Image Resize Module.
-    // imageResize: true,
-
-
-    //Image Drop Module
-    // imageDrop: {
-    // }
-};
-
-Quill.formats = [
-    'header', 'font', 'size', 'align',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet',
-    'link', 'image', 'video', 'code-block',
-    'color'
-];
-
-RichText.propTypes = propTypes;
-
-RichText.defaultProps = defaultProps;
-
+            
+            
+            
+            RichText.propTypes = propTypes;
+            
+            RichText.defaultProps = defaultProps;
+            
 const mapStateToProps = (state) => {
     return {
-        _isLogged: state.auth_user._isLogged,
-        _id: state.auth_user._id,
-        _nickname: state.auth_user._nickname
-    }
-}
-
+                            _isLogged: state.auth_user._isLogged,
+                        _id: state.auth_user._id,
+                        _nickname: state.auth_user._nickname
+                    }
+                }
+                
 export default connect(mapStateToProps)(RichText);

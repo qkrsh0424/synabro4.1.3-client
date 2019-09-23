@@ -43,7 +43,7 @@ html,
 .form-signin__t .form-control:focus {
   z-index: 2;
 }
-.form-signin__t input[type="email"] {
+.form-signin__t input[type="text"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;

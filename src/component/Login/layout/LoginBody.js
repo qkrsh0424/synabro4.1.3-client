@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const propTypes = {
-    user_email: PropTypes.string,
+    user_uid: PropTypes.string,
     user_password: PropTypes.string,
     handleValueChange: PropTypes.func,
     handleFormSubmit: PropTypes.func,
@@ -12,7 +12,7 @@ const propTypes = {
 }
 
 const defaultProps = {
-    user_email:undefined,
+    user_uid:undefined,
     user_password:undefined,
     handleValueChange: console.warn('handleValueChange is not defined'),
     handleFormSubmit: console.warn('handleFormSubmit is not defined'),
@@ -39,9 +39,9 @@ class LoginBody extends React.Component{
                                     onClick={this.props.handleMoveHome}
                                 />
                                 <h1 className="h3 mb-3 font-weight-normal">로그인</h1>
-                                <label htmlFor="user_email" className="sr-only">Email address</label>
-                                <input type="email" id="user_email" name="user_email" className="form-control" placeholder="Email address" required
-                                    value={this.props.user_email} onChange={this.props.handleValueChange}
+                                <label htmlFor="user_uid" className="sr-only">ID</label>
+                                <input type="text" id="user_uid" name="user_uid" className="form-control" placeholder="아이디" required
+                                    value={this.props.user_uid} onChange={this.props.handleValueChange}
                                 />
     
                                 <label htmlFor="user_password" className="sr-only">Password</label>
