@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 # synabro4.0.0-client
 # synabro4.0.1-client
+# synabro4.1.0-client
 
 #config
 /src/config
