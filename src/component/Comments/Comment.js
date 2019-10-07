@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import { calculateTime } from "../../controler/calculateTime";
 import DelComment from './DelComment';
-
+import '../Univ/UnivPoster2.css';
 const CommentBar = styled.div` 
     display: flex;
     margin: 8px 0;
@@ -78,7 +78,7 @@ class Comment extends React.Component {
                       
 
                     </div>
-                    <span>
+                    <span className='commentSpace'>
                       {rows.cmt_desc}
                     </span>
                     <div className='comment-actions'>

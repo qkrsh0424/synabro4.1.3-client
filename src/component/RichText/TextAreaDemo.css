@@ -1,0 +1,10 @@
+.sh_editor{
+    width:600px;
+    height: 300px;
+    border:1px solid black;
+}
+
+.DraftEditor-root{
+    min-width: 700px;
+    min-height:9em;
+}

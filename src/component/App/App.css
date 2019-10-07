@@ -1,0 +1,13 @@
+.bomVersionCheck1{
+    top:70%;
+    left:45%;
+    opacity: 0.3;
+}
+
+@media screen and (max-width:800px){
+    .bomVersionCheck1{
+        top:70%;
+        left:20%;
+        opacity: 0.3;
+    }   
+}

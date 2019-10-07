@@ -17,3 +17,25 @@ label{
     color:#de4351;
     font-size: 12px;
 }
+
+.thumbnailImage{
+    width: 180px;
+    height: 150px;
+    border-radius: 15px;
+}
+
+.count_text{
+    font-size:13px;
+    color:#9e9e9e;
+}
+
+@media screen and (max-width:800px){
+    .thumbnailImage{
+        width: 100px;
+        height: 80px;
+    }   
+    .count_text{
+        font-size:10px;
+        color:#9e9e9e;
+    }
+}

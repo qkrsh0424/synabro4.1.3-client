@@ -65,6 +65,7 @@ class RichText extends React.Component {
                 modules: ['Resize', 'DisplaySize']
             },
             imageUpload: {
+                
                 url: "/api/uploadimg/richTextImg", // server url
                 method: "POST", // change query method, default 'POST'
                 name: "name", // 아래 설정으로 image upload form의 key 값을 변경할 수 있다.
@@ -98,6 +99,7 @@ class RichText extends React.Component {
                 // add callback when a image have been chosen
                 checkBeforeSend: (file, next) => {
                     this.setState({ imgLoading: true });
+
                     
                     if (file) {
                         next(file);
@@ -151,7 +153,30 @@ class RichText extends React.Component {
 
     }
 
+    imageUptoServer = async (e) =>{
+        console.log(e.target.files);
+        let imageData={
+            name:'file',
+            data:e.target.files[0]
+        }
+        const formData = new FormData();
+        // formData.append('file', e.target.files[0]);
+        formData.append(imageData.name, imageData.data);
+
+        await Axios.post('/api/uploadimg/draft', formData, {
+            onUploadProgress: progressEvent => {
+                console.log(Math.round((progressEvent.loaded / progressEvent.total)*100))
+            }
+        }).then(res=> res.data)
+        .then(data=>{
+            console.log(data);
+            let dataUrl = data.url;
+            this.setState({Data:e+`<img src="${dataUrl}"/>`});
+        });
+    }
+
     render() {
+        console.log(this.state.Data);
         const style = {
             paperHeader: {
                 marginTop: '1rem',
@@ -175,7 +200,7 @@ class RichText extends React.Component {
                             <button className="btn btn-primary" onClick={() => this.props.history.push('./')}>이전</button>
                         </Paper>
                         <Paper style={style.paperBody} className='clearfix'>
-                            <form onSubmit={(e) => this.onHandleSubmit(e)}>
+                            <form onSubmit={this.onHandleSubmit}>
                                 <p>작성지 : {this.state.board.univ_item_title}</p>
                                 <p>작성자 : {this.props._nickname}</p>
                                 <div className="input-group mb-3">
@@ -190,6 +215,19 @@ class RichText extends React.Component {
                                         onChange={this.onHanldeTitleChange}
                                         required />
                                 </div>
+
+                                {/* 이미지 업로드 테스트 시작*/}
+                                <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" onChange={this.imageUptoServer}/>
+                                    <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                </div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>
+                                </div>
+                                </div>
+                                {/* 이미지 업로드 테스트 끝*/}
+
                                 <div className="form-group">
                                     <ReactQuill
                                         modules={Quill.modules}

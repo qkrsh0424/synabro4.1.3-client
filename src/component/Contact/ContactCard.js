@@ -71,7 +71,7 @@ class ContactPresenter extends React.Component {
               {this.props.contactVals.map(contact => (
                 <div className="card_grid">
                   <div className="img_container">
-                    <img src={require("../../asset/noPostSmall.jpeg")} />
+                  <img src="https://synabrodemo.s3.ap-northeast-2.amazonaws.com/boardlogo/LibroDemo.png" alt="..."></img>
                   </div>
                   <div>
                   <p>{contact.contact_name}</p>

@@ -149,9 +149,15 @@ class UnivBoard extends React.Component {
                                 style={style.paperBody}
                                 className='clearfix'
                             >
-                                <Link
+                                {/* <Link
                                     className='btn btn-outline-secondary float-right'
                                     to={`/univ/${this.props.univ_id}/${this.props.board_type}/richtext`}
+                                >
+                                    <CreateIcon />
+                                </Link> */}
+                                <Link
+                                    className='btn btn-outline-secondary float-right'
+                                    to={`/univ/${this.props.univ_id}/${this.props.board_type}/writepost`}
                                 >
                                     <CreateIcon />
                                 </Link>
@@ -162,27 +168,28 @@ class UnivBoard extends React.Component {
                         {this.state.mainLoading===false?
                             <div>
                                 <PostLists
-                                post={this.state.post}
-                                univ_id = {this.props.univ_id}
-                                board_type = {this.props.board_type}
-                                _onClickReloadPost = {this._onClickReloadPost}
-                            />
+                                    post={this.state.post}
+                                    univ_id = {this.props.univ_id}
+                                    board_type = {this.props.board_type}
+                                    _onClickReloadPost = {this._onClickReloadPost}
+                                />
                             
-                            {this.state.nextBtnOn ?
-                                <button
-                                    className='btn btn-outline-info float-right'
-                                    onClick={this._getMorePost}
-                                >NEXT
-                            </button> :
-                                <button
-                                    className='btn btn-outline-info float-right'
-                                    onClick={this._reloadPost}
-                                >새로고침
-                            </button>
-                            }
-                            {this.state.isLoading?<h1>Loading...</h1>:""}
+                                {this.state.nextBtnOn ? "":<span>마지막 포스터 입니다.</span>}
+                                {this.state.nextBtnOn ?
+                                    <button
+                                        className='btn btn-outline-info float-right'
+                                        onClick={this._getMorePost}
+                                    >NEXT
+                                    </button> :
+                                    <button
+                                        className='btn btn-outline-info float-right'
+                                        onClick={this._reloadPost}
+                                    >새로고침
+                                    </button>
+                                }
+                            {this.state.isLoading?<CircularProgress/>:""}
                             </div>
-                            :<p className='text-center'><CircularProgress/></p>}
+                            :<div className='text-center'><CircularProgress/></div>}
                             
                         </Grid>
                         <Grid item xs={12} sm={3}>

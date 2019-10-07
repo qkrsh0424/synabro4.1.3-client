@@ -3,11 +3,16 @@ import styled from "styled-components";
 import renderHTML from "react-render-html";
 import { calculateTime } from "../../../../controler/calculateTime";
 
-import {Link} from 'react-router-dom';
+//awsurl
+import { awsImageURL } from '../../../../config/awsurl';
 
+import { Link } from 'react-router-dom';
+
+//Material Icons
 import ThumbUp_icon from "@material-ui/icons/ThumbUp";
 import Comment_icon from "@material-ui/icons/Comment";
 import Eye_icon from "@material-ui/icons/RemoveRedEye";
+import PhotoLibraryOutlinedIcon from '@material-ui/icons/PhotoLibraryOutlined';
 
 const Container = styled.div`
     .text-secondary{
@@ -93,20 +98,29 @@ class SingleLineGrid extends React.Component {
                 var currentDate = new Date();
                 var createDate = new Date(rows.post_created);
                 return (
-                    <ScrollingWrapper>
-                      <Link
-                        to={`/univ/${rows.univ_id}/${rows.post_type}/v/${rows.post_id}`}
-                      >
+                  <ScrollingWrapper>
+                    <Link
+                      to={`/univ/${rows.univ_id}/${rows.post_type}/v/${rows.post_id}`}
+                    >
                       <Card>
-                      <Title>{rows.post_topic.length>45?`${rows.post_topic.substring(0,45)}...`:rows.post_topic}</Title>
-                        
+                        <Title>{rows.post_topic.length > 35 ?
+                          `${rows.post_topic.substring(0, 35)}...` :
+                          rows.post_topic
+                        }
+                          &nbsp;
+                              <span className='font-weight-normal'>{rows.post_image_count !== 0 ? <PhotoLibraryOutlinedIcon style={{ fontSize: "20px" }} /> : ""}</span>
+                        </Title>
+
                         {/* <Desc>{renderHTML(rows.post_desc.substring(0, 93))}</Desc> */}
                         {/* <Desc>{rows.post_desc.length > 78 ? `${rows.post_desc.substring(0, 80)}...` : `${rows.post_desc}`}</Desc> */}
-                        <img src={`https://ddpf5wamlzit3.cloudfront.net/logo/peopleNo.png`} width={'150px'} height={'100px'}/>
+                        {rows.post_thumbnail_url === 'none' || rows.post_thumbnail_url === null ?
+                          <img src={`${awsImageURL}/logo/imageNo2.gif`} width={'150px'} height={'100px'} /> :
+                          <img src={rows.post_thumbnail_url} width={'150px'} height={'100px'} />
+                        }
                         <Header>
-                          작성자 : {rows.user_nickname.length>6?`${rows.user_nickname.substring(0,6)}...`:rows.user_nickname}
-                          <br/>
-                          
+                          작성자 : {rows.user_nickname.length > 6 ? `${rows.user_nickname.substring(0, 6)}...` : rows.user_nickname}
+                          <br />
+
                         </Header>
                         <Count>
                           <span href="#" className="text-secondary">
@@ -117,7 +131,7 @@ class SingleLineGrid extends React.Component {
                             댓글 {rows.post_comment_count}
                           </span>
                           &nbsp;
-                          <br/>
+                          <br />
                           <div className='clearfix'>
                             <span className="text-secondary">
                               조회수 {rows.post_view_count}
@@ -125,16 +139,16 @@ class SingleLineGrid extends React.Component {
                             <span className="text-secondary float-right">{calculateTime(currentDate, createDate)}</span>
                           </div>
                         </Count>
-                          
+
                       </Card>
-                      </Link>
-                    </ScrollingWrapper>
+                    </Link>
+                  </ScrollingWrapper>
                 );
               }
             })
           ) : (
-            <p>Loading.....</p>
-          )}
+              <p>Loading.....</p>
+            )}
         </GridList>
       </div>
     );

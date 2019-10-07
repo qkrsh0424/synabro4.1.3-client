@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Axios from 'axios';
 
+//AWS URL
+import {awsImageURL} from '../../../config/awsurl';
 import { connect } from "react-redux";
 import renderHTML from 'react-render-html';
 // import Loader from "../../Loader";
@@ -21,6 +23,10 @@ import Comments from '../../Comments';
 
 import SingleLineGrid from './SingleLineGrid/SingleLineGrid';
 
+// DraftJs
+import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
+import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
+import { MediaBlockRenderer } from '../../PostEditorV1.js/MediaBlockRenderer';
 
 
 const Container = styled.div`
@@ -117,8 +123,8 @@ class UnivPoster2 extends React.Component {
             comment:'',
             openSnacbar:false,
             postListData:'',
+            editorState: EditorState.createEmpty(),
         };
-
         this._getPostId = this._getPostId.bind(this);
         this._getBoardTitle = this._getBoardTitle.bind(this);
     }
@@ -185,6 +191,13 @@ class UnivPoster2 extends React.Component {
     }
     _writeComment = async(e) =>{
         e.preventDefault();
+        let data = this.state.commentData;
+        let newText = data.split ('\n').map ((item, i) => <p key={i}>{item}</p>);
+        console.log(newText);
+        for(let i=0;i<data.length;i++){
+            console.log(data[i]);
+        }
+        // console.log(changeData);
         await Axios.post('/api/comment/univ_post_comment',{
             cmt_desc:this.state.commentData,
             post_id:this.props.post_id,
@@ -309,6 +322,11 @@ class UnivPoster2 extends React.Component {
             behavior: 'smooth'
           });
     }
+
+    onEditorChange=()=>{
+        this.setState({editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.state.postData[0].post_desc)))});
+    }
+
     render() {
         const style = {
             paperHeader: {
@@ -322,9 +340,8 @@ class UnivPoster2 extends React.Component {
             Grid: {
                 padding: '8px'
             }
-
-
         }
+
             return (
                 <div>
                     <div className='table-body animate slideIn clearfix'>
@@ -399,7 +416,7 @@ class UnivPoster2 extends React.Component {
                                                 </Header>
                                                 <User>
                                                     <User_pro>
-                                                        <img src={`https://ddpf5wamlzit3.cloudfront.net/logo/peopleNo.png`} height="40px" width="40px"/>
+                                                        <img src={`${awsImageURL}/logo/peopleNo.png`} height="40px" width="40px"/>
                                                         <User_name>
                                                             <User_id>{row.user_nickname}</User_id>
                                                             <Post_time>{calculateTime(currentDate, createDate)}</Post_time>
@@ -412,7 +429,13 @@ class UnivPoster2 extends React.Component {
                                                 <Text
                                                     className="_TextField"
                                                 >
-                                                    {renderHTML(row.post_desc)}
+                                                    {/* {renderHTML(row.post_desc)} */}
+                                                    <Editor
+                                                        blockRendererFn={MediaBlockRenderer}
+                                                        editorState={this.state.editorState}
+                                                        onChange={this.onEditorChange}
+                                                        readOnly
+                                                    />
                                                 </Text>
                                                 <Emoji_bar>
                                                     {row.like==='on'?<a onClick={()=>this._onHandleUnLike(row.univ_id,row.post_id)} className="text-secondary"><ThumbUpOn_icon /> {row.post_like_count}</a>:

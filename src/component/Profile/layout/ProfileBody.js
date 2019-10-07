@@ -5,8 +5,10 @@ import {NavLink, Link} from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 
+//Components
 import Information from './Information';
 import MyLikeList from './MyLikeList';
+import MyPostList from './MyPostList';
 import ChangeInformation from './ChangeInformation';
 import ChangePassword from './ChangePassword';
 import DropUser from './DropUser';
@@ -33,6 +35,13 @@ class ProfileBody extends React.Component {
             case 'like':
                 childContents.push(
                     <MyLikeList
+                        
+                    />
+                );
+                break;
+            case 'mypost':
+                childContents.push(
+                    <MyPostList
                         
                     />
                 );
@@ -87,6 +96,14 @@ class ProfileBody extends React.Component {
                                 to={`/profile/like`}
                             >
                                 좋아요 목록
+                            </NavLink>
+                            <NavLink 
+                                activeStyle={activeStyle}
+                                className="list-group-item list-group-item-action border-white"
+                                // component={AdapterLink}
+                                to={`/profile/mypost`}
+                            >
+                                작성한 글
                             </NavLink>
                             <NavLink 
                                 activeStyle={activeStyle}

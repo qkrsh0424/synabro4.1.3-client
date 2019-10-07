@@ -10,11 +10,13 @@ import { Link, NavLink } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 
 
+// Material Icons
 import ThumbUpOff_icon from '@material-ui/icons/ThumbUpAltOutlined';
 import ThumbUpOn_icon from '@material-ui/icons/ThumbUpAlt';
 import Comment_icon from '@material-ui/icons/Comment';
 import Eye_icon from '@material-ui/icons/RemoveRedEye';
 import Notification_icon from '@material-ui/icons/NotificationImportant';
+import PhotoLibraryOutlinedIcon from '@material-ui/icons/PhotoLibraryOutlined';
 
 import { calculateTime } from '../../../controler/calculateTime';
 
@@ -88,9 +90,19 @@ class PostLists extends React.Component {
                                         <span className="table-bar_time float-right">{calculateTime(new Date(),new Date(rows.post_created))}</span>
                                     </div>
                                     <div className="table-bar_column">
-                                        <p className="font-weight-bold p-2 m-0">{rows.post_topic}</p>
+                                        <div className="font-weight-bold p-2 m-0">
+                                            {rows.post_topic}
+                                            &nbsp;
+                                            {rows.post_image_count!==0?
+                                                <span href="#" className="font-weight-normal"><PhotoLibraryOutlinedIcon style={{fontSize:"20px"}}/>({rows.post_image_count})</span>
+                                                :""
+                                            }
+                                        </div>
                                     </div>
                                 </Link>
+                                <div className="table-bar_column text-left">
+                                    
+                                </div>
                                 <div className="table-bar_column text-right">
                                     {rows.liked==='on'?<a onClick={()=>this._onHandleUnLike(rows.univ_id,rows.post_id)} className="text-secondary"><ThumbUpOn_icon />{rows.post_like_count}</a>
                                     :<a onClick={()=>this._onHandleLike(rows.univ_id,rows.post_id)} className="text-secondary"><ThumbUpOff_icon />{rows.post_like_count}</a>}

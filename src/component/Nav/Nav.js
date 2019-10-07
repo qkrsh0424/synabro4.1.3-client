@@ -37,257 +37,255 @@ const defaultProps = {
 }
 
 const styles = {
-    root: {
-      flexGrow: 1,
-      display:'flex',
-    },
-    AppBar: {
-        background:'white',
-        color: 'gray',
-    },
-    grow: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginLeft: -12,
-      marginRight: 20,
-    },
-    list: {
-      width: 300,
-    },
+  root: {
+    flexGrow: 1,
+    display: 'flex',
+  },
+  AppBar: {
+    background: 'white',
+    color: 'gray',
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+  list: {
+    width: 300,
+  },
+};
+
+class Nav extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      left: false,
+      auth: this.props._isLogged,
+      anchorEl: null,
+    }
+
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.handleMenu = this.handleMenu.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  toggleDrawer = (side, open) => () => {
+    this.setState({
+      [side]: open,
+    });
   };
 
-class Nav extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            left: false,
-            auth:this.props._isLogged,
-            anchorEl: null,
-        }
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
 
-        this.toggleDrawer = this.toggleDrawer.bind(this);
-        this.handleMenu = this.handleMenu.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleLogout = this.handleLogout.bind(this);
-    }
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
-    toggleDrawer = (side, open) => () => {
-        this.setState({
-          [side]: open,
-        });
-    };
-
-    handleMenu = event => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
-
-    handleClose = () => {
-        this.setState({ anchorEl: null });
-    };
-
-    handleLogout(){
-      Axios.post('/api/auth/logout')
-      .then(response=>response.data)
-      .then(data=>{
-        if(data.message==='success'){
+  handleLogout() {
+    Axios.post('/api/auth/logout')
+      .then(response => response.data)
+      .then(data => {
+        if (data.message === 'success') {
           this.props.handleAUTH_FAILURE();
           window.location.reload();
-        }else{
+        } else {
           alert('error logout');
         }
-        
+
       });
+  }
+
+  render() {
+    const activeStyle = {
+      color: 'green',
+      // background:'skyblue'
     }
 
-    render(){
-        const activeStyle = {
-            color: 'green',
-            // background:'skyblue'
-        }
+    const AdapterLink = React.forwardRef((props, ref) => <NavLink activeStyle={activeStyle} innerRef={ref} {...props} />);
+    const PageLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
 
-        const AdapterLink = React.forwardRef((props, ref) => <NavLink activeStyle={activeStyle} innerRef={ref} {...props} />);
-        const PageLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
+    const { classes } = this.props;
+    const open = Boolean(this.state.anchorEl);
 
-        const { classes } = this.props;
-        const open = Boolean(this.state.anchorEl);
-
-        const sideList = (
-          <div className={classes.list}>
-            <List>
-              {this.props.univ_lists?this.props.univ_lists.map((rows,index)=>{
+    const sideList = (
+      <div className={classes.list}>
+        <div className='text-center p-3'>
+          <img 
+            src={'https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/synabrologo2.png'} 
+            width='100px' height='50px' 
+            onClick={()=>{window.location.href='/'}}
+          />
+          <br/>
+          <em className='text-secondary'>Beta version</em>
+        </div>
+        <Divider />
+        <List>
+          <h5 className="text-center text-secondary">봄 UNIVERSITY</h5>
+          {this.props.univ_lists ? this.props.univ_lists.map((rows, index) => {
+            return (
+              <ListItem
+                button key={rows.univ_title}
+                component={AdapterLink}
+                to={"/univ/" + rows.univ_id}
+              // selected={this.props.matchId==rows.univ_id?true:false}
+              >
+                {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+                <ListItemIcon><img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px'/></ListItemIcon>
+                <ListItemText primary={rows.univ_title} />
+              </ListItem>
+            );
+          }) : ""}
+        </List>
+        <Divider />
+        <List>
+            <h5 className="text-center text-secondary">봄 CREW</h5>
+            {this.props.shb_lists?this.props.shb_lists.map((rows,index)=>{
+              if(rows.shb_classify==='crew'){
                 return(
-                  <ListItem 
-                    button key={rows.univ_title}
-                    component={AdapterLink} 
-                    to={"/univ/"+rows.univ_id}
-                    // selected={this.props.matchId==rows.univ_id?true:false}
+                  <ListItem
+                    button key={rows.shb_name}
+                    component={AdapterLink}
+                    to={`/${rows.shb_classify}/`}
+                  // selected={this.props.matchId==rows.univ_id?true:false}
                   >
-                      <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                      <ListItemText primary={rows.univ_title} />
+                    <ListItemIcon><img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px'/></ListItemIcon>
+                    <ListItemText primary={rows.shb_name} />
                   </ListItem>
                 );
-              }):""}
-            </List>
-            <Divider />
-            <List>
-              {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-            <Divider />
-            <List>
-              {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-            <Divider />
-            <List>
-              {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-            <Divider />
-            <List>
-              {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-            <Divider />
-            <List>
-              {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-          </div>
-        );        
+              }else{
+                return;
+              }
+            }):""}
+        </List>
+        <Divider />
+        <List>
+          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    );
 
-        return(
-            <div className={classes.root}>
-            <AppBar 
-                position='fixed' 
-                // className='__Nav_Style'
-                className={classes.AppBar}
+    return (
+      <div className={classes.root}>
+        <AppBar
+          position='fixed'
+          // className='__Nav_Style'
+          className={classes.AppBar}
+        >
+          <Toolbar>
+            <IconButton
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="Menu"
+              onClick={this.toggleDrawer('left', true)}
             >
-                <Toolbar>
-                <IconButton 
-                  className={classes.menuButton} 
-                  color="inherit" 
-                  aria-label="Menu"
-                  onClick={this.toggleDrawer('left', true)}  
-                >
-                    <MenuIcon />
-                </IconButton>
-                <Typography 
-                  variant="h6" 
-                  color="inherit" 
-                  className={classes.grow}
-                  component={PageLink} 
-                  to={"/"}
-                >
-                    Synabro
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              color="inherit"
+              className={classes.grow}
+              component={PageLink}
+              to={"/"}
+            >
+              Synabro
                 </Typography>
 
-                {this.props._isLogged?
-                    <div>
-                        <IconButton
-                            aria-owns={open ? 'menu-appbar' : undefined}
-                            aria-haspopup="true"
-                            onClick={this.handleMenu}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={this.state.anchorEl}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={open}
-                            onClose={this.handleClose}
-                        >
-                            <MenuItem component={PageLink} to={'/profile'}>내 프로필</MenuItem>
-                            <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                            <MenuItem onClick={this.handleLogout}>로그아웃</MenuItem>
-                        </Menu>
-                    </div>:
-                        <div>
-                            <Button 
-                                color="inherit" 
-                                component={AdapterLink} 
-                                to={'/login'}
-                            >
-                                로그인
+            {this.props._isLogged ?
+              <div>
+                <IconButton
+                  aria-owns={open ? 'menu-appbar' : undefined}
+                  aria-haspopup="true"
+                  onClick={this.handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={this.state.anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem component={PageLink} to={'/profile'}>내 프로필</MenuItem>
+                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  <MenuItem onClick={this.handleLogout}>로그아웃</MenuItem>
+                </Menu>
+              </div> :
+              <div>
+                <Button
+                  color="inherit"
+                  component={AdapterLink}
+                  to={'/login'}
+                >
+                  로그인
                             </Button>
-                            <Button 
-                                color="inherit"
-                                component={AdapterLink} 
-                                to={'/signup'}
-                            >
-                                회원가입
+                <Button
+                  color="inherit"
+                  component={AdapterLink}
+                  to={'/signup'}
+                >
+                  회원가입
                             </Button>
-                        </div>
-                        
-                    }
-                
-                </Toolbar>
-            </AppBar>
-            <div className='fixed_Liner'></div>
-
-            <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
-              <div
-                tabIndex={0}
-                role="button"
-                onClick={this.toggleDrawer('left', false)}
-                onKeyDown={this.toggleDrawer('left', false)}
-              >
-                {sideList}
               </div>
-            </Drawer>
-            </div>
-        );
-    }
+
+            }
+
+          </Toolbar>
+        </AppBar>
+        <div className='fixed_Liner'></div>
+
+        <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
+          <div
+            tabIndex={0}
+            role="button"
+            onClick={this.toggleDrawer('left', false)}
+            onKeyDown={this.toggleDrawer('left', false)}
+          >
+            {sideList}
+          </div>
+        </Drawer>
+      </div>
+    );
+  }
 }
 
 Nav.propTypes = propTypes;
 
 Nav.defaultProps = defaultProps;
 
-const mapStateToProps = (state)=>{
-    return{
-        _isLogged: state.auth_user._isLogged,
-        _nickname: state.auth_user._nickname,
-        univ_lists: state.univ_lists.univs
-    }
+const mapStateToProps = (state) => {
+  return {
+    _isLogged: state.auth_user._isLogged,
+    _nickname: state.auth_user._nickname,
+    univ_lists: state.univ_lists.univs,
+    shb_lists: state.shb_lists.shbs,
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
-    return{
-        handleAUTH_SUCCESS: ()=>{dispatch(actions.auth_success())},
-        handleAUTH_FAILURE: ()=>{dispatch(actions.auth_failure())}
-    }
+  return {
+    handleAUTH_SUCCESS: () => { dispatch(actions.auth_success()) },
+    handleAUTH_FAILURE: () => { dispatch(actions.auth_failure()) }
+  }
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(Nav));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Nav));

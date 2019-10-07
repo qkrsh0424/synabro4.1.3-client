@@ -2,6 +2,9 @@
 # synabro4.0.0-client
 # synabro4.0.1-client
 
+#config
+/src/config
+
 # dependencies
 /node_modules
 /.pnp

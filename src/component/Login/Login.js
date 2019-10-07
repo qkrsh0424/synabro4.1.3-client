@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import Axios from 'axios';
 import {Redirect} from 'react-router-dom';
 
+//Server Url
+import {serverUrl} from '../../config/serverUrl';
+
 import { connect } from 'react-redux';
 import * as actions from '../../action';
 
@@ -51,7 +54,7 @@ class Login extends React.Component{
     }
 
     AuthenticateUser = async() =>{
-        const url = "/api/auth/login";
+        const url = `/api/auth/login`;
         // let formData = new FormData();
         // formData.append("user_email", this.state.user_email);
         // formData.append("user_password", this.state.user_password);

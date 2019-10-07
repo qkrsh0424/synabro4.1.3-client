@@ -2,7 +2,21 @@ import React from 'react';
 import '../PostPreview.css';
 import renderHTML from 'react-render-html';
 
+// DraftJs
+import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
+import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
+import { MediaBlockRenderer } from '../../PostEditorV1.js/MediaBlockRenderer';
+
 export default class PostPreview extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            editorState : EditorState.createEmpty()
+        }
+    }
+    onEditorChange=()=>{
+        this.setState({editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.post_desc)))});
+    }
     render(){        
         return(
             <div>
@@ -17,7 +31,15 @@ export default class PostPreview extends React.Component{
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <div className='_TextField'>{renderHTML(this.props.post_desc)}</div>
+                                <div className='_TextField'>
+                                    {/* {renderHTML(this.props.post_desc)} */}
+                                    <Editor
+                                        blockRendererFn={MediaBlockRenderer}
+                                        editorState={this.state.editorState}
+                                        onChange={this.onEditorChange}
+                                        readOnly
+                                    />
+                                </div>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>

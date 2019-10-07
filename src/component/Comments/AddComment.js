@@ -84,6 +84,7 @@ const Input = styled.input`
 `;
 
 export default class AddComment extends React.Component {
+
   render() {
     return (
       <div>
@@ -95,7 +96,14 @@ export default class AddComment extends React.Component {
           />
           <form onSubmit={this.props._writeComment} >
             <div className="input">
-              <Input
+              {/* <Input
+                placeholder="댓글을 입력해주세요..."
+                type="text"
+                name="commentData"
+                value={this.props.commentData}
+                onChange={this.props._onHandleCommentDataChange}
+              /> */}
+              <textarea
                 placeholder="댓글을 입력해주세요..."
                 type="text"
                 name="commentData"

@@ -83,7 +83,7 @@ class MyLikeList extends React.Component {
                     {this.state.likeList ? this.state.likeList.map((rows, index) => {
                         if(index >= this.state.startIndex && index < this.state.lastIndex){
                             return (
-                                <div class="list-group-item __profile_field shadow-sm border p-3 mb-2 clearfix">
+                                <div class="list-group-item __profile_field __border_radius shadow-sm border p-3 mb-2 clearfix">
                                     <Link to={`/univ/${rows.univ_id}/${rows.post_type}/v/${rows.post_id}`} className="text-dark">
                                         <div className="table-bar_column clearfix">
                                             
@@ -100,6 +100,7 @@ class MyLikeList extends React.Component {
                         }
                         
                     }) : <h3>Loading...</h3>}
+                    <br/>
                 </div>
             </div>
         );

@@ -1,5 +1,13 @@
 import * as types from './ActionTypes';
 
+export function set_shb_list(shbs,mainCategory){
+    return {
+        type: types.SET_SHB_LIST,
+        shbs,
+        mainCategory
+    }
+}
+
 export function set_univ_list(univs){
     return {
         type: types.SET_UNIV_LIST,

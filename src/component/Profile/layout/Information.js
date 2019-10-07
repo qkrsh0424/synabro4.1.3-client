@@ -1,5 +1,8 @@
 import React from 'react';
 
+//AWS URL
+import { awsImageURL } from '../../../config/awsurl'
+
 class Information extends React.Component {
     render() {
         return (
@@ -10,7 +13,7 @@ class Information extends React.Component {
                 <div className='list-group border pt-3 pb-3 __border_radius'>
                     <div class="list-group-item border-white __profile_field">
                         <label>사진</label>
-                        <span><img src={`https://ddpf5wamlzit3.cloudfront.net/logo/peopleNo.png`} /></span>
+                        <span><img src={`${awsImageURL}/logo/peopleNo.png`} /></span>
                     </div>
                     <div class="list-group-item border-white">
                         <label>아이디</label>
