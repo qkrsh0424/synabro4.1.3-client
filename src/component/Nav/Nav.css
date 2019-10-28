@@ -12,3 +12,11 @@
     background: white !important;
     color: black !important;
 }
+
+.header_style{
+    color:#768cc2;
+}
+
+.header_style:hover{
+    text-decoration:none;
+}

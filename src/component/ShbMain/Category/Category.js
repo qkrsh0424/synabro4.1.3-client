@@ -1,6 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import { serverUrl } from '../../../config/serverUrl';
+import queryString from 'query-string';
 
 //Component
 import Nav from '../../Nav/Nav';
@@ -14,7 +15,8 @@ class Category extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            category:null
+            category:null,
+            queryValues:queryString.parse(this.props.location.search)
         }
     }
     componentDidMount() {
@@ -35,6 +37,9 @@ class Category extends React.Component {
         .then(data=>{
             if(data.message==='success'){
                 this.setState({category:data.data});
+            }else if(data.message==='failure'){
+                alert('잘못된 접근 방식 입니다.');
+                window.history.back();
             }else if(data.message==='error'){
                 alert('서버와 연결이 고르지 않습니다.')
             }
@@ -43,12 +48,16 @@ class Category extends React.Component {
     }
 
     render() {
-        
             const categoryComponent=[];
             if(this.state.category){
                 switch(this.state.category.shb_item_classify){
                     case 'board':
-                        categoryComponent.push(<BoardCategory/>);
+                        categoryComponent.push(
+                            <BoardCategory
+                                {...this.props}
+                                shb_item={this.state.category}
+                            />
+                        );
                         break;
                     case 'ads':
                         categoryComponent.push(<AdsCategory/>);

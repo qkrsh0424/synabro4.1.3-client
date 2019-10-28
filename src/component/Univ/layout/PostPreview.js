@@ -5,7 +5,7 @@ import renderHTML from 'react-render-html';
 // DraftJs
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
-import { MediaBlockRenderer } from '../../PostEditorV1.js/MediaBlockRenderer';
+import { MediaBlockRenderer } from '../../PostEditorV1_Univ/MediaBlockRenderer';
 
 export default class PostPreview extends React.Component{
     constructor(props){

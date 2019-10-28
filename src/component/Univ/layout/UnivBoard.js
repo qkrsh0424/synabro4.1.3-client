@@ -2,6 +2,10 @@ import React from 'react';
 import '../../PublicStyle/SlideAnimation.css';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
+
+//redux
+import {connect} from 'react-redux';
+
 import { Link, NavLink } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
@@ -11,6 +15,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import CreateIcon from '@material-ui/icons/Create';
 
 import PostLists from './PostLists';
+
+//URL
+import { serverUrl } from '../../../config/serverUrl';
 
 const propTypes = {
     univ_id: PropTypes.string,
@@ -64,7 +71,7 @@ class UnivBoard extends React.Component {
     }
 
     _getBoardTitle() {
-        return Axios.get('/api/univ_item/' + this.props.univ_id, {
+        return Axios.get(`${serverUrl}/api/univ_item/` + this.props.univ_id, {
             params: {
                 board_type: this.props.board_type
             }
@@ -73,8 +80,9 @@ class UnivBoard extends React.Component {
     }
 
     _getPostApi() {
-        return Axios.get('/api/univ_post/' + this.props.univ_id + '/btpost', {
+        return Axios.get(`${serverUrl}/api/univ_post/${this.props.univ_id}/btpost`, {
             params: {
+                usid:this.props._sess,
                 board_type: this.props.board_type,
                 startPostIndex: this.state.startPostIndex,
                 currentPostIndex: this.state.currentPostIndex
@@ -118,6 +126,7 @@ class UnivBoard extends React.Component {
         });
     }
     render() {
+        // console.log(this.state.post);
         const style = {
             paperHeader: {
                 padding: '1rem',
@@ -130,7 +139,6 @@ class UnivBoard extends React.Component {
             Grid: {
                 padding: '8px'
             }
-
         }
         return (
             <div className='container' id='board_ScrollTop'>
@@ -209,4 +217,11 @@ UnivBoard.propTypes = propTypes;
 
 UnivBoard.defaultProps = defaultProps;
 
-export default (UnivBoard);
+const mapStateToProps = (state)=>{
+    return {
+        _sess: state.auth_user._sess,
+        _isLogged: state.auth_user._isLogged
+    }
+}
+
+export default connect(mapStateToProps)(UnivBoard);

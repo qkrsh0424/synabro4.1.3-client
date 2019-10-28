@@ -1,0 +1,29 @@
+
+.controlCircleButtonFirst{
+    top:55vh;
+    left:3%;
+}
+
+.controlCircleButtonSecond{
+    top:62vh;
+    left:3%;
+}
+
+.controlCircleButtonThird{
+    top:69vh;
+    left:3%;
+}
+
+.controlCircleButtonForth{
+    top:76vh;
+    left:3%;
+}
+
+.dynamic-height {
+    /* margin-top:56px; */
+    width:100%;
+    height:100px;
+    top:calc(100vh - 76px);
+    position:fixed;
+    background: #fff;
+}

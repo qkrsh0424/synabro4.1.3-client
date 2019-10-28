@@ -6,6 +6,12 @@ import Axios from 'axios';
 import { connect } from 'react-redux';
 import * as actions from '../../../action';
 
+//URL
+import {serverUrl} from '../../../config/serverUrl'
+
+//logout handler
+import {logoutHandler} from '../../../handler/LogoutHandler'
+
 class ChangePassword extends React.Component {
     constructor(props) {
         super(props);
@@ -45,6 +51,7 @@ class ChangePassword extends React.Component {
                 await this.setState({ confirm_newPW: true });
             } else {
                 alert('새 비밀번호를 다시 확인해 주세요.');
+                await this.setState({ confirm_newPW: false });
                 document.getElementById('new_password_check').focus();
             }
         } else {
@@ -53,7 +60,8 @@ class ChangePassword extends React.Component {
     }
 
     _changePasswordAPI = async (e) => {
-        await Axios.patch('/api/auth/profile/chgpassword', {
+        await Axios.post(`${serverUrl}/api/auth/profile/chgpassword`, {
+            usid:this.props._sess,
             oldPassword: this.state.old_password,
             newPassword: this.state.new_password
         })
@@ -81,8 +89,7 @@ class ChangePassword extends React.Component {
     }
 
     handleLogout = async(e) =>{
-        await Axios.post('/api/auth/logout')
-            .then(response => response.data)
+        await logoutHandler()
             .then(data => {
                 if (data.message === 'success') {
                     this.props.handleAUTH_FAILURE();
@@ -163,6 +170,7 @@ class ChangePassword extends React.Component {
 }
 const mapStateToProps = (state)=>{
     return{
+        _sess: state.auth_user._sess,
         _isLogged: state.auth_user._isLogged,
         _nickname: state.auth_user._nickname,
     }

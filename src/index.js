@@ -19,11 +19,11 @@ import { Provider } from 'react-redux';
 const store = createStore(reducer);
 
 ReactDOM.render(
-    <Router>
-        <Provider store={store}>
-            <App />
-        </Provider>
-    </Router>
+        <Router>
+            <Provider store={store}>
+                <App />
+            </Provider>
+        </Router>
     , 
     document.getElementById('root'));
 

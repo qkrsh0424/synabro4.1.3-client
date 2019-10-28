@@ -28,18 +28,25 @@ class Main extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            shb_main_items:null
+            shb_main_items:null,
+            forecastBool:false,
         }
     }
 
-    componentDidMount(){
+    componentDidMount = ()=>{
         this._isMounted = true;
-        this._getShbItemAllList();
+        if(this._isMounted===true){
+            this._getShbItemAllList();
+            this.setState({forecastBool:true});
+        }
+        
         document.documentElement.scrollTop = document.body.scrollTop = 0;
+        
     }
 
-    componentWillUnmount(){
+    componentWillUnmount = () =>{
         this._isMounted = false;
+        this.setState({forecastBool:false});
     }
 
     _getShbItemAllList = async() =>{
@@ -53,6 +60,7 @@ class Main extends React.Component{
             }
         });
     }
+
     render(){
         document.documentElement.scrollTop = document.body.scrollTop = 0;
         return(
@@ -61,6 +69,8 @@ class Main extends React.Component{
                 <MainBody
                     shb_lists={this.props.shb_lists}
                     shb_main_items={this.state.shb_main_items}
+                    univ_lists = {this.props.univ_lists}
+                    forecastBool = {this.state.forecastBool}
                 />
             </div>
         );
@@ -76,7 +86,8 @@ const mapStateToProps = (state)=>{
         _isLogged: state.auth_user._isLogged,
         _nickname: state.auth_user._nickname,
         shb_lists: state.shb_lists.shbs,
-        _main: state.shb_lists.mainCategory
+        _main: state.shb_lists.mainCategory,
+        univ_lists: state.univ_lists.univs,
     }
 }
 

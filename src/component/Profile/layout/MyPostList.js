@@ -1,8 +1,11 @@
 import React from 'react';
 import Axios from 'axios';
 
-//awsurl
+//redux
+import {connect} from 'react-redux';
+//URL
 import {awsImageURL} from '../../../config/awsurl';
+import {serverUrl} from '../../../config/serverUrl';
 //react-router-dom
 import { Link } from 'react-router-dom';
 import Notification_icon from '@material-ui/icons/NotificationImportant';
@@ -23,13 +26,31 @@ class MyPostList extends React.Component {
     }
 
     async componentDidMount() {
-        await this._getPostList()
+        await this._getPostList();
+        
     }
 
     _getPostList = () => {
-        return Axios.get('/api/auth/profile/mypostlist')
+        return Axios.get(`${serverUrl}/api/auth/profile/mypostlist`,{
+            params:{
+                usid: this.props._sess
+            }
+        })
             .then(res => res.data)
-            .then(data => this.setState({ postList: data }));
+            .then(data => {
+                if(data[0].message==='success'){
+                    this.setState({ postList: data })
+                }else if(data.message==='error'){
+                    alert('예상치 못한 오류가 발생했습니다.code(MPL:messageError) 고객센터에 문의 바랍니다.');
+                }else if(data.message==='invalidUser'){
+                    alert('로그인이 기간이 만료 되었습니다. 로그인을 시도해 주세요.');
+                    window.location.href='/login';
+                }else{
+                    alert('예상치 못한 오류가 발생했습니다.code(MPL:elseError) 고객센터에 문의 바랍니다.');
+                }
+                
+            })
+            .catch(err=>alert('서버 연결이 고르지 않습니다.'))
     }
 
     _onHandleChageNext = () => {
@@ -89,5 +110,11 @@ class MyPostList extends React.Component {
         );
     }
 }
+const mapStateToProps = (state)=>{
+    return {
+        _sess: state.auth_user._sess,
+        _isLogged: state.auth_user._isLogged
+    }
+}
 
-export default MyPostList;
+export default connect(mapStateToProps)(MyPostList);

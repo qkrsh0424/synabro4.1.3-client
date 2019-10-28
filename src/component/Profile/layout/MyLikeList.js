@@ -2,6 +2,8 @@ import React from 'react';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
 
+//URL
+import {serverUrl} from '../../../config/serverUrl';
 import { calculateTime } from '../../../controler/calculateTime';
 
 import Notification_icon from '@material-ui/icons/NotificationImportant';
@@ -32,7 +34,11 @@ class MyLikeList extends React.Component {
     }
 
     _getLikeList() {
-        return Axios.get('/api/post_like/get_list')
+        return Axios.get(`${serverUrl}/api/post_like/get_list`,{
+            params:{
+                usid: this.props._sess
+            }
+        })
             .then(res => res.data)
             .then(data => this.setState({ likeList: data }));
     }
@@ -45,10 +51,13 @@ class MyLikeList extends React.Component {
         this.setState({startIndex:this.state.startIndex-5,lastIndex:this.state.lastIndex-5});
     }
 
-    async _onHandleUnLike(post_id){
+    async _onHandleUnLike(head_type,post_id){
         if(this.props._isLogged){
-            await Axios.post('/api/post_like/unlike',{
-                post_id:post_id
+            await Axios.post(`${serverUrl}/api/post_like/unlike`,{
+                usid: this.props._sess,
+                head_type:head_type,
+                post_id:post_id,
+                parentType:'univ'
             })
             .then(res=>res.data)
             .then(data=>{
@@ -94,11 +103,10 @@ class MyLikeList extends React.Component {
                                             <p className="font-weight-bold p-2 m-0">{rows.post_topic}</p>
                                         </div>
                                     </Link>
-                                    <button className="float-right btn btn-outline-info" onClick={()=>this._onHandleUnLike(rows.post_id)}>좋아요 취소</button>
+                                    <button className="float-right btn btn-outline-info" onClick={()=>this._onHandleUnLike(rows.univ_id, rows.post_id)}>좋아요 취소</button>
                                 </div>
                             );
                         }
-                        
                     }) : <h3>Loading...</h3>}
                     <br/>
                 </div>
@@ -109,6 +117,7 @@ class MyLikeList extends React.Component {
 
 const mapStateToProps = (state)=>{
     return {
+        _sess: state.auth_user._sess,
         _isLogged: state.auth_user._isLogged
     }
 }

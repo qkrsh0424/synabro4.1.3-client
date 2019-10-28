@@ -4,6 +4,8 @@ import Axios from 'axios';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
+import {serverUrl} from '../../config/serverUrl';
+
 import './Signup.css';
 import '../PublicStyle/SlideAnimation.css';
 // import logo from '../../images/Logo/synabrologo2.png';
@@ -87,7 +89,7 @@ class Signup extends React.Component{
     }
 
     AuthenticateUser = () =>{
-        const url = "/api/auth/signup/confirm";
+        const url = `${serverUrl}/api/auth/signup/confirm`;
         // let formData = new FormData();
         // formData.append("user_job", this.state.user_job);
         // formData.append("user_major", this.state.user_major);
@@ -158,7 +160,7 @@ class Signup extends React.Component{
         if(this.state.user_uid.length<6){
             this.setState({confirm_uid:false});
         }else{
-            let url = '/api/auth/signup/validation';
+            let url = `${serverUrl}/api/auth/signup/validation`;
             Axios.post(url, {
                 user_uid: this.state.user_uid
             })

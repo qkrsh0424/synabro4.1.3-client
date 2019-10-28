@@ -12,6 +12,17 @@ export const MediaBlockRenderer = block => {
 	return null;
 };
 
+export const MediaBlockRendererReadOnly = block => {
+	if (block.getType() === "atomic") {
+		return {
+			component: Media,
+			editable: false
+		};
+	}
+
+	return null;
+};
+
 const Image = props => {
 	if (!!props.src) {
 		return (

@@ -1,0 +1,45 @@
+.crewContainer .bene_Big_Size{
+    width: 100%;
+    height: 300px;
+}
+
+.crewContainerCardHeader{
+    height: 4em;
+    font-size:15px;
+    overflow: hidden;
+    font-weight: 700;
+}
+
+.crewContainerCardBody{
+    font-size: 14px;
+    font-weight: 600;
+    color: #aeaeae;
+}
+
+.crewContainer .card_notice_t:hover{
+    text-decoration: none;
+}
+
+.NestedList_category_style{
+    color:black;
+    font-weight: 800;   
+}
+
+.NestedList_category_style:hover{
+    text-decoration: none;
+}
+
+.NestedList_category_style_wrapper{
+    margin-bottom: 8px;
+    border: 1px solid #cecece;
+    border-radius: 10px;
+}
+@media screen and (max-width:800px){
+    /* .mainThum{
+        min-height: 30vh !important;
+    } */
+    .crewContainer .bene_Big_Size{
+        width: 100%;
+        height: 30vh !important;
+    }
+}

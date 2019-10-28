@@ -3,6 +3,12 @@ import '../ProfileBody.css'
 
 import Axios from 'axios';
 
+//redux
+import {connect} from 'react-redux';
+
+//URL
+import {serverUrl} from '../../../config/serverUrl';
+
 
 class ChangeInformation extends React.Component{
     constructor(props){
@@ -47,7 +53,8 @@ class ChangeInformation extends React.Component{
     }
 
     _updateUserInfomation = async()=>{
-        await Axios.patch('/api/auth/profile/chguserinfo',{
+        await Axios.patch(`${serverUrl}/api/auth/profile/chguserinfo`,{
+            usid:this.props._sess,
             UID: this.state.user.UID,
             Email: this.state.user.Email,
             Name: this.state.user.Name,
@@ -145,5 +152,11 @@ class ChangeInformation extends React.Component{
         );
     }
 }
+const mapStateToProps = (state)=>{
+    return {
+        _sess: state.auth_user._sess,
+        _isLogged: state.auth_user._isLogged
+    }
+}
 
-export default (ChangeInformation);
+export default connect(mapStateToProps)(ChangeInformation);

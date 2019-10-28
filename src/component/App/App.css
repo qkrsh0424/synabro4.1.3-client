@@ -4,6 +4,9 @@
     opacity: 0.3;
 }
 
+.app-body{
+    margin-bottom: 100px;
+}
 @media screen and (max-width:800px){
     .bomVersionCheck1{
         top:70%;

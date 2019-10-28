@@ -3,6 +3,9 @@ import Axios from 'axios';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
+//URL
+import { serverUrl } from '../../config/serverUrl';
+
 //Draft Material
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, SelectionState } from 'draft-js';
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
@@ -89,6 +92,8 @@ const plugins = [
 ];
 
 class DraftJs extends React.Component {
+    TYPE_OF_POST = 'univ';
+
     constructor(props) {
         super(props);
 
@@ -207,7 +212,7 @@ class DraftJs extends React.Component {
             let filedata = e.target.files[i];
             formData.append(`file`, filedata);
         }
-        await Axios.post('/api/uploadimg/draft-oss', formData, {
+        await Axios.post(`${serverUrl}/api/uploadimg/draft-oss`, formData, {
             // onUploadProgress: progressEvent => {
             //     console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
             // }
@@ -246,19 +251,25 @@ class DraftJs extends React.Component {
         let contentState = this.state.editorState.getCurrentContent();
         let raw = convertToRaw(contentState);
         let jsonResult = JSON.stringify(raw, null, 2);
-        console.log(jsonResult);
+        // console.log(jsonResult);
         return jsonResult;
     }
     onHandleSubmit = async(e) =>{
         e.preventDefault();
         let jsonType = this.setConvertToJson();
         if(window.confirm("정말로 포스팅 하시겠습니까?")){
-            await __sendPost(this.props.match.params.univ_id, this.props.match.params.board_type, this.state.post_topic, jsonType)
+            await __sendPost(
+                this.TYPE_OF_POST,
+                this.props._sess,
+                this.props.match.params.univ_id, 
+                this.props.match.params.board_type, 
+                this.state.post_topic, 
+                jsonType)
             .then(data => {
                 if (data.message === 'success') {
                     this.props.history.push('./');
                 }else if(data.message==='failure'){
-                    alert('포스팅 에러');
+                    alert('정상적이지 않은 포스팅 입니다...');
                 }else if(data.message==='invalidUser'){
                     alert('로그인이 기간이 만료 되었습니다.');
                     window.location.href='/login';
@@ -383,6 +394,7 @@ class DraftJs extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        _sess: state.auth_user._sess,
         _isLogged: state.auth_user._isLogged,
         _id: state.auth_user._id,
         _nickname: state.auth_user._nickname

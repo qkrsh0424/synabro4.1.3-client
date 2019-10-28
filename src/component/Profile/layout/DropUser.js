@@ -4,6 +4,12 @@ import Axios from 'axios';
 import { connect } from 'react-redux';
 import * as actions from '../../../action';
 
+//URL
+import {serverUrl} from '../../../config/serverUrl';
+
+//logout handler
+import {logoutHandler} from '../../../handler/LogoutHandler';
+
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -36,13 +42,15 @@ class DropUser extends React.Component{
 
     _DropUserAPI = async()=>{
         if(this.state.confirmDrop===true){
-            await Axios.post('/api/auth/profile/dropuser',{
+            await Axios.post(`${serverUrl}/api/auth/profile/dropuser`,{
+                usid:this.props._sess,
                 currentPassword:this.state.current_password
             })
             .then(res=>res.data)
             .then(data=>{
                 if(data.message==='success'){
-                    this.handleLogout();
+                    // this.handleLogout();
+                    window.location.reload();
                 }else if(data.message==='failure'){
                     alert('비밀번호를 다시 확인해 주세요.');
                     document.getElementById('current_password').focus();
@@ -64,8 +72,7 @@ class DropUser extends React.Component{
     }
 
     handleLogout = async(e) =>{
-        await Axios.post('/api/auth/logout')
-            .then(response => response.data)
+        logoutHandler()
             .then(data => {
                 if (data.message === 'success') {
                     // this.props.handleAUTH_FAILURE();
@@ -147,6 +154,7 @@ class DropUser extends React.Component{
 
 const mapStateToProps = (state)=>{
     return{
+        _sess:state.auth_user._sess,
         _isLogged: state.auth_user._isLogged,
         _nickname: state.auth_user._nickname,
     }

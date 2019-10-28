@@ -3,6 +3,9 @@ import Axios from 'axios';
 
 import './Nav.css';
 
+//handler
+import {logoutHandler} from '../../handler/LogoutHandler';
+
 import { connect } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
 import * as actions from '../../action';
@@ -86,18 +89,17 @@ class Nav extends React.Component {
     this.setState({ anchorEl: null });
   };
 
-  handleLogout() {
-    Axios.post('/api/auth/logout')
-      .then(response => response.data)
-      .then(data => {
-        if (data.message === 'success') {
-          this.props.handleAUTH_FAILURE();
-          window.location.reload();
-        } else {
-          alert('error logout');
-        }
+  handleLogout = async() =>{
+    logoutHandler()
+    .then(data => {
+      if (data.message === 'success') {
+        this.props.handleAUTH_FAILURE();
+        window.location.reload();
+      } else {
+        alert('error logout');
+      }
 
-      });
+    });
   }
 
   render() {
@@ -125,7 +127,9 @@ class Nav extends React.Component {
         </div>
         <Divider />
         <List>
-          <h5 className="text-center text-secondary">봄 UNIVERSITY</h5>
+          <h5 className="text-center">
+            <Link to='/univ' className='header_style'>봄 UNIVERSITY</Link>  
+          </h5>
           {this.props.univ_lists ? this.props.univ_lists.map((rows, index) => {
             return (
               <ListItem
@@ -143,14 +147,16 @@ class Nav extends React.Component {
         </List>
         <Divider />
         <List>
-            <h5 className="text-center text-secondary">봄 CREW</h5>
+            <h5 className="text-center">
+              <Link to='/crew' className='header_style'>봄 CREW</Link>
+            </h5>
             {this.props.shb_lists?this.props.shb_lists.map((rows,index)=>{
               if(rows.shb_classify==='crew'){
                 return(
                   <ListItem
                     button key={rows.shb_name}
                     component={AdapterLink}
-                    to={`/${rows.shb_classify}/`}
+                    to={`/${rows.shb_classify}/contype/${rows.shb_num}`}
                   // selected={this.props.matchId==rows.univ_id?true:false}
                   >
                     <ListItemIcon><img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px'/></ListItemIcon>

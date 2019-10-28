@@ -2,8 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import Axios from 'axios';
 
-//AWS URL
+//URL
 import {awsImageURL} from '../../../config/awsurl';
+import { serverUrl } from '../../../config/serverUrl';
+
 import { connect } from "react-redux";
 import renderHTML from 'react-render-html';
 // import Loader from "../../Loader";
@@ -26,7 +28,7 @@ import SingleLineGrid from './SingleLineGrid/SingleLineGrid';
 // DraftJs
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
-import { MediaBlockRenderer } from '../../PostEditorV1.js/MediaBlockRenderer';
+import { MediaBlockRendererReadOnly } from '../../PostEditorV1_Univ/MediaBlockRenderer';
 
 
 const Container = styled.div`
@@ -151,8 +153,9 @@ class UnivPoster2 extends React.Component {
     }
 
     _getPostListAPI = async()=>{
-        return Axios.get('/api/univ_post/' + this.props.univ_id + '/btpost', {
+        return Axios.get(`${serverUrl}/api/univ_post/` + this.props.univ_id + '/btpost', {
             params: {
+                usid: this.props._sess,
                 board_type: this.props.board_type,
                 startPostIndex: 0,
                 currentPostIndex: 6
@@ -161,19 +164,24 @@ class UnivPoster2 extends React.Component {
             .then(response => response.data);
     }
     updatePostCountPlus = async() =>{
-        return Axios.patch(`/api/univ_post/postCountPlus/`,{
+        return Axios.patch(`${serverUrl}/api/univ_post/postCountPlus/`,{
             post_id:this.props.post_id
         })
         .then(res=>res.data);
     }
 
     _getPostId() {
-        return Axios.get(`/api/univ_post/post/${this.props.post_id}`)
+        return Axios.get(`${serverUrl}/api/univ_post/post/${this.props.post_id}`,{
+            params:{
+                usid: this.props._sess,
+                head_type: this.props.univ_id,
+            }
+        })
             .then(res=>res.data);
     }
 
     _getBoardTitle() {
-        return Axios.get('/api/univ_item/' + this.props.univ_id, {
+        return Axios.get(`${serverUrl}/api/univ_item/` + this.props.univ_id, {
             params: {
                 board_type: this.props.board_type
             }
@@ -182,8 +190,9 @@ class UnivPoster2 extends React.Component {
     }
 
     _getCommentAPI = async()=>{
-        return Axios.get('/api/comment/univ_post_comment',{
+        return Axios.get(`${serverUrl}/api/comment/univ_post_comment`,{
             params:{
+                usid:this.props._sess,
                 post_id: this.props.post_id
             }
         })
@@ -191,14 +200,10 @@ class UnivPoster2 extends React.Component {
     }
     _writeComment = async(e) =>{
         e.preventDefault();
-        let data = this.state.commentData;
-        let newText = data.split ('\n').map ((item, i) => <p key={i}>{item}</p>);
-        console.log(newText);
-        for(let i=0;i<data.length;i++){
-            console.log(data[i]);
-        }
-        // console.log(changeData);
-        await Axios.post('/api/comment/univ_post_comment',{
+        // console.log(this.props._sess);
+        await Axios.post(`${serverUrl}/api/comment/univ_post_comment`,{
+            
+            usid: this.props._sess,
             cmt_desc:this.state.commentData,
             post_id:this.props.post_id,
             head_type:this.props.univ_id
@@ -234,7 +239,7 @@ class UnivPoster2 extends React.Component {
     }
 
     _DelComment = async(head_type,cmt_id) =>{
-        await Axios.delete('/api/comment/univ_post_comment',{
+        await Axios.delete(`${serverUrl}/api/comment/univ_post_comment`,{
             params:{
                 cmt_id:cmt_id,
                 head_type:head_type,
@@ -265,9 +270,11 @@ class UnivPoster2 extends React.Component {
 
     async _onHandleLike(univ_id,post_id){
         if(this.props._isLogged){
-            await Axios.post('/api/post_like/like',{
+            await Axios.post(`${serverUrl}/api/post_like/like`,{
+                usid:this.props._sess,
                 head_type:univ_id,
-                post_id:post_id
+                post_id:post_id,
+                parentType:'univ'
             })
             .then(res=>res.data)
             .then(data=>{
@@ -279,6 +286,8 @@ class UnivPoster2 extends React.Component {
                             alert('서버와 연결이 좋지 않습니다.');
                         }
                     });
+                }else if(data.message==='like fail'){
+                    alert('이미 좋아하는 포스터 입니다.');
                 }else{
                     console.log('LIKE FUNCTION IS ERROR');
                 }
@@ -291,9 +300,11 @@ class UnivPoster2 extends React.Component {
 
     async _onHandleUnLike(univ_id,post_id){
         if(this.props._isLogged){
-            await Axios.post('/api/post_like/unlike',{
+            await Axios.post(`${serverUrl}/api/post_like/unlike`,{
+                usid:this.props._sess,
                 head_type:univ_id,
-                post_id:post_id
+                post_id:post_id,
+                parentType:'univ'
             })
             .then(res=>res.data)
             .then(data=>{
@@ -410,7 +421,7 @@ class UnivPoster2 extends React.Component {
                                                 {this.state.board_title?this.state.board_title:"Loading.."}
                                             </Paper>
     
-                                            <div className="table-bar p-3 mb-2 shadow-sm hover_animate">
+                                            <div className="table-bar p-3 mb-2 shadow-sm">
                                                 <Header>
                                                     <div className="Header-bar">{row.post_topic}</div>
                                                 </Header>
@@ -431,7 +442,7 @@ class UnivPoster2 extends React.Component {
                                                 >
                                                     {/* {renderHTML(row.post_desc)} */}
                                                     <Editor
-                                                        blockRendererFn={MediaBlockRenderer}
+                                                        blockRendererFn={MediaBlockRendererReadOnly}
                                                         editorState={this.state.editorState}
                                                         onChange={this.onEditorChange}
                                                         readOnly
@@ -487,6 +498,7 @@ class UnivPoster2 extends React.Component {
 
 const mapStateToProps = (state)=>{
     return{
+        _sess: state.auth_user._sess,
         _isLogged : state.auth_user._isLogged
     }
 }

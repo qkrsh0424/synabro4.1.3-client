@@ -60,7 +60,7 @@ const MainsearchPresenter = ({
     {loading ? (
       <div className="loader"></div>
     ) : (
-      <>
+      <div>
       
         {postVals && postVals.length > 0 && (
         //   console.log(postVals),
@@ -76,7 +76,7 @@ const MainsearchPresenter = ({
         {postVals && postVals.length === 0 && (
           <Message text={`Nothing Found For ${searchTerm}`} color="#95a5a6" />
         )}
-      </>
+      </div>
     )}
   </Container>
 );

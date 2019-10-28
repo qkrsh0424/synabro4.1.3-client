@@ -83,6 +83,36 @@ const Input = styled.input`
 
 `;
 
+const Textarea = styled.textarea`
+  display: inline-block;
+  height: 60px;
+  width: 100%;
+  margin: 0;
+  border: none;
+  transition: all 300ms;
+
+  &::placeholder {
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+    -webkit-transition: 1s;
+    transition: 0.5s;
+  }
+  &:focus{
+    outline:none;
+  }
+  &:hover {
+    &::placeholder {
+      color: #bdc3c7;
+      height: 160px;
+      position: relative;
+      -webkit-transform: translateY(0px);
+      transform: translateY(0px);
+    }
+  }
+
+
+`;
+
 export default class AddComment extends React.Component {
 
   render() {
@@ -103,7 +133,7 @@ export default class AddComment extends React.Component {
                 value={this.props.commentData}
                 onChange={this.props._onHandleCommentDataChange}
               /> */}
-              <textarea
+              <Textarea
                 placeholder="댓글을 입력해주세요..."
                 type="text"
                 name="commentData"

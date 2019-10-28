@@ -22,6 +22,8 @@ import DropUpIcon from '@material-ui/icons/ArrowUpward';
 import Forecast from "../Forecast";
 import MainSearch from "../../MainSearch/FullDialog";
 import LoginCard from '../../Login/LoginCard';
+import MainPostCard1 from './MainPostCard1';
+import MainPostCard2 from './MainPostCard2';
 
 const Container = styled.div`
     padding-top: 30px;
@@ -92,7 +94,7 @@ const Container = styled.div`
         
     }
     .board {
-        height: 285px;
+        min-height: 285px;
     }
     .user-image {
         vertical-align: middle;
@@ -102,11 +104,12 @@ const Container = styled.div`
         flex-shrink: 0;
     }
     .board_title {
-        border-bottom: 2px solid red;
+        border-bottom: 2px solid #9f9f9f;
         padding: 10px;
+        font-weight:bold;
     }
     .post {
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid #bfbfbf;
         padding: 4.5px 10px;
     
         :last-child {
@@ -258,7 +261,7 @@ class MainBody extends React.Component {
                                     >
                                         <img
                                             // src={require("../../asset/6.jpg")}
-                                            src={"https://synabrodemo.s3.ap-northeast-2.amazonaws.com/bigbene/logomain.png"}
+                                            src={"https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/bannerImage/synabrologo2.png"}
                                             className="d-block bene_Big_Size"
                                             alt="..."
                                         />
@@ -363,216 +366,6 @@ class MainBody extends React.Component {
                                             );
                                         }
                                     }) : ""}
-                                    {/* 
-                                                *** 서브 메인 카테고리 ***
-                                            */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
-                                        if (rows) {
-                                            return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
-                                                    <div className="item">
-                                                        <div className="item_icon">
-                                                            {rows.shb_item_icon_url ?
-                                                                <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
-                                                            }
-                                                        </div>
-                                                        <div className="item_name">{rows.shb_item_name}</div>
-                                                    </div>
-                                                </StyledLink>
-
-                                            );
-                                        }
-                                    }) : ""}
-                                    {/* 
-                                                *** 서브 메인 카테고리 ***
-                                            */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
-                                        if (rows) {
-                                            return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
-                                                    <div className="item">
-                                                        <div className="item_icon">
-                                                            {rows.shb_item_icon_url ?
-                                                                <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
-                                                            }
-                                                        </div>
-                                                        <div className="item_name">{rows.shb_item_name}</div>
-                                                    </div>
-                                                </StyledLink>
-
-                                            );
-                                        }
-                                    }) : ""}
-                                    {/* 
-                                                *** 서브 메인 카테고리 ***
-                                            */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
-                                        if (rows) {
-                                            return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
-                                                    <div className="item">
-                                                        <div className="item_icon">
-                                                            {rows.shb_item_icon_url ?
-                                                                <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
-                                                            }
-                                                        </div>
-                                                        <div className="item_name">{rows.shb_item_name}</div>
-                                                    </div>
-                                                </StyledLink>
-
-                                            );
-                                        }
-                                    }) : ""}
-                                    {/* 
-                                                *** 서브 메인 카테고리 ***
-                                            */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
-                                        if (rows) {
-                                            return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
-                                                    <div className="item">
-                                                        <div className="item_icon">
-                                                            {rows.shb_item_icon_url ?
-                                                                <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
-                                                            }
-                                                        </div>
-                                                        <div className="item_name">{rows.shb_item_name}</div>
-                                                    </div>
-                                                </StyledLink>
-
-                                            );
-                                        }
-                                    }) : ""}
-                                    {/* 
-                                                *** 서브 메인 카테고리 ***
-                                            */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
-                                        if (rows) {
-                                            return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
-                                                    <div className="item">
-                                                        <div className="item_icon">
-                                                            {rows.shb_item_icon_url ?
-                                                                <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
-                                                            }
-                                                        </div>
-                                                        <div className="item_name">{rows.shb_item_name}</div>
-                                                    </div>
-                                                </StyledLink>
-
-                                            );
-                                        }
-                                    }) : ""}
-                                    {/* 
-                                                *** 서브 메인 카테고리 ***
-                                            */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
-                                        if (rows) {
-                                            return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
-                                                    <div className="item">
-                                                        <div className="item_icon">
-                                                            {rows.shb_item_icon_url ?
-                                                                <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
-                                                            }
-                                                        </div>
-                                                        <div className="item_name">{rows.shb_item_name}</div>
-                                                    </div>
-                                                </StyledLink>
-
-                                            );
-                                        }
-                                    }) : ""}
-                                    {/* 
-                                                *** 서브 메인 카테고리 ***
-                                            */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
-                                        if (rows) {
-                                            return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
-                                                    <div className="item">
-                                                        <div className="item_icon">
-                                                            {rows.shb_item_icon_url ?
-                                                                <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
-                                                            }
-                                                        </div>
-                                                        <div className="item_name">{rows.shb_item_name}</div>
-                                                    </div>
-                                                </StyledLink>
-
-                                            );
-                                        }
-                                    }) : ""}
-                                    {/* 
-                                                *** 서브 메인 카테고리 ***
-                                            */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
-                                        if (rows) {
-                                            return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
-                                                    <div className="item">
-                                                        <div className="item_icon">
-                                                            {rows.shb_item_icon_url ?
-                                                                <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
-                                                            }
-                                                        </div>
-                                                        <div className="item_name">{rows.shb_item_name}</div>
-                                                    </div>
-                                                </StyledLink>
-
-                                            );
-                                        }
-                                    }) : ""}
-                                    {/* 
-                                                *** 서브 메인 카테고리 ***
-                                            */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
-                                        if (rows) {
-                                            return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
-                                                    <div className="item">
-                                                        <div className="item_icon">
-                                                            {rows.shb_item_icon_url ?
-                                                                <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
-                                                            }
-                                                        </div>
-                                                        <div className="item_name">{rows.shb_item_name}</div>
-                                                    </div>
-                                                </StyledLink>
-
-                                            );
-                                        }
-                                    }) : ""}
-                                    {/* 
-                                                *** 서브 메인 카테고리 ***
-                                            */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
-                                        if (rows) {
-                                            return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
-                                                    <div className="item">
-                                                        <div className="item_icon">
-                                                            {rows.shb_item_icon_url ?
-                                                                <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
-                                                            }
-                                                        </div>
-                                                        <div className="item_name">{rows.shb_item_name}</div>
-                                                    </div>
-                                                </StyledLink>
-
-                                            );
-                                        }
-                                    }) : ""}
 
                                 </div>
                                 <button className='btn btn-lg btn-block shadow-sm' onClick={this.categoryDropdown}>
@@ -581,56 +374,68 @@ class MainBody extends React.Component {
                             </div>
                         </div>
                         <div className="col-md-3">
-                        <div className="right card">forecast</div>
+                            <div className="right card">
+                                forecast
+                                {this.props.forecastBool?<Forecast />:"loading..."}
+                            </div>
                         </div>
                     </div>
+                    <h3>상해봄</h3>
                     <div className="row">
+                        {this.props.shb_main_items?this.props.shb_main_items.map((rows,index)=>{
+                            if(index<3)
+                                return(
+                                    <MainPostCard1
+                                        category={rows}
+                                    />
+                                );
+                        })
+                            :
+                            "loading"
+                        }
+                        
+                        {/* 베너 오는곳 */}
                         <div className="col-md-3">
-                            <div className="card board">
-                                <div className="board_title">중국어</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="card board">
-                                <div className="board_title">중고나라</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="card board">
-                                <div className="board_title"></div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                        <div className="right card">bene</div>
-                        <div className="right card">bene</div>
-                            
-                                {/* <Forecast /> */}
-                            
+                            <div className="right card">banner</div>
+                            <div className="right card">banner</div>
                         </div>
                     </div>
 
-
+                    <h3>대학교</h3>
+                    <div className="row">
+                        {this.props.univ_lists?this.props.univ_lists.map((rows,index)=>{
+                            return(
+                                <MainPostCard2
+                                    univ={rows}
+                                />
+                            );
+                        }):""}
+                        
+                        {/* <div className="col-md-4">
+                            <div className="card board">
+                                <div className="board_title">제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                            </div>
+                        </div>
+                        <div className="col-md-4">
+                            <div className="card board">
+                                <div className="board_title">제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                                <div className="post title">포스트제목</div>
+                            </div>
+                        </div> */}
+                    </div>
                     <div className="row">
                         <div className="col-md-3">
                             <div className="card board">

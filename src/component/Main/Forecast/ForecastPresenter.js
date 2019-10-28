@@ -121,7 +121,7 @@ class ForecastPresenter extends React.Component {
     } else if (date.getHours() >= sunset.getHours()) {
       var weatherIconID = `wi wi-owm-night-${this.props.data.weather[0].id}`;
     }
-    console.log(this.props.data);
+    // console.log(this.props.data);
     // console.log(this.props.isLoading)
     return (
       <Container>

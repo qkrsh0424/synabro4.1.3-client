@@ -1,0 +1,88 @@
+
+.crew_Intro_Styles .HeaderPart{
+    /* height: 100px; */
+    color:white;
+    background-color: #2cb5e8; /* For browsers that do not support gradients */
+    /* background-image: linear-gradient(90deg, #9fb8ad, #2cb5e8); */
+    background-image: linear-gradient(90deg, #6c73bd, #dd90a2); /* Standard syntax (must be last) */
+    text-shadow: 2px 2px black;
+}
+
+footer {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  footer p {
+    margin-bottom: .25rem;
+  }
+  .card-body_t, .card_header_t{
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    
+    white-space: normal; 
+    line-height: 1.2; 
+    height: 6em;
+    
+    word-wrap: break-word; 
+    display: -webkit-box; 
+    -webkit-line-clamp: 3; 
+    -webkit-box-orient: vertical;
+  }
+  
+  .card_header_t{
+    text-align: center;
+    line-height: 3; 
+    height: 2.5em;
+    
+    -webkit-line-clamp: 1; 
+    font-size:17px;
+    font-weight:bold;
+  }
+  
+  .wrapper_notice {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr) ) ;
+    
+    color: #444;
+  }
+  
+  .card-body_t{
+    font-size:14px;
+  }
+  .text-muted{
+    margin-bottom:3px;
+  }
+  
+  .card_comment, .card_footer{
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:0px;
+    
+  }
+  
+  .card_notice_t{
+    /* border: 1px solid white; */
+    border:1px #eeeeee solid;
+    background: transparent;
+  }
+  
+  .car-img-top_t{
+      height: 10rem;
+  }
+  
+  .hover_animate:hover{
+    transform: scale(1.04,1.04);
+    transition: transform 0.2s ease-in-out;
+    text-decoration-color: #444;
+  }
+  
+  .text_color_gray{
+    color:gray;
+  }
+
+  .card_writer{
+      text-align: center;
+  }

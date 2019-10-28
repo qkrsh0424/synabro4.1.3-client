@@ -1,0 +1,16 @@
+
+._TextField img{
+    max-width: 800px;
+    max-height: 800px;
+}
+
+@media screen and (max-width:800px){
+    ._TextField img{
+        max-width: 100%;
+    }
+  }
+
+.commentSpace{
+    white-space: pre-wrap;
+}
+  

@@ -7,6 +7,8 @@ import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../action';
 
+import {logoutHandler} from '../../handler/LogoutHandler'
+
 
 const Container=styled.div`
 .login {
@@ -75,9 +77,8 @@ class LoginCard extends React.Component{
         this.handleLogout = this.handleLogout.bind(this);
     }
 
-    handleLogout(){
-      Axios.post('/api/auth/logout')
-      .then(response=>response.data)
+    handleLogout = ()=>{
+      logoutHandler()
       .then(data=>{
         if(data.message==='success'){
           this.props.handleAUTH_FAILURE();
@@ -85,7 +86,6 @@ class LoginCard extends React.Component{
         }else{
           alert('error logout');
         }
-        
       });
     }
 
