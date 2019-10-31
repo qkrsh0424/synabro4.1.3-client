@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Axios from 'axios';
 
+//Authorization
+import AuthKey from '../../../config/AuthorizationKey';
+
 //URL
 import {awsImageURL} from '../../../config/awsurl';
 import { serverUrl } from '../../../config/serverUrl';
@@ -21,9 +24,10 @@ import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import '../UnivPoster2.css';
 
+//Component
 import Comments from '../../Comments';
-
 import SingleLineGrid from './SingleLineGrid/SingleLineGrid';
+import UnivPosterMenuControl from './UnivPosterMenuControl';
 
 // DraftJs
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
@@ -43,9 +47,10 @@ padding: 0.5rem;
 
 const Header = styled.div`
 border-bottom : 1px dashed black;
-text-align: left;
-padding: 0 0 3px 3px;
+padding: 8px 3px;
 margin-bottom: 0.5em;
+vertical-align: middle;
+heigth:18px;
 `;
 
 const User = styled.div`
@@ -114,6 +119,10 @@ padding: 1rem;
 font-size: 1.5rem;
 `;
 
+const MenuList = styled.div`
+    float: right;
+`;
+
 class UnivPoster2 extends React.Component {
     constructor(props) {
         super(props);
@@ -126,6 +135,7 @@ class UnivPoster2 extends React.Component {
             openSnacbar:false,
             postListData:'',
             editorState: EditorState.createEmpty(),
+            controlMenuList:null,
         };
         this._getPostId = this._getPostId.bind(this);
         this._getBoardTitle = this._getBoardTitle.bind(this);
@@ -139,6 +149,7 @@ class UnivPoster2 extends React.Component {
                 alert('서버와 연결이 좋지 않습니다.');
                 this.setState({loading:true});
             });
+        await this._posterValidationAndMenuControl();
         await this.setState({loading:false});
         
     }
@@ -159,6 +170,9 @@ class UnivPoster2 extends React.Component {
                 board_type: this.props.board_type,
                 startPostIndex: 0,
                 currentPostIndex: 6
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         })
             .then(response => response.data);
@@ -166,6 +180,10 @@ class UnivPoster2 extends React.Component {
     updatePostCountPlus = async() =>{
         return Axios.patch(`${serverUrl}/api/univ_post/postCountPlus/`,{
             post_id:this.props.post_id
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         })
         .then(res=>res.data);
     }
@@ -175,6 +193,9 @@ class UnivPoster2 extends React.Component {
             params:{
                 usid: this.props._sess,
                 head_type: this.props.univ_id,
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         })
             .then(res=>res.data);
@@ -184,6 +205,9 @@ class UnivPoster2 extends React.Component {
         return Axios.get(`${serverUrl}/api/univ_item/` + this.props.univ_id, {
             params: {
                 board_type: this.props.board_type
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         })
         .then(response => response.data);
@@ -194,6 +218,9 @@ class UnivPoster2 extends React.Component {
             params:{
                 usid:this.props._sess,
                 post_id: this.props.post_id
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         })
         .then(res=>res.data)
@@ -207,6 +234,10 @@ class UnivPoster2 extends React.Component {
             cmt_desc:this.state.commentData,
             post_id:this.props.post_id,
             head_type:this.props.univ_id
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         })
         .then(res=>res.data)
         .then(data=>{
@@ -244,6 +275,9 @@ class UnivPoster2 extends React.Component {
                 cmt_id:cmt_id,
                 head_type:head_type,
                 post_id:this.props.post_id
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         })
         .then(res=>res.data)
@@ -275,6 +309,10 @@ class UnivPoster2 extends React.Component {
                 head_type:univ_id,
                 post_id:post_id,
                 parentType:'univ'
+            },{
+                headers:{
+                    Authorization:'Bearer ' + AuthKey
+                }
             })
             .then(res=>res.data)
             .then(data=>{
@@ -305,6 +343,10 @@ class UnivPoster2 extends React.Component {
                 head_type:univ_id,
                 post_id:post_id,
                 parentType:'univ'
+            },{
+                headers:{
+                    Authorization:'Bearer ' + AuthKey
+                }
             })
             .then(res=>res.data)
             .then(data=>{
@@ -338,7 +380,20 @@ class UnivPoster2 extends React.Component {
         this.setState({editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.state.postData[0].post_desc)))});
     }
 
+    _posterValidationAndMenuControl = async() =>{
+        let url = `${serverUrl}/api/univ_post/posterValidation/univ`;
+        await Axios.post(url,{
+            usid:this.props._sess
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
+        }).then(res=>res.data)
+        .then(data=>this.setState({controlMenuList:data.data}));
+    }
+
     render() {
+
         const style = {
             paperHeader: {
                 padding: '1rem',
@@ -354,7 +409,7 @@ class UnivPoster2 extends React.Component {
         }
 
             return (
-                <div>
+                <div className='UnivPosterPart'>
                     <div className='table-body animate slideIn clearfix'>
                         {this.state.postData && this.state.loading===false? this.state.postData.map(row => {
                             if (row !== null) {
@@ -422,8 +477,18 @@ class UnivPoster2 extends React.Component {
                                             </Paper>
     
                                             <div className="table-bar p-3 mb-2 shadow-sm">
-                                                <Header>
-                                                    <div className="Header-bar">{row.post_topic}</div>
+                                                <Header className='clearfix'>
+                                                    <div className="Header-bar">
+                                                        <span className='float-left'>{row.post_topic}</span>
+                                                        <span className='float-right'>
+                                                            <UnivPosterMenuControl
+                                                                {...this.state}
+                                                                {...this.props}
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                    
+                                                    
                                                 </Header>
                                                 <User>
                                                     <User_pro>
@@ -433,9 +498,6 @@ class UnivPoster2 extends React.Component {
                                                             <Post_time>{calculateTime(currentDate, createDate)}</Post_time>
                                                         </User_name>
                                                     </User_pro>
-                                                    {/* <div>
-                                                        <MenuList />
-                                                    </div> */}
                                                 </User>
                                                 <Text
                                                     className="_TextField"

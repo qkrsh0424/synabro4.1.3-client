@@ -11,6 +11,9 @@ import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw,
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import { MediaBlockRendererReadOnly } from '../../../PostEditorV1_Common/MediaBlockRenderer';
 
+//Router Dom
+import {Link} from 'react-router-dom';
+
 //Core
 import Paper from '@material-ui/core/Paper';
 
@@ -88,7 +91,17 @@ class PosterBody extends React.Component {
         }
 
         return (
-            <div className='container animate slideIn clearfix' style={style.Grid}>
+            <div className='container animate slideIn clearfix CrewPoster' style={style.Grid}>
+                <div className='jumbotron mt-3 shadow bg-light HeaderPart'>
+                    {this.props.shb?
+                        <h3 className='text-center clearfix'>
+                            <Link to={`/crew/contype/${this.props.shb.shb_num}`} className='Text'>
+                                <span>{this.props.shb.shb_name}</span>
+                            </Link>
+                            {/* <button className='float-right'>B</button> */}
+                        </h3>:
+                        ""}
+                </div>
                 <Paper style={style.paperHeader}>
                     {this.props.categoryTitle?this.props.categoryTitle:"Loading.."}
                 </Paper>

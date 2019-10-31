@@ -1,5 +1,10 @@
 import React from 'react';
 import Axios from 'axios';
+
+//Authorization
+import AuthKey from '../../config/AuthorizationKey';
+
+
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
@@ -216,6 +221,9 @@ class DraftJs extends React.Component {
             // onUploadProgress: progressEvent => {
             //     console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
             // }
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         })
             .then(res => res.data)
             .then(data => {

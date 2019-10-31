@@ -1,4 +1,8 @@
 import Axios from 'axios';
+
+//Authorization
+import AuthKey from '../../config/AuthorizationKey';
+
 import { serverUrl } from '../../config/serverUrl';
 
 export function __sendPost(typeOfPost,_sess, header_id, category_id, post_topic, post_desc) {
@@ -11,9 +15,10 @@ export function __sendPost(typeOfPost,_sess, header_id, category_id, post_topic,
             post_type: category_id,
             post_topic: post_topic,
             post_desc: post_desc,
-            headers: {
-                'content-type': `multipart/form-data;`,
-            },
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         })
         .then(response => response.data)
         .catch(function (error) {
@@ -29,9 +34,10 @@ export function __sendPost(typeOfPost,_sess, header_id, category_id, post_topic,
             shb_item_id: category_id,
             post_topic: post_topic,
             post_desc: post_desc,
-            headers: {
-                'content-type': `multipart/form-data;`,
-            },
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         }).then(response => response.data)
         .catch(function (error) {
             console.log(error);
@@ -39,3 +45,8 @@ export function __sendPost(typeOfPost,_sess, header_id, category_id, post_topic,
     }
     
 }
+
+// headers:{
+//     'content-type': `multipart/form-data;`,
+//     Authorization:'Bearer ' + AuthKey
+// }

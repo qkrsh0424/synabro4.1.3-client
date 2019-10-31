@@ -5,6 +5,7 @@ import ContactPresenter from "./ContactPresenter";
 
 import Axios from "axios";
 
+import AuthKey from '../../config/AuthorizationKey';
 export default class extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +29,9 @@ export default class extends React.Component {
       {
         params: {
           writeData: encodeURIComponent(term)
+        },
+        headers:{
+          Authorization:'Bearer ' + AuthKey
         }
       }
     )
@@ -35,7 +39,11 @@ export default class extends React.Component {
   }
 
   async _getContactId() {
-    return await Axios.get(`/api/contact/get_contact`)
+    return await Axios.get(`/api/contact/get_contact`,{
+      headers:{
+        Authorization:'Bearer ' + AuthKey
+      }
+    })
     .then(res=>res.data)
     .then(data=>{
       if(data.message==='success'){

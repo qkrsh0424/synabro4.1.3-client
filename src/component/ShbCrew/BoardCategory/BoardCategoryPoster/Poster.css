@@ -1,0 +1,39 @@
+.CrewPoster .HeaderPart{
+    /* height: 100px; */
+    color:white;
+    background-color: #2cb5e8; /* For browsers that do not support gradients */
+    /* background-image: linear-gradient(90deg, #9fb8ad, #2cb5e8); */
+    background-image: linear-gradient(90deg, #6c73bd, #dd90a2); /* Standard syntax (must be last) */
+    text-shadow: 2px 2px black;
+}
+
+.CrewPoster .jumbotron{
+  padding:2rem 1rem;
+  border-radius: 20px;
+}
+
+.CrewPoster .HeaderPart .Text{
+    /* height: 100px; */
+    color:white;
+    text-shadow: 2px 2px black;
+}
+
+.CrewPoster .HeaderPart .Text:hover{
+    text-decoration: none;
+}
+
+._TextField img{
+    max-width: 800px;
+    max-height: 800px;
+}
+
+@media screen and (max-width:800px){
+    ._TextField img{
+        max-width: 100%;
+    }
+  }
+
+.commentSpace{
+    white-space: pre-wrap;
+}
+  

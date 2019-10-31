@@ -1,6 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
 
+//Authorization
+import AuthKey from '../../config/AuthorizationKey';
+
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
@@ -108,6 +111,10 @@ class Signup extends React.Component{
             user_name:this.state.user_name,
             user_nickname:this.state.user_nickname,
             user_gender:this.state.user_gender
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         })
         .then(response=>response.data)
         .then(data=>{
@@ -163,6 +170,10 @@ class Signup extends React.Component{
             let url = `${serverUrl}/api/auth/signup/validation`;
             Axios.post(url, {
                 user_uid: this.state.user_uid
+            },{
+                headers:{
+                    Authorization:'Bearer ' + AuthKey
+                }
             })
             .then(res=>res.data)
             .then(data=>{

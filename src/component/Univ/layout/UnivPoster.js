@@ -1,5 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
+
+//Authorization
+import AuthKey from '../../../config/AuthorizationKey';
+
 import renderHTML from 'react-render-html';
 
 class UnivPoster extends React.Component{
@@ -15,7 +19,11 @@ class UnivPoster extends React.Component{
     }
 
     _getSelectedPost(){
-        return Axios.get(`/api/univ_post/post/${this.props.post_id}`)
+        return Axios.get(`/api/univ_post/post/${this.props.post_id}`,{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
+        })
         .then(res=>res.data)
         .then(data=>this.setState({postData:data}));
     }

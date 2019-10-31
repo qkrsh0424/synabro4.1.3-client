@@ -14,7 +14,7 @@ class HomePostLists extends React.Component{
                 {this.props.postLists?this.props.postLists.map(rows=>{
                     // console.log(rows);
                     return(
-                        <Link to={`/crew/#`} className="card card_notice_t hover_animate">
+                        <Link to={`/crew/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="card card_notice_t hover_animate">
                             {rows.post_thumbnail_url==='none'?<img src={`${awsImageURL}/logo/imageNo2.gif`} className="card-img-top car-img-top_t" alt="..."/>:
                                 <img src={rows.post_thumbnail_url} className="card-img-top car-img-top_t" alt="..."/>
                             }

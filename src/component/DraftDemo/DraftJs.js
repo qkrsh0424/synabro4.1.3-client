@@ -1,6 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
 
+//Authorization
+import AuthKey from '../../config/AuthorizationKey';
+
 import { EditorState, RichUtils, AtomicBlockUtils } from 'draft-js';
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import createToolbarPlugin, { Separator } from 'draft-js-static-toolbar-plugin';
@@ -180,6 +183,9 @@ class DraftJs extends React.Component {
             // onUploadProgress: progressEvent => {
             //     console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
             // }
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         })
             .then(res => res.data)
             .then(data => {

@@ -3,6 +3,9 @@ import '../ProfileBody.css'
 
 import Axios from 'axios';
 
+//Authorization
+import AuthKey from '../../../config/AuthorizationKey';
+
 //redux
 import {connect} from 'react-redux';
 
@@ -62,6 +65,10 @@ class ChangeInformation extends React.Component{
             Job: this.state.user.Job,
             Major: this.state.user.Major,
             PW: this.state.check_pw
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         })
         .then(res=>res.data)
         .then(data=>{

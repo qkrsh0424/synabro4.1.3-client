@@ -3,6 +3,9 @@ import '../../PublicStyle/SlideAnimation.css';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 
+//Authorization
+import AuthKey from '../../../config/AuthorizationKey';
+
 //redux
 import {connect} from 'react-redux';
 
@@ -74,6 +77,9 @@ class UnivBoard extends React.Component {
         return Axios.get(`${serverUrl}/api/univ_item/` + this.props.univ_id, {
             params: {
                 board_type: this.props.board_type
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         })
             .then(response => response.data);
@@ -86,6 +92,9 @@ class UnivBoard extends React.Component {
                 board_type: this.props.board_type,
                 startPostIndex: this.state.startPostIndex,
                 currentPostIndex: this.state.currentPostIndex
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         })
             .then(response => response.data);

@@ -166,6 +166,9 @@ class RichText extends React.Component {
         await Axios.post('/api/uploadimg/draft', formData, {
             onUploadProgress: progressEvent => {
                 console.log(Math.round((progressEvent.loaded / progressEvent.total)*100))
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         }).then(res=> res.data)
         .then(data=>{

@@ -1,6 +1,9 @@
 import React from 'react';
 import Axios from 'axios';
 
+//Authorization
+import AuthKey from '../../../config/AuthorizationKey';
+
 import { connect } from 'react-redux';
 import * as actions from '../../../action';
 
@@ -45,6 +48,10 @@ class DropUser extends React.Component{
             await Axios.post(`${serverUrl}/api/auth/profile/dropuser`,{
                 usid:this.props._sess,
                 currentPassword:this.state.current_password
+            },{
+                headers:{
+                    Authorization:'Bearer ' + AuthKey
+                }
             })
             .then(res=>res.data)
             .then(data=>{

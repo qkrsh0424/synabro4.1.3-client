@@ -8,6 +8,9 @@ import * as actions from '../../action';
 import { Route } from 'react-router-dom';
 import Axios from 'axios';
 
+//Authorization
+import AuthKey from '../../config/AuthorizationKey';
+
 //URL
 import { serverUrl } from '../../config/serverUrl';
 
@@ -77,19 +80,30 @@ class Univ extends React.Component {
             return Axios.get(`${serverUrl}/api/bene/` + this.props.match.params.univ_id, {
                 params: {
                     bene_type: 'big'
+                },
+                headers:{
+                    Authorization:'Bearer ' + AuthKey
                 }
             })
                 .then(response => response.data)
             // .then(data=>this.setState({beneBig:data}));
         } else {
-            return Axios.get(`${serverUrl}/api/bene/` + this.props.match.params.univ_id + '/' + this.props.match.params.board_type)
+            return Axios.get(`${serverUrl}/api/bene/` + this.props.match.params.univ_id + '/' + this.props.match.params.board_type,{
+                headers:{
+                    Authorization:'Bearer ' + AuthKey
+                }
+            })
                 .then(response => response.data)
             // .then(data=>this.setState({beneBig:data}));
         }
     }
 
     _loadUnivItems() {
-        return Axios.get(`${serverUrl}/api/univ_item/` + this.props.match.params.univ_id)
+        return Axios.get(`${serverUrl}/api/univ_item/` + this.props.match.params.univ_id,{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
+        })
             .then(response => response.data)
         // .then(data=>this.setState({univ_item_list:data}));
     }
@@ -105,6 +119,9 @@ class Univ extends React.Component {
             return Axios.get(`${serverUrl}/api/univ`, {
                 params: {
                     selectedIndex: this.props.match.params.univ_id
+                },
+                headers:{
+                    Authorization:'Bearer ' + AuthKey
                 }
             })
                 .then(response => response.data);
@@ -119,6 +136,9 @@ class Univ extends React.Component {
                 boardType: 10002,
                 startIndex: startIndex,
                 lastIndex: lastIndex
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         })
             .then(response => response.data.slice(startIndex, lastIndex))

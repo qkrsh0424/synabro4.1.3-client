@@ -67,6 +67,7 @@ class BoardCategoryMain extends React.Component {
         
     }
     render() {
+        // console.log(this.props.shb);
         // console.log(this.state.postLists.length);
         // console.log(this.props.shb_item.shb_item_id);
         if(this.state.postLists && this.props.shb_item){

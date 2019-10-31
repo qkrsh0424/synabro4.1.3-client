@@ -1,5 +1,6 @@
 import React from 'react';
 import Axios from 'axios';
+import AuthKey from '../../../config/AuthorizationKey';
 import { serverUrl } from '../../../config/serverUrl';
 import {Link} from 'react-router-dom';
 class MainPostCard1 extends React.Component {
@@ -23,7 +24,11 @@ class MainPostCard1 extends React.Component {
                 shb_item_id: this.props.category.shb_item_id,
                 startPostIndex:this.state.startPostIndex,
                 currentPostIndex:this.state.currentPostIndex
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
+            
         }).then(res=>res.data)
         .then(data=>this.setState({post:data}))
     }

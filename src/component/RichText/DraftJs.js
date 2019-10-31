@@ -7,6 +7,9 @@ import Toolbar from './DraftJs/Toolbar';
 
 import Axios from 'axios';
 
+//Authorization
+import AuthKey from '../../config/AuthorizationKey';
+
 import * as handleDeco from './DraftJs/handler'
 
 import './TextAreaDemo.css';
@@ -68,6 +71,9 @@ class DraftJs extends React.Component {
         Axios.post('/api/uploadimg/draft', formData, {
             onUploadProgress: progressEvent => {
                 console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         })
             .then(res => res.data)
@@ -94,6 +100,10 @@ class DraftJs extends React.Component {
         let jsonResult = JSON.stringify(raw, null, 2);
         Axios.post('/api/uploadimg/draft/submit', {
             data: jsonResult
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         }).then(res => res.data)
             .then(data => {
                 console.log(data);

@@ -3,6 +3,9 @@ import '../ProfileBody.css'
 
 import Axios from 'axios';
 
+//Authorization
+import AuthKey from '../../../config/AuthorizationKey';
+
 import { connect } from 'react-redux';
 import * as actions from '../../../action';
 
@@ -64,6 +67,10 @@ class ChangePassword extends React.Component {
             usid:this.props._sess,
             oldPassword: this.state.old_password,
             newPassword: this.state.new_password
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         })
             .then(res => res.data)
             .then(data => {

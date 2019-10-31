@@ -8,6 +8,11 @@
     text-shadow: 2px 2px black;
 }
 
+.crew_Intro_Styles .jumbotron{
+  padding:2rem 1rem;
+  border-radius: 20px;
+}
+
 footer {
     padding-top: 3rem;
     padding-bottom: 3rem;

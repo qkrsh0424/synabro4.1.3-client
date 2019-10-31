@@ -1,6 +1,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import Axios from 'axios';
+
+//Authorization
+import AuthKey from '../../config/AuthorizationKey';
+
 import { NavLink, Link } from 'react-router-dom';
 
 //URL
@@ -44,6 +48,10 @@ class Profile extends React.Component {
     _getUserInfo() {
         return Axios.post(`${serverUrl}/api/auth/getuser/get_profile`,{
             usid:this.props._sess
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         })
             .then(res => res.data);
     }

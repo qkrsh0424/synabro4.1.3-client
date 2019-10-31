@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import {serverUrl} from '../../../config/serverUrl';
+import AuthKey from '../../../config/AuthorizationKey';
 
 // shb 관련 API
 const shb_getShbAllList = async(type) =>{
@@ -7,19 +8,41 @@ const shb_getShbAllList = async(type) =>{
         return await Axios.get(`${serverUrl}/api/shb/getshbAll`,{
             params:{
                 type:type
-            }
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+              }
         })
         .then(res=>res.data)
         .catch(err=>{
             alert('잘못된 방식 입니다.');
         });
     }else{
-        return await Axios.get(`${serverUrl}/api/shb/getshbAll`)
+        return await Axios.get(`${serverUrl}/api/shb/getshbAll`,{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+              }
+        })
         .then(res=>res.data)
         .catch(err=>{
             alert('잘못된 방식 입니다.');
         });;
     }
+};
+
+const shb_getShbOne = async(shb_num) =>{
+    return await Axios.get(`${serverUrl}/api/shb/getshbOne`,{
+        params:{
+            shb_num:shb_num
+        },
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+            }
+    })
+    .then(res=>res.data)
+    .catch(err=>{
+        alert('잘못된 방식 입니다.');
+    });
 };
 
 //shb_item 관련 API
@@ -28,7 +51,10 @@ const shb_getShbAllItemList = async(shb_num) =>{
     return await Axios.get(`${serverUrl}/api/shb/getshbItemAll`,{
         params:{
             shb_num:shb_num
-        }
+        },
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+          }
     }).then(res=>res.data)
     .catch(err=>{
         alert('잘못된 방식 입니다.');
@@ -39,7 +65,10 @@ const shb_getShbOneItem = async(shb_item_id)=>{
     return await Axios.get(`${serverUrl}/api/shb/shbItem/getOne`,{
         params:{
             shb_item_id: shb_item_id
-        }
+        },
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+          }
     }).then(res=>res.data)
     .catch(err=>{
         alert('잘못된 방식 입니다.');
@@ -62,7 +91,10 @@ const shb_getShbOneItem = async(shb_item_id)=>{
                 shb_num:shb_num,
                 startPostIndex:startPostIndex,
                 currentPostIndex:currentPostIndex
-            }
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+              }
         }).then(res=>res.data)
         .catch(err=>{
             alert('잘못된 방식 입니다.');
@@ -72,7 +104,10 @@ const shb_getShbOneItem = async(shb_item_id)=>{
         return await Axios.get(`${serverUrl}/api/shb/post/getpost/shbNum/all`,{
             params:{
                 shb_num:shb_num,
-            }
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+              }
         }).then(res=>res.data)
         .catch(err=>{
             alert('잘못된 방식 입니다.');
@@ -92,7 +127,10 @@ const shb_getShbOnePost = async(usid, post_id)=>{
         params:{
             usid:usid,
             post_id: post_id
-        }
+        },
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+          }
     }).then(res=>res.data)
     .catch(err=>{
         alert('잘못된 방식 입니다.');
@@ -105,7 +143,10 @@ const shb_getAllCommentOfCategory = async(usid, post_id)=>{
         params:{
             usid:usid,
             post_id: post_id
-        }
+        },
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+          }
     })
     .then(res=>res.data)
     .catch(err=>alert('댓글 불러오기 에러.'));
@@ -117,6 +158,10 @@ const shb_writeCommentOfCategory = async(usid, cmt_desc, post_id, head_type) =>{
         cmt_desc:cmt_desc,
         post_id:post_id,
         head_type:head_type
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+          }
     })
     .then(res=>res.data)
     .catch(err=>{
@@ -130,7 +175,10 @@ const shb_deleteCommentOfCategory = async(cmt_id, head_type, post_id)=>{
             cmt_id:cmt_id,
             head_type:head_type,
             post_id:post_id
-        }
+        },
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+          }
     })
     .then(res=>res.data)
     .catch(err=>{
@@ -145,6 +193,10 @@ const handleLikeOn = async(logincheck, usid, head_type, post_id) =>{
             usid:usid,
             head_type:head_type,
             post_id:post_id,
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+              }
         })
         .then(res=>res.data)
         .catch(err=>{
@@ -163,6 +215,10 @@ const handleLikeOff = async(logincheck, usid, head_type, post_id) =>{
             usid:usid,
             head_type:head_type,
             post_id:post_id,
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+              }
         })
         .then(res=>res.data)
         .catch(err=>{
@@ -173,7 +229,8 @@ const handleLikeOff = async(logincheck, usid, head_type, post_id) =>{
         window.location.href='/login';
     }
 }
-export { shb_getShbAllList,shb_getShbAllItemList, shb_getShbOneItem, 
+export { shb_getShbAllList, shb_getShbOne,
+    shb_getShbAllItemList, shb_getShbOneItem, 
     shb_getShbAllPostForShbNum, shb_getShbOnePost, 
     shb_getAllCommentOfCategory, shb_writeCommentOfCategory,shb_deleteCommentOfCategory,
     handleLikeOn, handleLikeOff };

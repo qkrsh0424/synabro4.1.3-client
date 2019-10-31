@@ -3,8 +3,14 @@ import React from "react";
 import MainSearchPresenter from "./MainSearchPresenter";
 // import "../PublicCss/UnivBody.css";
 // import "../PublicCss/SlideAnimation.css";
-
 import Axios from "axios";
+
+//Authorization
+import AuthKey from '../../config/AuthorizationKey';
+
+//URL
+import {serverUrl} from '../../config/serverUrl';
+
 import FullDialog from "./FullDialog";
 
 
@@ -23,12 +29,15 @@ export default class extends React.Component {
   }
 
   async _callPostData(term) {
-    const url = '/api/univ_post/search/all';
+    const url = `${serverUrl}/api/univ_post/search/all`;
     // console.log(url);
     return await Axios.get(url,{
         params:{
             // univ_id,
             writeData: encodeURIComponent(term)
+        },
+        headers:{
+            Authorization:'Bearer ' + AuthKey
         }
     }).then(res=>res.data)
           

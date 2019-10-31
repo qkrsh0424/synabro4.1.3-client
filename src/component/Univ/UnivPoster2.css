@@ -1,4 +1,7 @@
-
+.UnivPosterPart .Header-bar{
+    font-weight: 700;
+    font-size: 18px;
+}
 ._TextField img{
     max-width: 800px;
     max-height: 800px;

@@ -33,8 +33,8 @@ class HomeMain extends React.Component{
     }
 
     _getShb = async()=>{
-        await api.shb_getShbAllList("crew") //crew는 선택사항.
-        .then(data=>this.setState({shb:data.data}));
+        await api.shb_getShbOne(this.props.match.params.shb_num) //crew는 선택사항.
+        .then(data=>this.setState({shb:data.data[0]}));
     }
 
     _getShbItem = async() => {
@@ -48,7 +48,7 @@ class HomeMain extends React.Component{
     }
 
     render(){
-        console.log(this.state.postLists);
+        // console.log(this.state.postLists);
         return(
             <div>
                 <Nav/>

@@ -2,6 +2,7 @@ import React from 'react';
 import Axios from 'axios';
 import { serverUrl } from '../../../config/serverUrl';
 import { awsImageURL } from '../../../config/awsurl';
+import AuthKey from '../../../config/AuthorizationKey';
 import {Link} from 'react-router-dom';
 import MainPostCard2_Image from './MainPostCard2_Image';
 class MainPostCard2 extends React.Component {
@@ -24,6 +25,9 @@ class MainPostCard2 extends React.Component {
                 univ_id: this.props.univ.univ_id,
                 startPostIndex:this.state.startPostIndex,
                 currentPostIndex:this.state.currentPostIndex
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
             }
         }).then(res=>res.data)
         .then(data=>this.setState({post:data}));

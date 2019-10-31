@@ -2,6 +2,11 @@ import React from 'react';
 import '../../PublicStyle/SlideAnimation.css';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
+
+//Authorization
+import AuthKey from '../../../config/AuthorizationKey';
+
+
 import { connect } from 'react-redux';
 import { awsImageURL } from '../../../config/awsurl';
 import '../PostList.css';
@@ -50,6 +55,10 @@ class PostLists extends React.Component {
                 head_type: univ_id,
                 post_id: post_id,
                 parentType:'univ'
+            },{
+                headers:{
+                    Authorization:'Bearer ' + AuthKey
+                }
             })
                 .then(res => res.data)
                 .then(data => {
@@ -72,6 +81,10 @@ class PostLists extends React.Component {
                 head_type: univ_id,
                 post_id: post_id,
                 parentType:'univ'
+            },{
+                headers:{
+                    Authorization:'Bearer ' + AuthKey
+                }
             })
                 .then(res => res.data)
                 .then(data => {

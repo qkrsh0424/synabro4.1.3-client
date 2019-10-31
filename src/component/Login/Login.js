@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
+
+//Authorization
+import AuthKey from '../../config/AuthorizationKey';
+
 import { Redirect } from 'react-router-dom';
 import cookie from 'react-cookies';
 
@@ -65,6 +69,10 @@ class Login extends React.Component {
         await Axios.post(url, {
             user_uid: this.state.user_uid,
             user_password: this.state.user_password,
+        },{
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+            }
         })
             .then(response => response.data)
             .then(data => {
