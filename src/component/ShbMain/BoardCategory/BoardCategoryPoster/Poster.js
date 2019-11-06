@@ -2,10 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
+
 import '../../../PublicStyle/SlideAnimation.css';
 import './Poster.css';
+
 //API
 import * as api from '../../../../handler/cliApi/shb';
+
+import Snackbar from '@material-ui/core/Snackbar';
 
 //Component
 import Nav from '../../../Nav/Nav';
@@ -21,6 +25,9 @@ class Poster extends React.Component {
             categoryTitle:null,
             commentData:'',
             comment:'',
+            openCommentSnackbar:false,
+            openLikeOnSnackbar:false,
+            openLikeOffSnackbar:false,
 
             poster_isValidation:false,
         }
@@ -68,6 +75,7 @@ class Poster extends React.Component {
         api.handleLikeOn(logincheck, usid, head_type ,post_id)
         .then(data=>{
             if (data.message === 'like ok') {
+                this.setState({openLikeOnSnackbar:true});
                 this._loadPost();
             } else {
                 console.log('LIKE FUNCTION IS ERROR');
@@ -81,6 +89,7 @@ class Poster extends React.Component {
         api.handleLikeOff(logincheck, usid, head_type ,post_id)
         .then(data=>{
             if (data.message === 'unlike ok') {
+                this.setState({openLikeOffSnackbar:true});
                 this._loadPost();
             } else {
                 console.log('LIKE FUNCTION IS ERROR');
@@ -129,7 +138,7 @@ class Poster extends React.Component {
         .then(data=>{
             console.log(data);
             if(data.message==='success'){
-                this.setState({openSnacbar:true});
+                this.setState({openCommentSnackbar:true});
                 this._loadComment();
                 this._loadPost();
             }else if(data.message==='failure'){
@@ -171,6 +180,10 @@ class Poster extends React.Component {
         });
     }
 
+    handleSnacbarClose = async () => {
+        await this.setState({ openCommentSnackbar: false,openLikeOnSnackbar:false, openLikeOffSnackbar:false });
+    }
+
     render() {
         return (
             <div>
@@ -185,6 +198,33 @@ class Poster extends React.Component {
                     _onHandleCommentDataChange = {this._onHandleCommentDataChange}
                     _DelComment = {this._DelComment}
                     _deleteMyPoster = {this._deleteMyPoster}
+                />
+                <Snackbar
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    open={this.state.openCommentSnackbar}
+                    onClose={this.handleSnacbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">댓글이 삭제 되었습니다.</span>}
+                />
+                <Snackbar
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    open={this.state.openLikeOnSnackbar}
+                    onClose={this.handleSnacbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">좋아요를 누르셨습니다.</span>}
+                />
+                <Snackbar
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    open={this.state.openLikeOffSnackbar}
+                    onClose={this.handleSnacbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">좋아요를 취소하셨습니다.</span>}
                 />
             </div>
         );

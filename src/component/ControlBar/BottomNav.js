@@ -50,7 +50,7 @@ class SimpleBottomNavigation extends React.Component {
                 <BottomNavigationAction label="홈" icon={<HomeIcon />} style={{ color: '#f50057' }} component={PageLink} to='/' />
                 <BottomNavigationAction label="뒤로가기" icon={<BackIcon />} style={{ color: '#b5d19b' }} onClick={this.goBack} />
                 <BottomNavigationAction label="페이지업" icon={<UpIcon />} style={{ color: '#f6bf50' }} onClick={this.goUp} />
-                <BottomNavigationAction label="더보기" icon={<MoreIcon />} style={{ color: '#397bf6' }} onClick={this.viewMore} />
+                <BottomNavigationAction label="더보기" icon={<MoreIcon />} style={{ color: '#397bf6' }} onClick={this.viewMore} disabled/>
             </BottomNavigation>
         );
     }

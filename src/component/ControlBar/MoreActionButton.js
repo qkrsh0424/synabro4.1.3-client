@@ -43,7 +43,7 @@ class MoreActionButton extends React.Component {
         const { classes } = this.props;
         return (
             <div>
-                <Fab color="primary" size="medium" aria-label="Home" className={classes.fab} onClick={this.viewMore}>
+                <Fab color="primary" size="medium" aria-label="Home" className={classes.fab} onClick={this.viewMore} disabled>
                     <MoreIcon />
                 </Fab>
                 {this.state.moreOpen ? <MoreItems moreOpen={this.state.moreOpen} anchorEl={this.state.anchorEl} /> : ""}

@@ -8,11 +8,17 @@ import {awsImageURL} from '../../../../config/awsurl';
 import {calculateTime} from '../../../../controler/calculateTime'
 // DraftJs
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
-import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
+import Editor, { createEditorStateWithText, composeDecorators } from 'draft-js-plugins-editor';
 import { MediaBlockRendererReadOnly } from '../../../PostEditorV1_Common/MediaBlockRenderer';
+
+//Draft Plugin Load
+import createImagePlugin from 'draft-js-image-plugin';
+import createAlignmentPlugin from 'draft-js-alignment-plugin';
+
 
 //Core
 import Paper from '@material-ui/core/Paper';
+
 
 //Icons
 import ThumbUpOff_icon from '@material-ui/icons/ThumbUpAltOutlined';
@@ -24,6 +30,24 @@ import Eye_icon from '@material-ui/icons/RemoveRedEye';
 import Comments from './Comments';
 import PosterMenuControl from './PosterMenuControl';
 
+
+//Use Draft Plugin Start
+const alignmentPlugin = createAlignmentPlugin();
+
+
+const decorator = composeDecorators(
+    alignmentPlugin.decorator,
+);
+// const colorBlockPlugin = createColorBlockPlugin({ decorator });
+const imagePlugin = createImagePlugin({ decorator });
+
+
+const plugins = [
+    imagePlugin,
+    alignmentPlugin,
+];
+
+//Use Draft Plugin End
 const Header = styled.div`
 border-bottom : 1px dashed black;
 text-align: left;
@@ -133,6 +157,7 @@ class PosterBody extends React.Component {
                                     blockRendererFn={MediaBlockRendererReadOnly}
                                     editorState={this.state.editorState}
                                     onChange={this.onEditorChange}
+                                    plugins={plugins}
                                     readOnly
                                 />
                                 <Emoji_bar>
@@ -158,6 +183,7 @@ class PosterBody extends React.Component {
                         </div>
                     );
                 }) : "loading"}
+                
             </div>
         );
     }

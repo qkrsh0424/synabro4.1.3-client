@@ -83,7 +83,7 @@ class Comment extends React.Component {
                     </span>
                     <div className='comment-actions'>
                       <div classname="reply">
-                        <button className='btn btn-outline-success' >답글달기</button>
+                        <button className='btn btn-outline-success' disabled>답글달기</button>
                       </div>
                       {rows.mycomment ?
                         <DelComment

@@ -80,7 +80,7 @@ class Login extends React.Component {
             .then(response => response.data)
             .then(data => {
                 if (data.message === 'success') {
-                    console.log(data.cookie);
+                    // console.log(data.cookie);
                     const cookieData = {
                         path: data.cookie.path,
                         expires: new Date(data.cookie.expires),
