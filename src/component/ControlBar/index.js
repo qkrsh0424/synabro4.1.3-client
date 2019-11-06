@@ -26,14 +26,14 @@ function ControlBar(props) {
             {isDesktopOrLaptop && <>
                     <div>
                         <div className='position-fixed controlCircleButtonFirst'><GotoHomeActionButton /></div>
-                        <div className='position-fixed controlCircleButtonSecond'><MoreActionButton disabled/></div>
+                        <div className='position-fixed controlCircleButtonSecond'><MoreActionButton /></div>
                         <div className='position-fixed controlCircleButtonThird'><BackActionButton /></div>
                         <div className='position-fixed controlCircleButtonForth'><UpActionButton /></div>
                     </div>
                 {isBigScreen && 
                     <div>
                         <div className='position-fixed controlCircleButtonFirst'><GotoHomeActionButton /></div>
-                        <div className='position-fixed controlCircleButtonSecond'><MoreActionButton disabled/></div>
+                        <div className='position-fixed controlCircleButtonSecond'><MoreActionButton /></div>
                         <div className='position-fixed controlCircleButtonThird'><BackActionButton /></div>
                         <div className='position-fixed controlCircleButtonForth'><UpActionButton /></div>
                     </div>
@@ -41,7 +41,7 @@ function ControlBar(props) {
                 {isTabletOrMobile && 
                     <div>
                         <div className='position-fixed controlCircleButtonFirst'><GotoHomeActionButton /></div>
-                        <div className='position-fixed controlCircleButtonSecond'><MoreActionButton disabled/></div>
+                        <div className='position-fixed controlCircleButtonSecond'><MoreActionButton /></div>
                         <div className='position-fixed controlCircleButtonThird'><BackActionButton /></div>
                         <div className='position-fixed controlCircleButtonForth'><UpActionButton /></div>
                     </div>
