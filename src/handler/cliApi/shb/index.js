@@ -61,9 +61,10 @@ const shb_getShbAllItemList = async(shb_num) =>{
     });
 }
 
-const shb_getShbOneItem = async(shb_item_id)=>{
+const shb_getShbOneItem = async(shb_item_id,shb_num)=>{
     return await Axios.get(`${serverUrl}/api/shb/shbItem/getOne`,{
         params:{
+            shb_num:shb_num,
             shb_item_id: shb_item_id
         },
         headers:{
@@ -78,6 +79,18 @@ const shb_getShbOneItem = async(shb_item_id)=>{
 
 // post 관련 API
 
+const shb_getShbAllPostForAllBoundary = async() =>{
+    return await Axios.get(`${serverUrl}/api/shb/post/getpost/all`,{
+        
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+          }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('잘못된 방식 입니다.');
+        window.location.href='/'
+    });
+}
 /**
  * 
  * 지정된 SHB_NUM의 모든 포스터를 로드할때 쓰는 API
@@ -85,12 +98,18 @@ const shb_getShbOneItem = async(shb_item_id)=>{
 
  const shb_getShbAllPostForShbNum = async(shb_num, startPostIndex, currentPostIndex) =>{
 
-    if(startPostIndex && currentPostIndex){
+    var hasBoundary = false;
+    if(currentPostIndex){
+        hasBoundary = true;
+    }
+
+    if(hasBoundary){
         return await Axios.get(`${serverUrl}/api/shb/post/getpost/shbNum/all`,{
             params:{
                 shb_num:shb_num,
                 startPostIndex:startPostIndex,
-                currentPostIndex:currentPostIndex
+                currentPostIndex:currentPostIndex,
+                hasBoundary:hasBoundary
             },
             headers:{
                 Authorization:'Bearer ' + AuthKey
@@ -137,6 +156,52 @@ const shb_getShbOnePost = async(usid, post_id)=>{
         window.location.href='/'
     });
 }
+
+/**
+ * 
+ * 포스터 작성자 유효성 검사
+ * 
+ */
+
+ const shb_posterValidationAndMenuControl = async(usid, post_id, shb_num) =>{
+    let url = `${serverUrl}/api/shb/post/posterValidation/shb`;
+    return await Axios.post(url, {
+        usid: usid,
+        post_id: post_id,
+        head_type: shb_num
+    }, {
+        headers: {
+            Authorization: 'Bearer ' + AuthKey
+        }
+    })
+        .then(res => res.data)
+        .catch(err => alert('서버와 연결이 고르지 않습니다. (poster_valid error *univposter'));
+ }
+
+ /**
+  * 
+  * 포스터 유효성 검사를 통과한 항목에 대한 포스터 삭제기능
+  * @param {*} usid 
+  * @param {*} head_type (shb_num)
+  * @param {*} post_id 
+  * 
+  */
+
+const shb_deletePosterOne = async(usid, head_type, post_id) =>{
+    return await Axios.post(`${serverUrl}/api/shb/post/deletePoster/shb/one`, {
+        usid:usid,
+        head_type: head_type,
+        post_id: post_id,
+    }, {
+        headers: {
+            Authorization: 'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('error');
+        window.location.reload();
+    })
+  }
 
 const shb_getAllCommentOfCategory = async(usid, post_id)=>{
     return await Axios.get(`${serverUrl}/api/comment/post_comment/get/all`,{
@@ -231,6 +296,6 @@ const handleLikeOff = async(logincheck, usid, head_type, post_id) =>{
 }
 export { shb_getShbAllList, shb_getShbOne,
     shb_getShbAllItemList, shb_getShbOneItem, 
-    shb_getShbAllPostForShbNum, shb_getShbOnePost, 
+    shb_getShbAllPostForAllBoundary,shb_getShbAllPostForShbNum, shb_getShbOnePost, shb_posterValidationAndMenuControl, shb_deletePosterOne,
     shb_getAllCommentOfCategory, shb_writeCommentOfCategory,shb_deleteCommentOfCategory,
     handleLikeOn, handleLikeOff };

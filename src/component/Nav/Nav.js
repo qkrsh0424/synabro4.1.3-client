@@ -1,10 +1,19 @@
 import React from 'react';
 import Axios from 'axios';
 
+//Authorization
+import AuthKey from '../../config/AuthorizationKey';
+
+//Cookie
+import cookie from 'react-cookies';
+
+//Server Url
+import { serverUrl } from '../../config/serverUrl';
+
 import './Nav.css';
 
 //handler
-import {logoutHandler} from '../../handler/LogoutHandler';
+import { logoutHandler } from '../../handler/LogoutHandler';
 
 import { connect } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
@@ -47,6 +56,7 @@ const styles = {
   AppBar: {
     background: 'white',
     color: 'gray',
+    boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.1)'
   },
   grow: {
     flexGrow: 1,
@@ -64,6 +74,7 @@ class Nav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      cookiesUSID: cookie.load('usid'),
       left: false,
       auth: this.props._isLogged,
       anchorEl: null,
@@ -73,6 +84,34 @@ class Nav extends React.Component {
     this.handleMenu = this.handleMenu.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  componentWillMount = () => {
+    this._Authentication();
+  }
+
+
+
+  _Authentication = async () => {
+    return await Axios.post(`${serverUrl}/api/auth/authentication`, {
+      usid: this.state.cookiesUSID
+    }, {
+      headers: {
+        Authorization: 'Bearer ' + AuthKey
+      }
+    }
+    )
+      .then(response => response.data)
+      .then(data => {
+        //   console.log(data.message);
+        if (data.message === 'connect success') {
+          this.props.handleAUTH_SUCCESS(data.sessid, data.user_nickname);
+        } else {
+          this.props.handleAUTH_FAILURE();
+        }
+        this.setState({ auth: true });
+      })
+      .catch(err => alert('서버를 다시 확인해 주세요'));
   }
 
   toggleDrawer = (side, open) => () => {
@@ -89,17 +128,17 @@ class Nav extends React.Component {
     this.setState({ anchorEl: null });
   };
 
-  handleLogout = async() =>{
+  handleLogout = async () => {
     logoutHandler()
-    .then(data => {
-      if (data.message === 'success') {
-        this.props.handleAUTH_FAILURE();
-        window.location.reload();
-      } else {
-        alert('error logout');
-      }
+      .then(data => {
+        if (data.message === 'success') {
+          this.props.handleAUTH_FAILURE();
+          window.location.reload();
+        } else {
+          alert('error logout');
+        }
 
-    });
+      });
   }
 
   render() {
@@ -117,16 +156,16 @@ class Nav extends React.Component {
     const sideList = (
       <div className={classes.list}>
         <div className='text-center p-3'>
-          <img 
-            src={'https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/synabrologo2.png'} 
-            width='100px' height='50px' 
-            onClick={()=>{window.location.href='/'}}
+          <img
+            src={'https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/synabrologo2.png'}
+            width='100px' height='50px'
+            onClick={() => { window.location.href = '/' }}
           />
-          <br/>
+          <br />
           <em className='text-secondary'>Beta version</em>
         </div>
         <Divider />
-        <List>
+        {/* <List>
           <h5 className="text-center">
             <Link to='/univ' className='header_style'>봄 UNIVERSITY</Link>  
           </h5>
@@ -136,56 +175,56 @@ class Nav extends React.Component {
                 button key={rows.univ_title}
                 component={AdapterLink}
                 to={"/univ/" + rows.univ_id}
-              // selected={this.props.matchId==rows.univ_id?true:false}
               >
-                {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+                
                 <ListItemIcon><img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px'/></ListItemIcon>
                 <ListItemText primary={rows.univ_title} />
               </ListItem>
             );
           }) : ""}
         </List>
-        <Divider />
+        <Divider /> */}
         <List>
-            <h5 className="text-center">
-              <Link to='/crew' className='header_style'>봄 CREW</Link>
-            </h5>
-            {this.props.shb_lists?this.props.shb_lists.map((rows,index)=>{
-              if(rows.shb_classify==='crew'){
-                return(
-                  <ListItem
-                    button key={rows.shb_name}
-                    component={AdapterLink}
-                    to={`/${rows.shb_classify}/contype/${rows.shb_num}`}
-                  // selected={this.props.matchId==rows.univ_id?true:false}
-                  >
-                    <ListItemIcon><img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px'/></ListItemIcon>
-                    <ListItemText primary={rows.shb_name} />
-                  </ListItem>
-                );
-              }else{
-                return;
-              }
-            }):""}
+          <h5 className="text-center">
+            <Link to='/crew' className='header_style'>봄 CREW</Link>
+          </h5>
+          {this.props.shb_lists ? this.props.shb_lists.map((rows, index) => {
+            if (rows.shb_classify === 'crew') {
+              return (
+                <ListItem
+                  button key={rows.shb_name}
+                  component={AdapterLink}
+                  to={`/${rows.shb_classify}/contype/${rows.shb_num}`}
+                // selected={this.props.matchId==rows.univ_id?true:false}
+                >
+                  <ListItemIcon><img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px' /></ListItemIcon>
+                  <ListItemText primary={rows.shb_name} />
+                </ListItem>
+              );
+            } else {
+              return;
+            }
+          }) : ""}
         </List>
         <Divider />
-        <List>
+        {/* <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
-        </List>
+        </List> */}
       </div>
     );
 
     return (
       <div className={classes.root}>
-        <AppBar
+        <div
           position='fixed'
-          // className='__Nav_Style'
-          className={classes.AppBar}
+          className='PcyTopNavBar'
+        // className={classes.AppBar}
+        // className={c}
         >
           <Toolbar>
             <IconButton
@@ -255,7 +294,7 @@ class Nav extends React.Component {
             }
 
           </Toolbar>
-        </AppBar>
+        </div>
         <div className='fixed_Liner'></div>
 
         <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
@@ -288,7 +327,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAUTH_SUCCESS: () => { dispatch(actions.auth_success()) },
+    handleAUTH_SUCCESS: (_sess, _nickname) => { dispatch(actions.auth_success(_sess, _nickname)) },
     handleAUTH_FAILURE: () => { dispatch(actions.auth_failure()) }
   }
 }

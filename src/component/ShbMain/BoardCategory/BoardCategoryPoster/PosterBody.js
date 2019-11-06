@@ -22,6 +22,7 @@ import Eye_icon from '@material-ui/icons/RemoveRedEye';
 
 //Component
 import Comments from './Comments';
+import PosterMenuControl from './PosterMenuControl';
 
 const Header = styled.div`
 border-bottom : 1px dashed black;
@@ -88,7 +89,7 @@ class PosterBody extends React.Component {
         }
 
         return (
-            <div className='container animate slideIn clearfix' style={style.Grid}>
+            <div className='container animate slideIn clearfix CommonPosterPart' style={style.Grid}>
                 <Paper style={style.paperHeader}>
                     {this.props.categoryTitle?this.props.categoryTitle:"Loading.."}
                 </Paper>
@@ -98,8 +99,20 @@ class PosterBody extends React.Component {
 
                     return (
                         <div className="p-3 mb-2 shadow-sm">
-                            <Header>
-                                <div className="Header-bar">{row.post_title}</div>
+                            <Header className='clearfix'>
+                                <div className="Header-bar">
+                                    <span className='float-left'>{row.post_title}</span>
+                                    <span className='float-right'>
+                                        {this.props._isLogged ?
+                                            <PosterMenuControl
+                                                {...this.state}
+                                                {...this.props}
+                                                _deleteMyPoster = {this.props._deleteMyPoster}
+                                            /> : ""
+                                        }
+                                    </span>
+                                </div>
+                               
                             </Header>
                             <User>
                                 <User_pro>

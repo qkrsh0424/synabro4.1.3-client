@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Paper from '@material-ui/core/Paper';
-import './DraftJs.css';
+import '../StyleCss/Draftjs.css';
 //Material Lab
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';

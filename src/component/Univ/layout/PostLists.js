@@ -8,6 +8,8 @@ import AuthKey from '../../../config/AuthorizationKey';
 
 
 import { connect } from 'react-redux';
+
+
 import { awsImageURL } from '../../../config/awsurl';
 import '../PostList.css';
 import { Link, NavLink } from 'react-router-dom';
@@ -130,13 +132,12 @@ class PostLists extends React.Component {
                                     <Link to={`/univ/${this.props.univ_id}/${this.props.board_type}/v/${rows.post_id}`} className="text-dark">
 
                                         <div className="table-bar_column">
-
                                             {/* {rows.post_type===10002?<Notification_icon color="secondary"/>:""} */}
                                             <div className="table-bar_column">
                                                 <div className="font-weight-bold m-0 clearfix">   
                                                     <span className='float-right mt-1 mb-1'>{rows.post_thumbnail_url === 'none' ? <img src={`${awsImageURL}/logo/imageNo2.gif`} /> : <img src={rows.post_thumbnail_url}/>}</span>       
                                                     <p className='topic_custom'>
-                                                        <span className='text-primary'>{index + 1}</span>{rows.post_type === 10002 ? <Notification_icon color="secondary" /> : ""}
+                                                        <span className='text-primary'>{index + 1}</span>{rows.post_type === `10002` ? <Notification_icon color="secondary" /> : ""}
                                                         &nbsp;
                                                         {rows.post_topic.length > 80 ?
                                                             `${rows.post_topic.substring(0, 80)}...` :
@@ -167,12 +168,22 @@ class PostLists extends React.Component {
                                         : <a onClick={() => this._onHandleLike(rows.univ_id, rows.post_id)} className="text-secondary"><ThumbUpOff_icon />{rows.post_like_count}</a>} */}
 
                                     {/* 리스트에서 좋아요 누를수 없음 */}
-                                        {rows.liked === 'on' ? <span className="text-secondary"><ThumbUpOn_icon />{rows.post_like_count}</span>
-                                        : <span className="text-secondary"><ThumbUpOff_icon />{rows.post_like_count}</span>}
+                                        {rows.liked === 'on' ? 
+                                            <span className="text-secondary" style={{fontSize:'16px'}}>
+                                                <ThumbUpOn_icon style={{fontSize:'16px'}}/>{rows.post_like_count}
+                                            </span>
+                                        : 
+                                            <span className="text-secondary" style={{fontSize:'16px'}}>
+                                                <ThumbUpOff_icon style={{fontSize:'16px'}}/>{rows.post_like_count}
+                                            </span>}
                                     &nbsp;
-                                            <span href="#" className="text-secondary"><Comment_icon />{rows.post_comment_count}</span>
+                                            <span href="#" className="text-secondary" style={{fontSize:'16px'}}>
+                                                <Comment_icon style={{fontSize:'16px'}}/>{rows.post_comment_count}
+                                            </span>
                                     &nbsp;
-                                            <span href="#" className="text-secondary"><Eye_icon />{rows.post_view_count}</span>
+                                            <span href="#" className="text-secondary" style={{fontSize:'16px'}}>
+                                                <Eye_icon style={{fontSize:'16px'}}/>{rows.post_view_count}
+                                            </span>
 
                                 </div>
                             </div>

@@ -44,6 +44,9 @@ class Login extends React.Component {
         this.handleMoveHome = this.handleMoveHome.bind(this);
     }
 
+    componentDidMount = () =>{
+        document.documentElement.scrollTop = document.body.scrollTop = 0;
+    }
     handleValueChange = (e) => {
         let nextState = {};
         nextState[e.target.name] = e.target.value;
@@ -95,7 +98,6 @@ class Login extends React.Component {
             });
     }
     render() {
-        document.documentElement.scrollTop = document.body.scrollTop = 0;
         if (this.props._isLogged) {
             return (
                 <Redirect to='./' />

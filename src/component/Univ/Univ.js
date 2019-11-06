@@ -104,7 +104,14 @@ class Univ extends React.Component {
                 Authorization:'Bearer ' + AuthKey
             }
         })
-            .then(response => response.data)
+            .then(response => {
+                // console.log(response.data);
+                if(response.data==='error'){
+                    alert('잘못된 접근 방식 입니다.');
+                }else{
+                    return response.data;
+                }
+            })
         // .then(data=>this.setState({univ_item_list:data}));
     }
 
@@ -124,7 +131,15 @@ class Univ extends React.Component {
                     Authorization:'Bearer ' + AuthKey
                 }
             })
-                .then(response => response.data);
+                .then(response => {
+                    // console.log(response);
+                    if(response.data.message==='success'){
+                        return response.data.data
+                    }else{
+                        alert('올바르지 않은 접근 방식 입니다.');
+                        window.location.href='/'
+                    }
+                });
         }
     }
 

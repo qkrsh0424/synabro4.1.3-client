@@ -4,7 +4,7 @@
     } */
     .bene_Big_Size{
         width: 100%;
-        height: 30vh !important;
+        /* height: 30vh !important; */
     }
 }
 .hot_topic {
@@ -35,7 +35,7 @@
 
 .bene_Big_Size{
     width: 100%;
-    height: 400px;
+    height: 300px;
 }
 
 .wrap{

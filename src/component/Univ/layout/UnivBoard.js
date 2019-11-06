@@ -9,6 +9,9 @@ import AuthKey from '../../../config/AuthorizationKey';
 //redux
 import {connect} from 'react-redux';
 
+//API
+import * as memberApi from '../../../handler/cliApi/member';
+
 import { Link, NavLink } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
@@ -72,6 +75,7 @@ class UnivBoard extends React.Component {
             await this.setState({mainLoading:false});
         }
     }
+
 
     _getBoardTitle() {
         return Axios.get(`${serverUrl}/api/univ_item/` + this.props.univ_id, {
@@ -172,12 +176,38 @@ class UnivBoard extends React.Component {
                                 >
                                     <CreateIcon />
                                 </Link> */}
-                                <Link
-                                    className='btn btn-outline-secondary float-right'
-                                    to={`/univ/${this.props.univ_id}/${this.props.board_type}/writepost`}
-                                >
-                                    <CreateIcon />
-                                </Link>
+                                {this.props.isMember?
+                                    <Link
+                                        className='btn btn-outline-secondary float-right'
+                                        to={`/univ/${this.props.univ_id}/${this.props.board_type}/writepost`}
+                                    >
+                                        <CreateIcon />
+                                    </Link>
+                                :
+                                    <div>
+                                        {this.props._isLogged?
+                                            <div>
+                                                <Link
+                                                    className='btn btn-outline-secondary float-right'
+                                                    to={`/apply?BomNo=${this.props.univ_id}&Classify=Univ`}
+                                                >
+                                                    그룹 가입요청
+                                                </Link>
+                                                <label className='float-right text-danger'>*가입 후 게시글 작성가능</label>
+                                            </div>
+                                        :
+                                            <div>
+                                                <Link
+                                                    className='btn btn-outline-secondary float-right'
+                                                    to={`/login`}
+                                                >
+                                                    로그인 해주세요
+                                                </Link>
+                                            </div>}
+                                        
+                                    </div>
+                                }
+                                
                             </Paper>
                         </Grid>
                         

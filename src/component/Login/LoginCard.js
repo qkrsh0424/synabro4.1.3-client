@@ -111,7 +111,7 @@ class LoginCard extends React.Component{
                 내 프로필
                 </StyledLink>
                 쪽지
-                <button onClick={this.handleLogout}>로그아웃</button>
+                <button className='btn-sm btn-outline-danger' onClick={this.handleLogout}>로그아웃</button>
                 </div>
                 </div>
                
@@ -127,7 +127,7 @@ class LoginCard extends React.Component{
                   상해봄을 더 즐겁고 편리하게 이용하세요.
                 </div>
                 <Link to="./login">
-                  <button className="loginCard">상해봄 Login</button>
+                  <button className="loginCard btn btn-outline-primary">상해봄 Login</button>
                 </Link>
                 <div className="loginFooter">
                   <div className="account_find">아이디,비밀번호 찾기</div>

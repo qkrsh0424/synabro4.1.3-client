@@ -35,7 +35,8 @@ class Category extends React.Component {
     _getCategoryClassify = async (shb_item_id) => {
         Axios.get(`${serverUrl}/api/shb/shbItem/getOne`, {
             params: {
-                shb_item_id: shb_item_id
+                shb_item_id: shb_item_id,
+                shb_num: this.state.queryValues.BomNo
             },
             headers:{
                 Authorization:'Bearer ' + AuthKey

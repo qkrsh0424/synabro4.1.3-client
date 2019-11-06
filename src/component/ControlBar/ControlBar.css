@@ -23,7 +23,7 @@
     /* margin-top:56px; */
     width:100%;
     height:100px;
-    top:calc(100vh - 76px);
+    top:calc(100vh - 56px);
     position:fixed;
     background: #fff;
 }

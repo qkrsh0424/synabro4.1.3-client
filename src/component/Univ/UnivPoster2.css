@@ -2,9 +2,14 @@
     font-weight: 700;
     font-size: 18px;
 }
+
+._TextField figure{
+    text-align: center;
+}
 ._TextField img{
-    max-width: 800px;
-    max-height: 800px;
+    /* max-width: 800px;
+    max-height: 800px; */
+    max-width:90%;
 }
 
 @media screen and (max-width:800px){
@@ -17,3 +22,6 @@
     white-space: pre-wrap;
 }
   
+._TextField .public-DraftStyleDefault-block{
+    background: none;
+  }

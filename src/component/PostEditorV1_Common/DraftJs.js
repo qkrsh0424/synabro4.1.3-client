@@ -16,10 +16,23 @@ import queryString from 'query-string';
 
 //Draft Material
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, SelectionState } from 'draft-js';
-import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
+import Editor, { createEditorStateWithText, composeDecorators } from 'draft-js-plugins-editor';
+
+//Draft Plugin Load
 import createToolbarPlugin, { Separator } from 'draft-js-static-toolbar-plugin';
+import createImagePlugin from 'draft-js-image-plugin';
+import createFocusPlugin from 'draft-js-focus-plugin';
+import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
+import createAlignmentPlugin from 'draft-js-alignment-plugin';
+import createColorBlockPlugin from './colorBlockPlugin';
+
+//Draft CSS
 import 'draft-js-static-toolbar-plugin/lib/plugin.css';
-import './DraftJs.css';
+import 'draft-js-focus-plugin/lib/plugin.css';
+import 'draft-js-image-plugin/lib/plugin.css';
+import 'draft-js-alignment-plugin/lib/plugin.css';
+import '../StyleCss/Draftjs.css';
+
 import {
     ItalicButton,
     BoldButton,
@@ -47,6 +60,39 @@ import Progress from '@material-ui/core/CircularProgress';
 //API
 import { shb_getShbOneItem } from '../../handler/cliApi/shb';
 import { __sendPost } from '../../handler/cliApi/PostApi';
+import * as memberApi from '../../handler/cliApi/member';
+
+
+//Use Draft Plugin Start
+const focusPlugin = createFocusPlugin();
+const blockDndPlugin = createBlockDndPlugin();
+const staticToolbarPlugin = createToolbarPlugin();
+const alignmentPlugin = createAlignmentPlugin();
+
+const { AlignmentTool } = alignmentPlugin;
+const { Toolbar } = staticToolbarPlugin;
+
+
+const decorator = composeDecorators(
+    alignmentPlugin.decorator,
+    focusPlugin.decorator,
+    blockDndPlugin.decorator
+);
+const colorBlockPlugin = createColorBlockPlugin({ decorator });
+const imagePlugin = createImagePlugin({ decorator });
+
+
+const plugins = [
+    staticToolbarPlugin,
+    blockDndPlugin,
+    focusPlugin,
+    imagePlugin,
+    alignmentPlugin,
+    colorBlockPlugin
+];
+
+//Use Draft Plugin End
+
 
 class HeadlinesPicker extends React.Component {
     componentDidMount() {
@@ -92,12 +138,12 @@ class HeadlinesButton extends React.Component {
     }
 }
 
-const staticToolbarPlugin = createToolbarPlugin();
-const { Toolbar } = staticToolbarPlugin;
+// const staticToolbarPlugin = createToolbarPlugin();
+// const { Toolbar } = staticToolbarPlugin;
 
-const plugins = [
-    staticToolbarPlugin
-];
+// const plugins = [
+//     staticToolbarPlugin
+// ];
 
 class DraftJs extends React.Component {
     constructor(props) {
@@ -109,18 +155,47 @@ class DraftJs extends React.Component {
             board: '',
             post_topic: '',
             TYPE_OF_POST:'',
-            imgUploadLoading: false
+            imgUploadLoading: false,
+            isMember:false,
         }
     }
 
     componentDidMount = async () => {
-        await shb_getShbOneItem(this.state.queryValues.Category)
+        this._memberCheck();
+        await shb_getShbOneItem(this.state.queryValues.Category,this.state.queryValues.BomNo)
             .then(data => {
-                this.setState({ board: data.data, TYPE_OF_POST:data.data.parent_route });
+                if(data.message==='success'){
+                    this.setState({ board: data.data, TYPE_OF_POST:data.data.parent_route });
+                }else{
+                    alert('잘못된 접근 방식 입니다.');
+                    window.location.href='/';
+                }
+                
                 // this.focus();
             });
         
     }
+
+
+    //MemberCheck
+    _memberCheck = async() =>{
+        // console.log(this.props);
+        if(this.props._sess){
+            if(this.state.queryValues.BomNo==='1101001'){
+                return this.setState({isMember:true});
+            }
+            await memberApi.member_check(this.props._sess, this.state.queryValues.BomNo)
+            .then(data=>{
+                if(data.message==='valid'){
+                    this.setState({isMember:true});
+                }else{
+                    this.setState({isMember:false});
+                }
+            });
+        }
+        
+    }
+
 
     //Common Control Start
     onHanldeTitleChange = async (e) => {
@@ -173,7 +248,10 @@ class DraftJs extends React.Component {
 
 
 
-    focus = () => this.refs.editor.focus();
+    // focus = () => this.refs.editor.focus();
+    focus = () => {
+        this.editor.focus();
+      };
 
     onURLChange = e => this.setState({ urlValue: e.target.value });
 
@@ -283,7 +361,7 @@ class DraftJs extends React.Component {
             .then(data => {
                 console.log(data.message);
                 if (data.message === 'success') {
-                    this.props.history.push('./');
+                    window.history.back();
                 }else if(data.message==='failure'){
                     alert('정상적이지 않은 포스팅 입니다...');
                 }else if(data.message==='invalidUser'){
@@ -315,6 +393,7 @@ class DraftJs extends React.Component {
         }
 
         if (this.props._isLogged) {
+            
             return (
                 <div>
                     {this.state.imgUploadLoading ?
@@ -324,82 +403,92 @@ class DraftJs extends React.Component {
                     <Nav />
                     <div className='container'>
                         <Paper style={style.paperHeader}>
-                            <button className="btn btn-primary" onClick={() => this.props.history.push('./')}>이전</button>
+                            <button className="btn btn-primary" onClick={() => window.history.back()}>이전</button>
                         </Paper>
-                        <Paper style={style.paperBody} className='clearfix'>
-                            <form onSubmit={this.onHandleSubmit}>
-                                <p>작성지 : {this.state.board?this.state.board.shb_item_name:""} 작성자 : {this.props._nickname}</p>
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text" id="inputGroup-sizing-sm">제목</span>
+
+                        {this.state.isMember?
+                            <Paper style={style.paperBody} className='clearfix'>
+                                <form onSubmit={this.onHandleSubmit}>
+                                    <p>작성지 : {this.state.board?`${this.state.board.shb_name} / ${this.state.board.shb_item_name}`:""}</p>
+                                    <p>작성자 : {this.props._nickname}</p>
+                                    <div className="input-group mb-3">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text" id="inputGroup-sizing-sm">제목</span>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            // name='post_topic'
+                                            className="form-control"
+                                            value={this.state.post_topic}
+                                            onChange={this.onHanldeTitleChange}
+                                            required />
                                     </div>
-                                    <input
-                                        type="text"
-                                        // name='post_topic'
-                                        className="form-control"
-                                        value={this.state.post_topic}
-                                        onChange={this.onHanldeTitleChange}
-                                        required />
-                                </div>
 
-                                {/* DraftEditor Start */}
-                                <div onClick={this.focus} className={'editor'}>
-                                    <Editor
-                                        blockRendererFn={MediaBlockRenderer}
-                                        editorState={this.state.editorState}
-                                        onChange={this.onEditorChange}
-                                        handleKeyCommand={this.handleKeyCommand}
-                                        plugins={plugins}
-                                        ref="editor"
-                                    />
+                                    {/* DraftEditor Start */}
+                                    
+                                    <div onClick={this.focus} className={'editor'}>
+                                        <Editor
+                                            blockRendererFn={MediaBlockRenderer}
+                                            editorState={this.state.editorState}
+                                            onChange={this.onEditorChange}
+                                            handleKeyCommand={this.handleKeyCommand}
+                                            plugins={plugins}
+                                            // ref="editor"
+                                            ref={(element) => { this.editor = element; }}
+                                        />
+                                        <AlignmentTool />
+                                    </div>
+                                    <Toolbar>
+                                        {
+                                            // may be use React.Fragment instead of div to improve perfomance after React 16
+                                            (externalProps) => (
+                                                <div>
+                                                    <BoldButton {...externalProps} />
+                                                    <ItalicButton {...externalProps} />
+                                                    <UnderlineButton {...externalProps} />
+                                                    <CodeButton {...externalProps} />
+                                                    <Separator {...externalProps} />
+                                                    <HeadlinesButton {...externalProps} />
+                                                    <UnorderedListButton {...externalProps} />
+                                                    <OrderedListButton {...externalProps} />
+                                                    <BlockquoteButton {...externalProps} />
+                                                    <CodeBlockButton {...externalProps} />
+                                                </div>
+                                            )
+                                        }
 
-                                </div>
-                                <Toolbar>
-                                    {
-                                        // may be use React.Fragment instead of div to improve perfomance after React 16
-                                        (externalProps) => (
-                                            <div>
-                                                <BoldButton {...externalProps} />
-                                                <ItalicButton {...externalProps} />
-                                                <UnderlineButton {...externalProps} />
-                                                <CodeButton {...externalProps} />
-                                                <Separator {...externalProps} />
-                                                <HeadlinesButton {...externalProps} />
-                                                <UnorderedListButton {...externalProps} />
-                                                <OrderedListButton {...externalProps} />
-                                                <BlockquoteButton {...externalProps} />
-                                                <CodeBlockButton {...externalProps} />
-                                            </div>
-                                        )
+                                    </Toolbar>
+                                    <div className='customToolbar'>
+                                        <CustomToolbar
+                                            onTextStyle={this.onTextStyle}
+                                            onHeaderLeft={this.onHeaderLeft}
+                                            onHeaderRight={this.onHeaderRight}
+
+                                            onHeaderStyle={this.onHeaderStyle}
+
+                                            onAddImage={this.onAddImage}
+                                            onImageUpload={this.onImageUpload}
+                                            ImageButtonClick={this.ImageButtonClick}
+                                        />
+                                    </div>
+                                    {this.state.imgUploadLoading === true ?
+                                        <button className="btn btn-primary float-right" disabled>제출</button>
+                                        :
+                                        <div>
+                                            {this.state.isMember?<input type="submit" className="btn btn-primary float-right mt-2" value='제출' />:<span className="text-danger float-right mt-2">"접근 권한이 없습니다."</span>}
+                                            
+                                        </div>
                                     }
 
-                                </Toolbar>
-                                <div className='customToolbar'>
-                                    <CustomToolbar
-                                        onTextStyle={this.onTextStyle}
-                                        onHeaderLeft={this.onHeaderLeft}
-                                        onHeaderRight={this.onHeaderRight}
-
-                                        onHeaderStyle={this.onHeaderStyle}
-
-                                        onAddImage={this.onAddImage}
-                                        onImageUpload={this.onImageUpload}
-                                        ImageButtonClick={this.ImageButtonClick}
-                                    />
-                                </div>
-                                {this.state.imgUploadLoading === true ?
-                                    <button className="btn btn-primary float-right" disabled>제출</button>
-                                    :
-                                    <input type="submit" className="btn btn-primary float-right mt-2" value='제출' />}
-
-                                {/* DraftEditor End */}
-                            </form>
-                        </Paper>
+                                    {/* DraftEditor End */}
+                                </form>
+                            </Paper>
+                        :""}
                     </div>
                     {/* <button onClick={()=>this.setState({imgUploadLoading:!this.state.imgUploadLoading})}>button Loading</button> */}
                 </div>
             );
-        } else {
+        }else {
             alert('로그인이 필요한 페이지입니다.');
             return (
                 <Redirect to='/login' />

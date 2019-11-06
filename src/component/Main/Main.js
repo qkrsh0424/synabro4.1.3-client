@@ -2,16 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 
-import Nav from '../Nav/Nav';
-
 import { connect } from 'react-redux';
 import { NavLink, Link } from 'react-router-dom';
 import * as actions from '../../action';
 
 //API
 import { shb_getShbAllItemList } from '../../handler/cliApi/shb';
+import * as bannerApi from '../../handler/cliApi/banner';
+
+
 //Component
+import Nav from '../Nav/Nav';
 import MainBody from './MainInterface';
+import ScrollTabs from './ScrollTabs';
 
 
 const propTypes = {
@@ -29,6 +32,7 @@ class Main extends React.Component{
         super(props);
         this.state={
             shb_main_items:null,
+            bannerHeader:null,
             forecastBool:false,
         }
     }
@@ -37,6 +41,7 @@ class Main extends React.Component{
         this._isMounted = true;
         if(this._isMounted===true){
             this._getShbItemAllList();
+            this._getBanner();
             this.setState({forecastBool:true});
         }
         
@@ -61,17 +66,33 @@ class Main extends React.Component{
         });
     }
 
+    _getBanner = async() =>{
+        bannerApi.banner_getBanner_headType_bannerType(1101001, 'header')
+        .then(data=>{
+            if(data.message==='success'){
+                this.setState({bannerHeader:data.data});
+            }
+        });
+    }
+
     render(){
-        document.documentElement.scrollTop = document.body.scrollTop = 0;
         return(
             <div>
                 <Nav/>
-                <MainBody
+                <ScrollTabs
+                    {...this.props}
+                    {...this.state}
+                    // shb_lists={this.props.shb_lists}
+                    // shb_main_items={this.state.shb_main_items}
+                    // univ_lists = {this.props.univ_lists}
+                    // forecastBool = {this.state.forecastBool}
+                />
+                {/* <MainBody
                     shb_lists={this.props.shb_lists}
                     shb_main_items={this.state.shb_main_items}
                     univ_lists = {this.props.univ_lists}
                     forecastBool = {this.state.forecastBool}
-                />
+                /> */}
             </div>
         );
     }
@@ -93,8 +114,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
     return{
-        handleAUTH_SUCCESS: ()=>{dispatch(actions.auth_success())},
-        handleAUTH_FAILURE: ()=>{dispatch(actions.auth_failure())}
+        handleAUTH_SUCCESS: (_sess, _nickname) => { dispatch(actions.auth_success(_sess, _nickname)) },
+        handleAUTH_FAILURE: () => { dispatch(actions.auth_failure()) }
     }
 }
 

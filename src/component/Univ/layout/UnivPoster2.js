@@ -6,7 +6,7 @@ import Axios from 'axios';
 import AuthKey from '../../../config/AuthorizationKey';
 
 //URL
-import {awsImageURL} from '../../../config/awsurl';
+import { awsImageURL } from '../../../config/awsurl';
 import { serverUrl } from '../../../config/serverUrl';
 
 import { connect } from "react-redux";
@@ -33,6 +33,8 @@ import UnivPosterMenuControl from './UnivPosterMenuControl';
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import { MediaBlockRendererReadOnly } from '../../PostEditorV1_Univ/MediaBlockRenderer';
+
+
 
 
 const Container = styled.div`
@@ -128,77 +130,77 @@ class UnivPoster2 extends React.Component {
         super(props);
         this.state = {
             postData: null,
-            board_title:null,
+            board_title: null,
             loading: true,
-            commentData:'',
-            comment:'',
-            openSnacbar:false,
-            postListData:'',
+            commentData: '',
+            comment: '',
+            openSnacbar: false,
+            postListData: '',
             editorState: EditorState.createEmpty(),
-            controlMenuList:null,
+            poster_isValidation: false,
         };
         this._getPostId = this._getPostId.bind(this);
         this._getBoardTitle = this._getBoardTitle.bind(this);
     }
 
 
-    async componentDidMount() {
-        await Promise.all([this._getPostListAPI(),this.updatePostCountPlus(),this._getPostId(), this._getBoardTitle(),this._getCommentAPI()])
-            .then(([postListData,viewCountRes,res1, res2, res3]) => this.setState({ postListData:postListData,postData: res1, board_title: res2.univ_item_title, comment:res3 }))
-            .catch(err=>{
+    componentDidMount = async()=> {
+        Promise.all([this._getPostListAPI(), this.updatePostCountPlus(), this._getPostId(), this._getBoardTitle(), this._getCommentAPI()])
+            .then(([postListData, viewCountRes, res1, res2, res3]) => this.setState({ postListData: postListData, postData: res1, board_title: res2.univ_item_title, comment: res3 }))
+            .catch(err => {
                 alert('서버와 연결이 좋지 않습니다.');
-                this.setState({loading:true});
+                this.setState({ loading: true });
             });
         await this._posterValidationAndMenuControl();
-        await this.setState({loading:false});
-        
+        await this.setState({ loading: false });
+
     }
 
-    async componentDidUpdate(prevProps){
+    async componentDidUpdate(prevProps) {
         if (prevProps.post_id !== this.props.post_id) {
-            await this.setState({loading:true});
-            await Promise.all([this._getPostListAPI(),this.updatePostCountPlus(),this._getPostId(), this._getBoardTitle(),this._getCommentAPI()])
-            .then(([postListData,viewCountRes,res1, res2, res3]) => this.setState({ postListData:postListData,postData: res1, board_title: res2.univ_item_title, comment:res3 }))
-            await this.setState({loading:false});
+            await this.setState({ loading: true });
+            await Promise.all([this._getPostListAPI(), this.updatePostCountPlus(), this._getPostId(), this._getBoardTitle(), this._getCommentAPI()])
+                .then(([postListData, viewCountRes, res1, res2, res3]) => this.setState({ postListData: postListData, postData: res1, board_title: res2.univ_item_title, comment: res3 }))
+            await this._posterValidationAndMenuControl();
+            await this.setState({ loading: false });
         }
     }
 
-    _getPostListAPI = async()=>{
-        return Axios.get(`${serverUrl}/api/univ_post/` + this.props.univ_id + '/btpost', {
+    _getPostListAPI = async () => {
+        return Axios.get(`${serverUrl}/api/univ_post/getpost/univ/all`, {
             params: {
-                usid: this.props._sess,
-                board_type: this.props.board_type,
+                univ_id: this.props.univ_id,
                 startPostIndex: 0,
                 currentPostIndex: 6
             },
-            headers:{
-                Authorization:'Bearer ' + AuthKey
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
             }
         })
             .then(response => response.data);
     }
-    updatePostCountPlus = async() =>{
-        return Axios.patch(`${serverUrl}/api/univ_post/postCountPlus/`,{
-            post_id:this.props.post_id
-        },{
-            headers:{
-                Authorization:'Bearer ' + AuthKey
+    updatePostCountPlus = async () => {
+        return Axios.patch(`${serverUrl}/api/univ_post/postCountPlus/`, {
+            post_id: this.props.post_id
+        }, {
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
             }
         })
-        .then(res=>res.data);
+            .then(res => res.data);
     }
 
     _getPostId() {
-        return Axios.get(`${serverUrl}/api/univ_post/post/${this.props.post_id}`,{
-            params:{
+        return Axios.get(`${serverUrl}/api/univ_post/post/${this.props.post_id}`, {
+            params: {
                 usid: this.props._sess,
                 head_type: this.props.univ_id,
             },
-            headers:{
-                Authorization:'Bearer ' + AuthKey
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
             }
         })
-            .then(res=>res.data);
+            .then(res => res.data);
     }
 
     _getBoardTitle() {
@@ -206,190 +208,231 @@ class UnivPoster2 extends React.Component {
             params: {
                 board_type: this.props.board_type
             },
-            headers:{
-                Authorization:'Bearer ' + AuthKey
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
             }
         })
-        .then(response => response.data);
+            .then(response => response.data);
     }
 
-    _getCommentAPI = async()=>{
-        return Axios.get(`${serverUrl}/api/comment/univ_post_comment`,{
-            params:{
-                usid:this.props._sess,
+    _getCommentAPI = async () => {
+        return Axios.get(`${serverUrl}/api/comment/univ_post_comment`, {
+            params: {
+                usid: this.props._sess,
                 post_id: this.props.post_id
             },
-            headers:{
-                Authorization:'Bearer ' + AuthKey
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
             }
         })
-        .then(res=>res.data)
+            .then(res => res.data)
     }
-    _writeComment = async(e) =>{
+    _writeComment = async (e) => {
         e.preventDefault();
         // console.log(this.props._sess);
-        await Axios.post(`${serverUrl}/api/comment/univ_post_comment`,{
-            
+        await Axios.post(`${serverUrl}/api/comment/univ_post_comment`, {
+
             usid: this.props._sess,
-            cmt_desc:this.state.commentData,
-            post_id:this.props.post_id,
-            head_type:this.props.univ_id
-        },{
-            headers:{
-                Authorization:'Bearer ' + AuthKey
+            cmt_desc: this.state.commentData,
+            post_id: this.props.post_id,
+            head_type: this.props.univ_id
+        }, {
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
             }
         })
-        .then(res=>res.data)
-        .then(data=>{
-            if(data.message==='success'){
-                this._getCommentAPI().then(res=>this.setState({comment:res}));
-                this._getPostId().then(data=>this.setState({postData:data}));
-                this.setState({commentData:''});
-            }else if(data.message==='failure'){
-                alert('댓글 입력 오류입니다. 다시 시도해 주세요.');
-                window.location.reload();
-            }else if(data.message==='non-user'){
-                alert('로그인이 필요한 서비스 입니다.');
-                window.location.href='/login';
-            }else if(data.message==='error'){
-                alert('네트워크 연결이 고르지 못합니다. 다시 시도해 주세요.');
-                window.location.reload();
-            }else{
-                alert('예상치 못한 오류가 발생했습니다. (*고객센터에 문의 바랍니다.) error num : cmt1');
-            }
-        })
-        .catch(err=>{
-            alert('서버와 연결이 고르지 못합니다. 다시 시도해 주세요.');
-        })
+            .then(res => res.data)
+            .then(data => {
+                if (data.message === 'success') {
+                    this._getCommentAPI().then(res => this.setState({ comment: res }));
+                    this._getPostId().then(data => this.setState({ postData: data }));
+                    this.setState({ commentData: '' });
+                } else if (data.message === 'failure') {
+                    alert('댓글 입력 오류입니다. 다시 시도해 주세요.');
+                    window.location.reload();
+                } else if (data.message === 'non-user') {
+                    alert('로그인이 필요한 서비스 입니다.');
+                    window.location.href = '/login';
+                } else if (data.message === 'error') {
+                    alert('네트워크 연결이 고르지 못합니다. 다시 시도해 주세요.');
+                    window.location.reload();
+                } else {
+                    alert('예상치 못한 오류가 발생했습니다. (*고객센터에 문의 바랍니다.) error num : cmt1');
+                }
+            })
+            .catch(err => {
+                alert('서버와 연결이 고르지 못합니다. 다시 시도해 주세요.');
+            })
     }
 
-    _onHandleCommentDataChange = (e) =>{
-        let nextState={};
+    _onHandleCommentDataChange = (e) => {
+        let nextState = {};
         nextState[e.target.name] = e.target.value;
-        this.setState({commentData:nextState.commentData});
+        this.setState({ commentData: nextState.commentData });
     }
 
-    _DelComment = async(head_type,cmt_id) =>{
-        await Axios.delete(`${serverUrl}/api/comment/univ_post_comment`,{
-            params:{
-                cmt_id:cmt_id,
-                head_type:head_type,
-                post_id:this.props.post_id
+    _DelComment = async (head_type, cmt_id) => {
+        await Axios.delete(`${serverUrl}/api/comment/univ_post_comment`, {
+            params: {
+                cmt_id: cmt_id,
+                head_type: head_type,
+                post_id: this.props.post_id
             },
-            headers:{
-                Authorization:'Bearer ' + AuthKey
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
             }
         })
-        .then(res=>res.data)
-        .then(data=>{
-            if(data.message==='success'){
-                this.setState({openSnacbar:true});
-                this._getCommentAPI().then(res=>this.setState({comment:res}));
-                this._getPostId().then(data=>this.setState({postData:data}));
-            }else if(data.message==='failure'){
-                alert('댓글 삭제 오류입니다. 다시 시도해 주세요.');
-                window.location.reload();
-            }else{
-                alert('예상치 못한 오류가 발생했습니다. (*고객센터에 문의 바랍니다.)');
-            }
-        })
-        .catch(err=>{
-            alert('서버와 연걸이 고르지 못합니다. 다시 시도해 주세요.');
-        })
-    }
-
-    handleSnacbarClose=async()=>{
-        await this.setState({openSnacbar:false});
-    }
-
-    async _onHandleLike(univ_id,post_id){
-        if(this.props._isLogged){
-            await Axios.post(`${serverUrl}/api/post_like/like`,{
-                usid:this.props._sess,
-                head_type:univ_id,
-                post_id:post_id,
-                parentType:'univ'
-            },{
-                headers:{
-                    Authorization:'Bearer ' + AuthKey
+            .then(res => res.data)
+            .then(data => {
+                if (data.message === 'success') {
+                    this.setState({ openSnacbar: true });
+                    this._getCommentAPI().then(res => this.setState({ comment: res }));
+                    this._getPostId().then(data => this.setState({ postData: data }));
+                } else if (data.message === 'failure') {
+                    alert('댓글 삭제 오류입니다. 다시 시도해 주세요.');
+                    window.location.reload();
+                } else {
+                    alert('예상치 못한 오류가 발생했습니다. (*고객센터에 문의 바랍니다.)');
                 }
             })
-            .then(res=>res.data)
-            .then(data=>{
-                if(data.message==='like ok'){
-                    this._getPostId()
-                    .then(data=>this.setState({postData:data}))
-                    .catch(err=>{
-                        if(err){
-                            alert('서버와 연결이 좋지 않습니다.');
-                        }
-                    });
-                }else if(data.message==='like fail'){
-                    alert('이미 좋아하는 포스터 입니다.');
-                }else{
-                    console.log('LIKE FUNCTION IS ERROR');
+            .catch(err => {
+                alert('서버와 연걸이 고르지 못합니다. 다시 시도해 주세요.');
+            })
+    }
+
+    handleSnacbarClose = async () => {
+        await this.setState({ openSnacbar: false });
+    }
+
+    async _onHandleLike(univ_id, post_id) {
+        if (this.props._isLogged) {
+            await Axios.post(`${serverUrl}/api/post_like/like`, {
+                usid: this.props._sess,
+                head_type: univ_id,
+                post_id: post_id,
+                parentType: 'univ'
+            }, {
+                headers: {
+                    Authorization: 'Bearer ' + AuthKey
                 }
-            });
-        }else{
+            })
+                .then(res => res.data)
+                .then(data => {
+                    if (data.message === 'like ok') {
+                        this._getPostId()
+                            .then(data => this.setState({ postData: data }))
+                            .catch(err => {
+                                if (err) {
+                                    alert('서버와 연결이 좋지 않습니다.');
+                                }
+                            });
+                    } else if (data.message === 'like fail') {
+                        alert('이미 좋아하는 포스터 입니다.');
+                    } else {
+                        console.log('LIKE FUNCTION IS ERROR');
+                    }
+                });
+        } else {
             alert('로그인이 필요한 서비스 입니다.');
-            window.location.href='/login';
+            window.location.href = '/login';
         }
     }
 
-    async _onHandleUnLike(univ_id,post_id){
-        if(this.props._isLogged){
-            await Axios.post(`${serverUrl}/api/post_like/unlike`,{
-                usid:this.props._sess,
-                head_type:univ_id,
-                post_id:post_id,
-                parentType:'univ'
-            },{
-                headers:{
-                    Authorization:'Bearer ' + AuthKey
+    async _onHandleUnLike(univ_id, post_id) {
+        if (this.props._isLogged) {
+            await Axios.post(`${serverUrl}/api/post_like/unlike`, {
+                usid: this.props._sess,
+                head_type: univ_id,
+                post_id: post_id,
+                parentType: 'univ'
+            }, {
+                headers: {
+                    Authorization: 'Bearer ' + AuthKey
                 }
             })
-            .then(res=>res.data)
-            .then(data=>{
-                if(data.message==='unlike ok'){
-                    this._getPostId()
-                    .then(data=>this.setState({postData:data}))
-                    .catch(err=>{
-                        if(err){
-                            alert('서버와 연결이 좋지 않습니다.');
-                        }
-                    });
-                    
-                }else{
-                    console.log('LIKE FUNCTION IS ERROR');
-                }
-                
-            });
-        }else{
+                .then(res => res.data)
+                .then(data => {
+                    if (data.message === 'unlike ok') {
+                        this._getPostId()
+                            .then(data => this.setState({ postData: data }))
+                            .catch(err => {
+                                if (err) {
+                                    alert('서버와 연결이 좋지 않습니다.');
+                                }
+                            });
+
+                    } else {
+                        console.log('LIKE FUNCTION IS ERROR');
+                    }
+
+                });
+        } else {
             alert('로그인이 필요한 서비스 입니다.');
-            window.location.href='/login';
+            window.location.href = '/login';
         }
     }
 
-    scrollMoveToComment = async() =>{
+    scrollMoveToComment = async () => {
         document.getElementById('comment_part').scrollIntoView({
             behavior: 'smooth'
-          });
+        });
     }
 
-    onEditorChange=()=>{
-        this.setState({editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.state.postData[0].post_desc)))});
+    onEditorChange = () => {
+        this.setState({ editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.state.postData[0].post_desc))) });
     }
 
-    _posterValidationAndMenuControl = async() =>{
-        let url = `${serverUrl}/api/univ_post/posterValidation/univ`;
-        await Axios.post(url,{
-            usid:this.props._sess
-        },{
-            headers:{
-                Authorization:'Bearer ' + AuthKey
+    _posterValidationAndMenuControl = async () => {
+        if (this.props._isLogged) {
+            let url = `${serverUrl}/api/univ_post/posterValidation/univ`;
+            await Axios.post(url, {
+                usid: this.props._sess,
+                post_id: this.props.post_id,
+                head_type: this.props.univ_id
+            }, {
+                headers: {
+                    Authorization: 'Bearer ' + AuthKey
+                }
+            })
+                .then(res => res.data)
+                .then(data => {
+                    if (data === 'valid') {
+                        this.setState({ poster_isValidation: true });
+                    } else if (data === 'invalid') {
+                        this.setState({ poster_isValidation: false });
+                    } else if (data === 'error') {
+                        return;
+                    } else {
+                        return;
+                    }
+                })
+                .catch(err => alert('서버와 연결이 고르지 않습니다. (poster_valid error *univposter'));
+        }
+    }
+
+    _deleteMyPoster = async() => {
+
+        await Axios.post(`${serverUrl}/api/univ_post/deletePoster/univ/one`, {
+            usid:this.props._sess,
+            head_type: this.props.univ_id,
+            post_id: this.props.post_id,
+        }, {
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
             }
         }).then(res=>res.data)
-        .then(data=>this.setState({controlMenuList:data.data}));
+        .then(data=>{
+            if(data==='success'){
+                window.history.back();
+            }else{
+                alert('error');
+                window.location.reload();
+            }
+        })
+        .catch(err=>{
+            alert('error');
+            window.location.reload();
+        })
     }
 
     render() {
@@ -408,18 +451,18 @@ class UnivPoster2 extends React.Component {
             }
         }
 
-            return (
-                <div className='UnivPosterPart'>
-                    <div className='table-body animate slideIn clearfix'>
-                        {this.state.postData && this.state.loading===false? this.state.postData.map(row => {
-                            if (row !== null) {
-                                var currentDate = new Date();
-                                var createDate = new Date(row.post_created);
-                                return (
-    
-                                    <div className='container animate slideIn'>
-                                        <div style={style.Grid}>
-                                            {/* <Grid>
+        return (
+            <div className='UnivPosterPart'>
+                <div className='table-body animate slideIn clearfix'>
+                    {this.state.postData && this.state.loading === false ? this.state.postData.map(row => {
+                        if (row !== null) {
+                            var currentDate = new Date();
+                            var createDate = new Date(row.post_created);
+                            return (
+
+                                <div className='container animate slideIn'>
+                                    <div style={style.Grid}>
+                                        {/* <Grid>
                                                 <Grid
                                                     container
                                                     spacing={2}
@@ -472,96 +515,100 @@ class UnivPoster2 extends React.Component {
                                                     </Grid>
                                                 </Grid>
                                             </Grid> */}
-                                            <Paper style={style.paperHeader}>
-                                                {this.state.board_title?this.state.board_title:"Loading.."}
-                                            </Paper>
-    
-                                            <div className="table-bar p-3 mb-2 shadow-sm">
-                                                <Header className='clearfix'>
-                                                    <div className="Header-bar">
-                                                        <span className='float-left'>{row.post_topic}</span>
-                                                        <span className='float-right'>
+                                        <Paper style={style.paperHeader}>
+                                            {this.state.board_title ? this.state.board_title : "Loading.."}
+                                        </Paper>
+
+                                        <div className="table-bar p-3 mb-2 shadow-sm">
+                                            <Header className='clearfix'>
+                                                <div className="Header-bar">
+                                                    <span className='float-left'>{row.post_topic}</span>
+                                                    <span className='float-right'>
+                                                        {this.props._isLogged ?
                                                             <UnivPosterMenuControl
                                                                 {...this.state}
                                                                 {...this.props}
-                                                            />
-                                                        </span>
-                                                    </div>
-                                                    
-                                                    
-                                                </Header>
-                                                <User>
-                                                    <User_pro>
-                                                        <img src={`${awsImageURL}/logo/peopleNo.png`} height="40px" width="40px"/>
-                                                        <User_name>
-                                                            <User_id>{row.user_nickname}</User_id>
-                                                            <Post_time>{calculateTime(currentDate, createDate)}</Post_time>
-                                                        </User_name>
-                                                    </User_pro>
-                                                </User>
-                                                <Text
-                                                    className="_TextField"
-                                                >
-                                                    {/* {renderHTML(row.post_desc)} */}
-                                                    <Editor
-                                                        blockRendererFn={MediaBlockRendererReadOnly}
-                                                        editorState={this.state.editorState}
-                                                        onChange={this.onEditorChange}
-                                                        readOnly
-                                                    />
-                                                </Text>
-                                                <Emoji_bar>
-                                                    {row.like==='on'?<a onClick={()=>this._onHandleUnLike(row.univ_id,row.post_id)} className="text-secondary"><ThumbUpOn_icon /> {row.post_like_count}</a>:
-                                                    <a onClick={()=>this._onHandleLike(row.univ_id,row.post_id)} className="text-secondary"><ThumbUpOff_icon/> {row.post_like_count}</a>}
-                                                    &nbsp;
-                                                    <a onClick={()=>this.scrollMoveToComment()} className="text-secondary"><Comment_icon /> {row.post_comment_count}</a>
-                                                    &nbsp;
-                                                    <span href="#" className="text-secondary"><Eye_icon />{row.post_view_count}</span>
-                                                </Emoji_bar>
-                                                <hr/>
-                                                <SingleLineGrid
-                                                    postListData={this.state.postListData}
-                                                />
-                                                <hr/>
-                                                <div id='comment_part'>
-                                                    <Comments 
-                                                        head_type={this.props.univ_id}
-                                                        commentData = {this.state.commentData}
-                                                        comment = {this.state.comment}
-                                                        _writeComment = {this._writeComment}
-                                                        _onHandleCommentDataChange = {this._onHandleCommentDataChange}
-                                                        _DelComment = {this._DelComment}
-                                                    />
+                                                                _deleteMyPoster = {this._deleteMyPoster}
+                                                            /> : ""
+                                                        }
+
+                                                    </span>
                                                 </div>
+
+
+                                            </Header>
+                                            <User>
+                                                <User_pro>
+                                                    <img src={`${awsImageURL}/logo/peopleNo.png`} height="40px" width="40px" />
+                                                    <User_name>
+                                                        <User_id>{row.user_nickname}</User_id>
+                                                        <Post_time>{calculateTime(currentDate, createDate)}</Post_time>
+                                                    </User_name>
+                                                </User_pro>
+                                            </User>
+                                            <Text
+                                                className="_TextField"
+                                            >
+                                                {/* {renderHTML(row.post_desc)} */}
+                                                <Editor
+                                                    blockRendererFn={MediaBlockRendererReadOnly}
+                                                    editorState={this.state.editorState}
+                                                    onChange={this.onEditorChange}
+                                                    readOnly
+                                                />
+                                            </Text>
+                                            <Emoji_bar>
+                                                {row.like === 'on' ? <a onClick={() => this._onHandleUnLike(row.univ_id, row.post_id)} className="text-secondary"><ThumbUpOn_icon /> {row.post_like_count}</a> :
+                                                    <a onClick={() => this._onHandleLike(row.univ_id, row.post_id)} className="text-secondary"><ThumbUpOff_icon /> {row.post_like_count}</a>}
+                                                &nbsp;
+                                                    <a onClick={() => this.scrollMoveToComment()} className="text-secondary"><Comment_icon /> {row.post_comment_count}</a>
+                                                &nbsp;
+                                                    <span href="#" className="text-secondary"><Eye_icon />{row.post_view_count}</span>
+                                            </Emoji_bar>
+                                            <hr />
+                                            <SingleLineGrid
+                                                postListData={this.state.postListData}
+                                            />
+                                            <hr />
+                                            <div id='comment_part'>
+                                                <Comments
+                                                    head_type={this.props.univ_id}
+                                                    commentData={this.state.commentData}
+                                                    comment={this.state.comment}
+                                                    _writeComment={this._writeComment}
+                                                    _onHandleCommentDataChange={this._onHandleCommentDataChange}
+                                                    _DelComment={this._DelComment}
+                                                />
                                             </div>
-                                            
                                         </div>
+
                                     </div>
-                                );
-                            }
-                        }) :
-                            (<p>Loading...</p>)
+                                </div>
+                            );
                         }
-                    </div>
-                    <Snackbar
-                        anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
-                        open={this.state.openSnacbar}
-                        onClose={this.handleSnacbarClose}
-                        ContentProps={{
-                            'aria-describedby': 'message-id',
-                        }}
-                        message={<span id="message-id">댓글이 삭제 되었습니다.</span>}
-                    />
+                    }) :
+                        (<p>Loading...</p>)
+                    }
                 </div>
-            );
-        
+                <Snackbar
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    open={this.state.openSnacbar}
+                    onClose={this.handleSnacbarClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">댓글이 삭제 되었습니다.</span>}
+                />
+            </div>
+        );
+
     }
 }
 
-const mapStateToProps = (state)=>{
-    return{
+const mapStateToProps = (state) => {
+    return {
         _sess: state.auth_user._sess,
-        _isLogged : state.auth_user._isLogged
+        _isLogged: state.auth_user._isLogged
     }
 }
 

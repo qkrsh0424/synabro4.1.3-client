@@ -133,7 +133,7 @@ class PostLists extends React.Component {
                                                         <span className='text-primary'>{index + 1}</span>
                                                         &nbsp;
                                                         {rows.post_title.length > 80 ?
-                                                            `${rows.post_topic.substring(0, 80)}...` :
+                                                            `${rows.post_title.substring(0, 80)}...` :
                                                             rows.post_title
                                                         }
 
@@ -161,13 +161,23 @@ class PostLists extends React.Component {
                                         : <a onClick={() => this._onHandleLike(rows.shb_num, rows.post_id)} className="text-secondary"><ThumbUpOff_icon />{rows.post_like_count}</a>} */}
 
                                     {/* 리스트에서 좋아요 누를수 없음 */}
-                                    {rows.liked === 'on' ? <span className="text-secondary"><ThumbUpOn_icon />{rows.post_like_count}</span>
-                                    : <span className="text-secondary"><ThumbUpOff_icon />{rows.post_like_count}</span>}
+                                    {rows.liked === 'on' ? 
+                                        <span className="text-secondary" style={{fontSize:'16px'}}>
+                                            <ThumbUpOn_icon style={{fontSize:'16px'}} />{rows.post_like_count}
+                                        </span>
+                                    : 
+                                        <span className="text-secondary" style={{fontSize:'16px'}}>
+                                            <ThumbUpOff_icon style={{fontSize:'16px'}} />{rows.post_like_count}
+                                        </span>}
 
                                     &nbsp;
-                                            <span href="#" className="text-secondary"><Comment_icon />{rows.post_comment_count}</span>
+                                            <span href="#" className="text-secondary" style={{fontSize:'16px'}}>
+                                                <Comment_icon style={{fontSize:'16px'}} />{rows.post_comment_count}
+                                            </span>
                                     &nbsp;
-                                            <span href="#" className="text-secondary"><Eye_icon />{rows.post_view_count}</span>
+                                            <span href="#" className="text-secondary" style={{fontSize:'16px'}}>
+                                                <Eye_icon style={{fontSize:'16px'}} />{rows.post_view_count}
+                                            </span>
 
                                 </div>
                             </div>

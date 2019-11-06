@@ -5,11 +5,17 @@ import Axios from 'axios';
 //Authorization
 import AuthKey from '../../../config/AuthorizationKey';
 
-import Nav from '../../Nav/Nav';
+//API
+import * as memberApi from '../../../handler/cliApi/member';
+
+
 import { connect } from "react-redux";
 
 //URL
 import { serverUrl } from '../../../config/serverUrl';
+
+//component
+import Nav from '../../Nav/Nav';
 
 /**
  * props
@@ -28,16 +34,48 @@ class BoardCategoryMain extends React.Component {
             startPostIndex:0,
             currentPostIndex:20,
             nextBtnOn: true,
+            isMember:false,
+            canApplyGroup:false,
         }
     }
 
     componentDidMount = () => {
+        this._memberCheck();
+        this._memberApplyCheck();
         this._getPost();
     }
 
     componentDidUpdate = async(prevProps) =>{
         if (prevProps.shb_item_id !== this.props.shb_item_id) {
+            this._memberCheck();
             this._getPost();
+        }
+    }
+
+    _memberCheck = async() =>{
+        // console.log(this.props);
+        if(this.props._sess){
+            await memberApi.member_check(this.props._sess, this.props.shb_item.shb_num)
+            .then(data=>{
+                if(data.message==='valid'){
+                    this.setState({isMember:true});
+                }else{
+                    this.setState({isMember:false});
+                }
+            });
+        }   
+    }
+
+    _memberApplyCheck = async() =>{
+        if(this.props._sess){
+            await memberApi.member_check_apply(this.props._sess, this.props.shb_item.shb_num)
+            .then(data=>{
+                if(data.message==='have'){
+                    this.setState({canApplyGroup:false});
+                }else{
+                    this.setState({canApplyGroup:true});
+                }
+            })
         }
     }
 

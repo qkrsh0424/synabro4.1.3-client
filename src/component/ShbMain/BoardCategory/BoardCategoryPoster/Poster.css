@@ -14,3 +14,7 @@
     white-space: pre-wrap;
 }
   
+.CommonPosterPart .Header-bar{
+    font-weight: 700;
+    font-size: 18px;
+}

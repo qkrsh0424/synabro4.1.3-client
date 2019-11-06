@@ -8,9 +8,14 @@
     }
 }
 
-.__Nav_Style{
-    background: white !important;
-    color: black !important;
+.PcyTopNavBar{
+    position:fixed;
+    z-index:1100;
+    width:100%;
+    background: white;
+    color: gray;
+    border-bottom: 1px solid #f0f0f0;
+    /* box-shadow:0px 2px 4px -1px rgba(0,0,0,0.1); */
 }
 
 .header_style{

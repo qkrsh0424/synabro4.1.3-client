@@ -52,7 +52,7 @@ const Container = styled.div`
   .button {
     padding: 10px 20px;
     width: 100%;
-    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
     border-radius: 0.25rem;
   }
 `;

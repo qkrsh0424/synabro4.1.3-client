@@ -12,22 +12,15 @@ import AuthKey from '../../../config/AuthorizationKey';
 
 import { serverUrl } from '../../../config/serverUrl';
 
-const options = [
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Oberon',
-    'Phobos',
-    'Pyxis',
-    'Sedna',
-    'Titania',
-    'Triton',
-    'Umbriel',
-];
+
+//Core
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 const ITEM_HEIGHT = 48;
 
@@ -36,7 +29,10 @@ class UnivPosterMenuControl extends React.Component {
         super(props);
         this.state = {
             anchorEl: null,
+            dialogOpen: false,
+            confirmDelete: false,
         }
+
     }
 
     handleClick = event => {
@@ -44,11 +40,32 @@ class UnivPosterMenuControl extends React.Component {
     };
 
     handleClose = () => {
-        this.setState({ anchorEl: null });
+        this.setState({ anchorEl: null,dialogOpen: false });
     };
 
+    handleModifyPoster = () => {
+        // console.log(this.props.univ_id);
+        // console.log(this.props.post_id);
+        // console.log(this.props.board_type);
+        // console.log(this.props._sess);
+        if(this.props.poster_isValidation){
+            window.location.href=`/univ/modifypost?BomNo=${this.props.univ_id}&Category=${this.props.board_type}&postView=${this.props.post_id}`;
+        }
+        
+    }
+
+    handleDeletePoster = async () => {
+        await this.setState({ dialogOpen: true });
+    }
+
+    handleDeleteConfirm = async() =>{
+        await this.setState({ dialogOpen: false, confirmDelete:true });
+        if(this.state.confirmDelete===true){
+            this.props._deleteMyPoster();
+        }
+    }
+
     render() {
-        console.log(this.props);
         const { anchorEl } = this.state;
         const open = Boolean(anchorEl);
 
@@ -74,12 +91,43 @@ class UnivPosterMenuControl extends React.Component {
                         },
                     }}
                 >
-                    {options.map(option => (
-                        <MenuItem key={option} selected={option === 'Pyxis'} onClick={this.handleClose}>
-                            {option}
+
+                    {this.props.poster_isValidation ?
+                        <div>
+                            <MenuItem onClick={this.handleModifyPoster}>
+                                수정하기
+                            </MenuItem>
+                            <MenuItem onClick={this.handleDeletePoster}>
+                                삭제하기
+                            </MenuItem>
+                        </div>
+                        :
+                        <MenuItem onClick={this.handleClose} disabled>
+                            신고하기
                         </MenuItem>
-                    ))}
+                    }
                 </Menu>
+                <Dialog
+                    open={this.state.dialogOpen}
+                    onClose={this.handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"게시물 삭제"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            정말로 삭제 하시겠습니까?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary">
+                            취소
+                        </Button>
+                        <Button onClick={this.handleDeleteConfirm} color="primary">
+                            확인
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }

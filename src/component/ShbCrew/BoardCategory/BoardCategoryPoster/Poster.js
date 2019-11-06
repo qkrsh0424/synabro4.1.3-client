@@ -21,6 +21,8 @@ class Poster extends React.Component {
             categoryTitle:null,
             commentData:'',
             comment:'',
+
+            poster_isValidation:false,
         }
     }
 
@@ -29,6 +31,7 @@ class Poster extends React.Component {
         this._loadPost();
         this._loadCategory();
         this._loadComment();
+        this._posterValidation();
     }
 
     _getShb = async()=>{
@@ -37,7 +40,7 @@ class Poster extends React.Component {
     }
 
     _loadCategory = () =>{
-        api.shb_getShbOneItem(this.props.match.params.shb_item_id)
+        api.shb_getShbOneItem(this.props.match.params.shb_item_id, this.state.queryValues.BomNo)
         .then(data=>{
             if(data.message==='success'){
                 this.setState({categoryTitle:data.data.shb_item_name});
@@ -152,6 +155,35 @@ class Poster extends React.Component {
         })
     }
 
+    _posterValidation = async () => {
+        if (this.props._isLogged) {
+            api.shb_posterValidationAndMenuControl(this.props._sess, this.props.match.params.post_id, this.state.queryValues.BomNo)
+            .then(data => {
+                if (data === 'valid') {
+                    this.setState({ poster_isValidation: true });
+                } else if (data === 'invalid') {
+                    this.setState({ poster_isValidation: false });
+                } else if (data === 'error') {
+                    return;
+                } else {
+                    return;
+                }
+            })
+        }
+    }
+
+    _deleteMyPoster = async() => {
+        api.shb_deletePosterOne(this.props._sess, this.state.queryValues.BomNo, this.props.match.params.post_id)
+        .then(data=>{
+            if(data==='success'){
+                window.history.back();
+            }else{
+                alert('error');
+                window.location.reload();
+            }
+        });
+    }
+
     render() {
         // console.log(this.props);
         return (
@@ -166,6 +198,7 @@ class Poster extends React.Component {
                     _writeComment = {this._writeComment}
                     _onHandleCommentDataChange = {this._onHandleCommentDataChange}
                     _DelComment = {this._DelComment}
+                    _deleteMyPoster = {this._deleteMyPoster}
                 />
             </div>
         );

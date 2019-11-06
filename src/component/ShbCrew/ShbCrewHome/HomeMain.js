@@ -3,6 +3,7 @@ import './ShbCrewHome.css';
 
 //API
 import * as api from '../../../handler/cliApi/shb';
+import * as bannerApi from '../../../handler/cliApi/banner';
 
 //Component
 import Nav from '../../Nav/Nav';
@@ -15,6 +16,7 @@ class HomeMain extends React.Component{
             shb:null,
             shb_item:null,
             postLists:null,
+            bannerHeader:null,
         }
     }
 
@@ -22,6 +24,7 @@ class HomeMain extends React.Component{
         this._getShb();
         this._getShbItem();
         this._getPostListsForShbNum();
+        this._getBanner();
     }
 
     componentDidUpdate = (prevProps, prevState)=>{
@@ -29,8 +32,10 @@ class HomeMain extends React.Component{
             this._getShb();
             this._getShbItem();
             this._getPostListsForShbNum();
+            this._getBanner();
         }
     }
+    
 
     _getShb = async()=>{
         await api.shb_getShbOne(this.props.match.params.shb_num) //crew는 선택사항.
@@ -45,6 +50,21 @@ class HomeMain extends React.Component{
     _getPostListsForShbNum = async()=>{
         await api.shb_getShbAllPostForShbNum(this.props.match.params.shb_num)
         .then(data=>this.setState({postLists:data}));
+    }
+
+    _getBanner = async() =>{
+        console.log(this.props.match.params.shb_num);
+        this.setState({bannerHeader:null});
+        bannerApi.banner_getBanner_headType_bannerType(this.props.match.params.shb_num, 'header')
+        .then(data=>{
+            if(data.message==='success'){
+                this.setState({bannerHeader:data.data});
+            }else if(data.message==='none'){
+                this.setState({bannerHeader:data.noData});
+            }else{
+                this.setState({bannerHeader:null});
+            }
+        });
     }
 
     render(){

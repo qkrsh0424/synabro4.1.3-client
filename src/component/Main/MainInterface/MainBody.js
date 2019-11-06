@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 //Style
 import styled from "styled-components";
 
+//API
+import * as shbApi from '../../../handler/cliApi/shb';
+
 //Material Core
 import { IconButton } from "@material-ui/core";
 
@@ -22,24 +25,21 @@ import DropUpIcon from '@material-ui/icons/ArrowUpward';
 import Forecast from "../Forecast";
 import MainSearch from "../../MainSearch/FullDialog";
 import LoginCard from '../../Login/LoginCard';
-import MainPostCard1 from './MainPostCard1';
-import MainPostCard2 from './MainPostCard2';
+// import MainPostCard1 from './MainPostCard1';
+// import MainPostCard2 from './MainPostCard2';
+import MainPostList from './MainPostList';
 
 const Container = styled.div`
     padding-top: 30px;
 
-    .box {
-        background-color: red;
-    }
 
     .mainBene {
         font-size: 200px;
-        max-height: 283px;
+        height: 21vw;
         text-align: center;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
           Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
         padding: 0px;
-        background-color: #636e72;
         color: #636e72;
     }
     input {
@@ -47,18 +47,16 @@ const Container = styled.div`
         margin-bottom: 3px;
     }
     .card {
-        background-color: white;
         margin: 0 0 2rem;
-        border: none;
         /* min-width: 255px; */
-        box-shadow: 0 7px 14px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
+        // box-shadow: 0 7px 14px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
     }
 
     .cardWrapper{
         background-color: white;
         margin: 0 0 2rem;
         border: none;
-        box-shadow: 0 7px 14px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;;
     }
 
     .cardWrapper .card{
@@ -74,14 +72,13 @@ const Container = styled.div`
     }
     .mainBene img {
         /* background-color: #e9ecef; */
-        height: 283px;
+        height: 21vw;
         border: none;
         padding: 0px 0px;
         border-radius: 0.25rem;
     }
     .main {
-        max-height: 283px;
-        background-color: #636e72;
+        height: 21vw;
         color: white;
     }
     .nav {
@@ -165,6 +162,47 @@ const Container = styled.div`
     .mainSearch{
         text-align:center;
     }
+    .carousel-inner{
+        border-radius:30px;
+    }
+
+    .carousel{
+        border-radius:30px;
+        height: 21vw;
+    }
+
+    @media screen and (max-width:800px){
+        .carousel{
+            border-radius:15px;
+            height: 45vw;
+        }   
+        .carousel-inner{
+            border-radius:15px;
+        }
+        .main {
+            height: 45vw;
+            color: white;
+        }
+        .mainBene {
+            font-size: 200px;
+            height: 45vw;
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+              Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            padding: 0px;
+            color: #636e72;
+        }
+
+        .mainBene img {
+            /* background-color: #e9ecef; */
+            height: 45vw;
+            border: none;
+            padding: 0px 0px;
+            border-radius:15px;
+        }
+        
+        
+    }
 `;
 
 const StyledLink = styled(Link)`
@@ -228,12 +266,31 @@ class MainBody extends React.Component {
         super(props);
         this.state = {
             dropdownHeight: "128px",
-            isDropdown: false
+            isDropdown: false,
+            post:null
         }
     }
+
+    componentDidMount = () =>{
+        this._getMainAllPosts();
+    }
+
     categoryDropdown = () => {
         var navHeight = this.state.dropdownHeight === '128px' ? '410px' : '128px';
         this.setState({ dropdownHeight: navHeight, isDropdown: !this.state.isDropdown });
+    }
+
+    _getMainAllPosts = () =>{
+        shbApi.shb_getShbAllPostForAllBoundary()
+        .then(data=>{
+            if(data.message==='success'){
+                this.setState({post:data.data});
+            }else if(data.message==='none'){
+                this.setState({post:null});
+            }else{
+                alert('포스트 에러');
+            }
+        });
     }
 
     render() {
@@ -244,9 +301,11 @@ class MainBody extends React.Component {
                 </div>
             </div>
         );
+        // console.log(this.state.post);
+        // console.log(this.props.bannerHeader)
         return (
             <Container>
-                <div className="container shadow-sm animate slideIn clearfix">
+                <div className="container shadow-sm animate slideIn clearfix pb-5">
                     <div className="row">
                         <div className="col-md-9">
                             <div
@@ -255,7 +314,43 @@ class MainBody extends React.Component {
                                 data-ride="carousel"
                             >
                                 <div className="carousel-inner card mainBene">
-                                    <div
+                                    {this.props.bannerHeader? this.props.bannerHeader.map((rows,index)=>{
+                                        if(rows && index===0){
+                                            return(
+                                                <div
+                                                    className="carousel-item active main"
+                                                    data-interval="4000"
+                                                >
+                                                    <img
+                                                        // src={require("../../asset/6.jpg")}
+                                                        src={rows.banner_image}
+                                                        className="d-block bene_Big_Size"
+                                                        alt="..."
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                        return(
+                                            <div
+                                                    className="carousel-item main"
+                                                    data-interval="4000"
+                                                >
+                                                    <img
+                                                        // src={require("../../asset/6.jpg")}
+                                                        src={rows.banner_image}
+                                                        className="d-block bene_Big_Size"
+                                                        alt="..."
+                                                    />
+                                                </div>
+                                        );
+                                        
+                                    })
+
+                                    :
+                                    (beneLoading)
+                                    
+                                    }
+                                    {/* <div
                                         className="carousel-item active main"
                                         data-interval="4000"
                                     >
@@ -268,13 +363,13 @@ class MainBody extends React.Component {
                                     </div>
 
                                     <div className="carousel-item main" data-interval="4000">
-                                        {/* <div
-                                            src={require("../../asset/6.jpg")}
+                                        <img
+                                            // src={require("../../asset/6.jpg")}
+                                            src={"https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/bannerImage/synabrologo1.png"}
                                             className="d-block bene_Big_Size"
                                             alt="..."
-                                            /> */}
-                                        상해봄
-                                    </div>
+                                        />
+                                    </div> */}
                                 </div>
                                 <a
                                     className="carousel-control-prev"
@@ -306,7 +401,7 @@ class MainBody extends React.Component {
                             <div className="mainSearch">
                                 <MainSearch />
                             </div>
-                            <div className="loginCard">
+                            <div className="loginCard shadow-sm">
                                 <LoginCard />
                             </div>
                         </div>
@@ -351,7 +446,7 @@ class MainBody extends React.Component {
                                     {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
                                         if (rows) {
                                             return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}`}>
+                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`}>
                                                     <div className="item">
                                                         <div className="item_icon">
                                                             {rows.shb_item_icon_url ?
@@ -374,13 +469,21 @@ class MainBody extends React.Component {
                             </div>
                         </div>
                         <div className="col-md-3">
-                            <div className="right card">
+                            <div className="right card shadow-sm">
                                 forecast
-                                {this.props.forecastBool?<Forecast />:"loading..."}
+                                {/* {this.props.forecastBool?<Forecast />:"loading..."} */}
                             </div>
                         </div>
                     </div>
-                    <h3>상해봄</h3>
+
+                    <MainPostList
+                        {...this.props}
+                        {...this.state}
+                    />
+
+
+                    
+                    {/* <h3>상해봄</h3>
                     <div className="row">
                         {this.props.shb_main_items?this.props.shb_main_items.map((rows,index)=>{
                             if(index<3)
@@ -392,16 +495,16 @@ class MainBody extends React.Component {
                         })
                             :
                             "loading"
-                        }
+                        } */}
                         
                         {/* 베너 오는곳 */}
-                        <div className="col-md-3">
+                        {/* <div className="col-md-3">
                             <div className="right card">banner</div>
                             <div className="right card">banner</div>
                         </div>
-                    </div>
+                    </div> */}
 
-                    <h3>대학교</h3>
+                    {/* <h3>대학교</h3>
                     <div className="row">
                         {this.props.univ_lists?this.props.univ_lists.map((rows,index)=>{
                             return(
@@ -410,33 +513,11 @@ class MainBody extends React.Component {
                                 />
                             );
                         }):""}
-                        
-                        {/* <div className="col-md-4">
-                            <div className="card board">
-                                <div className="board_title">제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                            </div>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="card board">
-                                <div className="board_title">제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                            </div>
-                        </div> */}
-                    </div>
-                    <div className="row">
+                    </div> */}
+
+
+
+                    {/* <div className="row">
                         <div className="col-md-3">
                             <div className="card board">
                                 <div className="board_title">제목</div>
@@ -504,7 +585,7 @@ class MainBody extends React.Component {
                             <div className="right card">bene</div>
                             <div className="right card">bene</div>
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
             </Container>

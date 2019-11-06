@@ -13,10 +13,15 @@ import { serverUrl } from '../../config/serverUrl';
 
 //Draft Material
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, SelectionState } from 'draft-js';
-import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
+import Editor, { createEditorStateWithText,composeDecorators } from 'draft-js-plugins-editor';
+
 import createToolbarPlugin, { Separator } from 'draft-js-static-toolbar-plugin';
+import createImagePlugin from 'draft-js-image-plugin';
+import createFocusPlugin from 'draft-js-focus-plugin';
+import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
+
 import 'draft-js-static-toolbar-plugin/lib/plugin.css';
-import './DraftJs.css';
+import '../StyleCss/Draftjs.css';
 import {
     ItalicButton,
     BoldButton,
@@ -44,6 +49,26 @@ import Progress from '@material-ui/core/CircularProgress';
 //API
 import { __get_OneUnivItem } from '../../handler/cliApi/Univ_item';
 import { __sendPost } from '../../handler/cliApi/PostApi';
+
+const focusPlugin = createFocusPlugin();
+const blockDndPlugin = createBlockDndPlugin();
+const staticToolbarPlugin = createToolbarPlugin();
+
+const decorator = composeDecorators(
+    focusPlugin.decorator,
+    blockDndPlugin.decorator
+);
+const imagePlugin = createImagePlugin({ decorator });
+
+
+const { Toolbar } = staticToolbarPlugin;
+
+const plugins = [
+    staticToolbarPlugin,
+    blockDndPlugin,
+    focusPlugin,
+    imagePlugin
+];
 
 class HeadlinesPicker extends React.Component {
     componentDidMount() {
@@ -89,12 +114,12 @@ class HeadlinesButton extends React.Component {
     }
 }
 
-const staticToolbarPlugin = createToolbarPlugin();
-const { Toolbar } = staticToolbarPlugin;
+// const staticToolbarPlugin = createToolbarPlugin();
+// const { Toolbar } = staticToolbarPlugin;
 
-const plugins = [
-    staticToolbarPlugin
-];
+// const plugins = [
+//     staticToolbarPlugin
+// ];
 
 class DraftJs extends React.Component {
     TYPE_OF_POST = 'univ';
@@ -308,7 +333,7 @@ class DraftJs extends React.Component {
 
         if (this.props._isLogged) {
             return (
-                <div>
+                <div className='UnivDraft'>
                     {this.state.imgUploadLoading ?
                         <ImageUploadLoading
                             imgUploadLoading={this.state.imgUploadLoading}
@@ -320,7 +345,8 @@ class DraftJs extends React.Component {
                         </Paper>
                         <Paper style={style.paperBody} className='clearfix'>
                             <form onSubmit={this.onHandleSubmit}>
-                                <p>작성지 : {this.state.board.univ_item_title} 작성자 : {this.props._nickname}</p>
+                                <p>작성지 : {this.state.board?`${this.state.board.univ_title} / ${this.state.board.univ_item_title}`:""}</p>
+                                <p>작성자 : {this.props._nickname}</p>
                                 <div className="input-group mb-3">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="inputGroup-sizing-sm">제목</span>

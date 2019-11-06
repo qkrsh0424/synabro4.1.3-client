@@ -14,9 +14,9 @@ const propTypes = {
 const defaultProps = {
     user_uid:undefined,
     user_password:undefined,
-    handleValueChange: console.warn('handleValueChange is not defined'),
-    handleFormSubmit: console.warn('handleFormSubmit is not defined'),
-    handleMoveHome: console.warn('handleMoveHome is not defined'),
+    // handleValueChange: console.warn('handleValueChange is not defined'),
+    // handleFormSubmit: console.warn('handleFormSubmit is not defined'),
+    // handleMoveHome: console.warn('handleMoveHome is not defined'),
 }
 
 class LoginBody extends React.Component{
@@ -57,7 +57,7 @@ class LoginBody extends React.Component{
     
                                 <div className="signin signin__t">
                                     <p className="signin__box">회원가입을 원하시면 링크를 클릭하세요.</p>
-                                    <Link to="./register">회원가입</Link>
+                                    <Link to="/signup">회원가입</Link>
                                 </div>
                             </form>
                         </div>

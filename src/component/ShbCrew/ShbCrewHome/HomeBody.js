@@ -28,7 +28,9 @@ class HomeBody extends React.Component {
                 </div>
                 <div className='row mb-3'>
                     <div className='col-md-9'>
-                        <HomeBigBanner />
+                        <HomeBigBanner 
+                            bannerHeader = {this.props.bannerHeader}
+                        />
                         
                     </div>
                     <div className='col-md-3'>

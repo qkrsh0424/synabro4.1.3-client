@@ -5,7 +5,7 @@ export const MediaBlockRenderer = block => {
 	if (block.getType() === "atomic") {
 		return {
 			component: Media,
-			editable: true
+			editable: false
 		};
 	}
 
