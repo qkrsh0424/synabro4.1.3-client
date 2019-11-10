@@ -70,20 +70,24 @@ class Poster extends React.Component {
     }
 
     _handleLikeOn = (head_type ,post_id) =>{
+        document.getElementById('currentLikeOff').classList.add('likeOnStyle');
         const logincheck = this.props._isLogged;
         const usid = this.props._sess;
         api.handleLikeOn(logincheck, usid, head_type ,post_id)
-        .then(data=>{
+        .then((data)=>{
             if (data.message === 'like ok') {
-                this.setState({openLikeOnSnackbar:true});
                 this._loadPost();
+                this.setState({openLikeOnSnackbar:true});
+                document.getElementById('currentLikeOff').classList.remove('likeOnStyle');
             } else {
                 console.log('LIKE FUNCTION IS ERROR');
             }
         })
+        
     }
 
     _handleLikeOff = (head_type ,post_id) =>{
+        document.getElementById('currentLikeOn').classList.add('likeOnStyle');
         const logincheck = this.props._isLogged;
         const usid = this.props._sess;
         api.handleLikeOff(logincheck, usid, head_type ,post_id)
@@ -91,6 +95,7 @@ class Poster extends React.Component {
             if (data.message === 'unlike ok') {
                 this.setState({openLikeOffSnackbar:true});
                 this._loadPost();
+                document.getElementById('currentLikeOn').classList.remove('likeOnStyle');
             } else {
                 console.log('LIKE FUNCTION IS ERROR');
             }

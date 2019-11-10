@@ -132,7 +132,14 @@ class MyPostList extends React.Component {
                                         <Link to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
                                             <div className="table-bar_column">
     
-                                                <span className="table-bar_writer"><span className='text-primary'>{index + 1}</span> 작성자: {rows.user_nickname.length > 6 ? `${rows.user_nickname.substring(0, 6)}...` : rows.user_nickname}</span>
+                                                <span className="table-bar_writer">
+                                                    <span className='text-primary'>{index + 1}</span> 
+                                                    작성자: {rows.user_nickname.length > 6 ? `${rows.user_nickname.substring(0, 6)}...` : rows.user_nickname}
+                                                    {rows.post_user_isSecret && rows.post_user_isSecret===1?
+                                                        <span className='text-danger'> *익명</span>:
+                                                        ""
+                                                    }
+                                                </span>
                                                 {/* <span className="table-bar_time float-right">{calculateTime(new Date(), new Date(rows.post_created))}</span> */}
                                             </div>
                                             <div className="table-bar_column">

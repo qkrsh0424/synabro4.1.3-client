@@ -124,7 +124,12 @@ class PostLists extends React.Component {
 
                                                             </div>
                                                             <div className="table-bar_column">
-                                                                <span className="table-bar_writer" style={{ fontSize: "14px" }}>{rows.user_nickname.length > 12 ? `${rows.user_nickname.substring(0, 12)}...` : rows.user_nickname}</span>
+                                                                <span className="table-bar_writer" style={{ fontSize: "14px" }}>
+                                                                    {rows.post_user_isSecret && rows.post_user_isSecret===1?
+                                                                        '익명':
+                                                                        rows.user_nickname.length > 12 ? `${rows.user_nickname.substring(0, 12)}...` : rows.user_nickname
+                                                                    }
+                                                                </span>
 
 
 

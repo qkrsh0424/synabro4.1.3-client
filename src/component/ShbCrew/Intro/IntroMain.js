@@ -24,7 +24,7 @@ class IntroMain extends React.Component{
     }
 
     render(){
-        console.log(this.state.shb);
+        // console.log(this.state.shb);
         return(
             <div>
                 <Nav/>

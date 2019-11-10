@@ -47,4 +47,23 @@ const Image = (props) => {
     );
 };
 
-export { findLinkEntities, findImageEntities, Link, Image };
+const myBlockStyleFn = (contentBlock) =>{
+    const type = contentBlock.getType();
+
+    switch(type){
+        case 'text-left-draft' :
+            return 'text-left-draft';
+            break;
+        case 'text-right-draft':
+            return 'text-right-draft';
+            break;
+        case 'text-center-draft':
+            return 'text-center-draft';
+            break;
+        case 'text-justify-draft':
+            return 'text-justify-draft';
+            break;
+    }
+  }
+
+export { findLinkEntities, findImageEntities, Link, Image, myBlockStyleFn };

@@ -1,19 +1,19 @@
 import React from 'react';
-import '../../PublicStyle/SlideAnimation.css';
+import '../PublicStyle/SlideAnimation.css';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 
 //Authorization
-import AuthKey from '../../../config/AuthorizationKey';
+import AuthKey from '../../config/AuthorizationKey';
 
 
 import { connect } from 'react-redux';
-import { awsImageURL } from '../../../config/awsurl';
-import './PostLists.css';
+import { awsImageURL } from '../../config/awsurl';
+// import './PostLists.css';
 import { Link, NavLink } from 'react-router-dom';
 
 //URL
-import {serverUrl} from '../../../config/serverUrl'
+import {serverUrl} from '../../config/serverUrl'
 
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -25,9 +25,7 @@ import Eye_icon from '@material-ui/icons/RemoveRedEye';
 import Notification_icon from '@material-ui/icons/NotificationImportant';
 import PhotoLibraryOutlinedIcon from '@material-ui/icons/PhotoLibraryOutlined';
 
-import { calculateTime } from '../../../controler/calculateTime';
-
-import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
+import { calculateTime } from '../../controler/calculateTime';
 
 
 
@@ -108,11 +106,9 @@ class PostLists extends React.Component {
     render() {
         return (
             <div className='table-body animate slideIn clearfix'>
-                {this.props.postLists ? this.props.postLists.map((rows, index) => {
+                {this.props.post ? this.props.post.map((rows, index) => {
 
                     if (rows !== null) {
-                        const postToEdit = EditorState.createWithContent(convertFromRaw(JSON.parse(rows.post_desc)));
-                        const descText = postToEdit.getCurrentContent().getPlainText(' ');
                         return (
                             <div className="table-bar p-3 mb-2 shadow-sm hover_animate" key={index}>
                                 <Tooltip title={
@@ -124,19 +120,19 @@ class PostLists extends React.Component {
                                             </div>}
                                     </React.Fragment>
                                 }>
-                                    
+
                                     <Link to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
 
                                         <div className="table-bar_column">
-                                            
+
                                             {/* {rows.post_type===10002?<Notification_icon color="secondary"/>:""} */}
                                             <div className="table-bar_column">
                                                 <div className="font-weight-bold m-0 clearfix">   
                                                     <span className='float-right mt-1 mb-1'>{rows.post_thumbnail_url === 'none' ? <img src={`${awsImageURL}/logo/imageNo2.gif`} /> : <img src={rows.post_thumbnail_url}/>}</span>       
-                                                    <div className='topic_custom'>
+                                                    <p className='topic_custom'>
                                                         <span className='text-primary'>{index + 1}</span>
                                                         &nbsp;
-                                                        {rows.post_title && rows.post_title.length > 80 ?
+                                                        {rows.post_title.length > 80 ?
                                                             `${rows.post_title.substring(0, 80)}...` :
                                                             rows.post_title
                                                         }
@@ -145,10 +141,8 @@ class PostLists extends React.Component {
                                                             <span href="#" className="font-weight-normal"><PhotoLibraryOutlinedIcon style={{ fontSize: "20px" }} />({rows.post_image_count})</span>
                                                             : ""
                                                         }
-                                                        <br/>
-                                                        <span style={{fontSize:'10px',fontWeight:'unset', color:'gray'}}>{descText.length>80?`${descText.substring(0,80)}...`:descText}</span>
-                                                    </div>
-                                                    
+                                                        
+                                                    </p>
                                                 </div>
                                                 
                                             </div>
@@ -157,12 +151,7 @@ class PostLists extends React.Component {
                                     </Link>
 
                                 </Tooltip>
-                                <span className="table-bar_writer float-left"> 
-                                    작성자: {rows.post_user_isSecret && rows.post_user_isSecret===1?
-                                            '익명':
-                                            rows.user_nickname.length > 6 ? `${rows.user_nickname.substring(0, 6)}...` : rows.user_nickname
-                                            }
-                                </span>
+                                <span className="table-bar_writer float-left"> 작성자: {rows.user_nickname.length > 6 ? `${rows.user_nickname.substring(0, 6)}...` : rows.user_nickname}</span>
                                 <br/>
                                 <span className="table-bar_time float-left font-weight-normal">{calculateTime(new Date(), new Date(rows.post_created))}</span>
                                 <div className="table-bar_column text-right">
@@ -173,21 +162,21 @@ class PostLists extends React.Component {
 
                                     {/* 리스트에서 좋아요 누를수 없음 */}
                                     {rows.liked === 'on' ? 
-                                    <span className="text-secondary" style={{fontSize:'16px'}}>
-                                        <ThumbUpOn_icon style={{fontSize:'16px'}}/>{rows.post_like_count}
-                                    </span>
+                                        <span className="text-secondary" style={{fontSize:'16px'}}>
+                                            <ThumbUpOn_icon style={{fontSize:'16px'}} />{rows.post_like_count}
+                                        </span>
                                     : 
-                                    <span className="text-secondary" style={{fontSize:'16px'}}>
-                                        <ThumbUpOff_icon style={{fontSize:'16px'}}/>{rows.post_like_count}
-                                    </span>}
+                                        <span className="text-secondary" style={{fontSize:'16px'}}>
+                                            <ThumbUpOff_icon style={{fontSize:'16px'}} />{rows.post_like_count}
+                                        </span>}
 
                                     &nbsp;
                                             <span href="#" className="text-secondary" style={{fontSize:'16px'}}>
-                                                <Comment_icon style={{fontSize:'16px'}}/>{rows.post_comment_count}
+                                                <Comment_icon style={{fontSize:'16px'}} />{rows.post_comment_count}
                                             </span>
                                     &nbsp;
                                             <span href="#" className="text-secondary" style={{fontSize:'16px'}}>
-                                                <Eye_icon style={{fontSize:'16px'}}/>{rows.post_view_count}
+                                                <Eye_icon style={{fontSize:'16px'}} />{rows.post_view_count}
                                             </span>
 
                                 </div>

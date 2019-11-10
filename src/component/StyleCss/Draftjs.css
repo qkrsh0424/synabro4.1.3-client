@@ -41,6 +41,7 @@
   .DraftEditor-root{
       min-width: auto;
       min-height: 9em;
+      clear:none;
   }
 
 
@@ -92,6 +93,7 @@
   }
   @media screen and (max-width:800px){
     .editor img{
+        max-width: 100%;
         width:100%;
     }
     .editor {
@@ -110,9 +112,51 @@
     font-family: cursive;
   }
 
+  .header-one{
+    text-align: center;
+  }
 
-  
-  /* 
-  
-  
-  */
+  /* custom style css */
+  .text-justify-draft{
+    text-align: justify;
+  }
+  .text-left-draft{
+    text-align: left;
+  }
+  .text-center-draft{
+    text-align: center;
+  }
+  .text-right-draft{
+    text-align: right;
+  }
+
+  .text-white-color-draft{
+    color:white;
+  }
+  .text-red-color-draft{
+    color:red;
+  }
+  .text-orange-color-draft{
+    color:orange;
+  }
+  .text-yellow-color-draft{
+    color:yellow;
+  }
+  .text-green-color-draft{
+    color:green;
+  }
+  .text-blue-color-draft{
+    color:blue;
+  }
+  .text-darkblue-color-draft{
+    color:darkblue;
+  }
+  .text-violet-color-draft{
+    color:violet;
+  }
+  .text-darkgray-color-draft{
+    color:darkgray;
+  }
+  .text-black-color-draft{
+    color:black;
+  }

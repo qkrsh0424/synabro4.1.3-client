@@ -22,14 +22,19 @@
     text-decoration: none;
 }
 
+.CrewPoster .Header-bar{
+    font-weight: 700;
+    font-size: 18px;
+}
+
 ._TextField img{
-    max-width: 800px;
+    max-width: 90%;
     max-height: 800px;
 }
 
 @media screen and (max-width:800px){
     ._TextField img{
-        max-width: 100%;
+        width: 100%;
     }
   }
 
@@ -37,3 +42,21 @@
     white-space: pre-wrap;
 }
   
+.CommonPosterPart .Header-bar{
+    font-weight: 700;
+    font-size: 18px;
+}
+
+
+.likeOnStyle{
+    color:#6c757d;  
+}
+
+  
+/* .likeOnStyle:hover{
+    color:red;
+}
+
+.likeOnStyle:active{
+    font-size: 20px;
+} */

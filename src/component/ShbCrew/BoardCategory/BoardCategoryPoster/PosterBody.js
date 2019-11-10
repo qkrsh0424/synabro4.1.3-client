@@ -2,17 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 
 //URL 
-import {awsImageURL} from '../../../../config/awsurl';
+import { awsImageURL } from '../../../../config/awsurl';
 
 //Controler
-import {calculateTime} from '../../../../controler/calculateTime'
+import { calculateTime } from '../../../../controler/calculateTime'
 // DraftJs
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
-import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
+import Editor, { createEditorStateWithText, composeDecorators } from 'draft-js-plugins-editor';
 import { MediaBlockRendererReadOnly } from '../../../PostEditorV1_Common/MediaBlockRenderer';
 
 //Router Dom
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+
+//Draft Plugin Load
+import createImagePlugin from 'draft-js-image-plugin';
+import createAlignmentPlugin from 'draft-js-alignment-plugin';
+
+//Draft Handler
+import { myBlockStyleFn } from '../../../DraftPlugIn';
+import createHighLightPlugin from '../../../DraftPlugIn/highlightPlugin';
+import createTextColorPlugin from '../../../DraftPlugIn/textColorPlugin';
 
 //Core
 import Paper from '@material-ui/core/Paper';
@@ -26,6 +35,27 @@ import Eye_icon from '@material-ui/icons/RemoveRedEye';
 //Component
 import Comments from './Comments';
 import PosterMenuControl from './PosterMenuControl';
+
+//Use Draft Plugin Start
+const alignmentPlugin = createAlignmentPlugin();
+const highLightPlugin = createHighLightPlugin();
+const textColorPlugin = createTextColorPlugin();
+
+const decorator = composeDecorators(
+    alignmentPlugin.decorator,
+);
+// const colorBlockPlugin = createColorBlockPlugin({ decorator });
+const imagePlugin = createImagePlugin({ decorator });
+
+
+const plugins = [
+    imagePlugin,
+    alignmentPlugin,
+    highLightPlugin,
+    textColorPlugin
+];
+
+//Use Draft Plugin End
 
 const Header = styled.div`
 border-bottom : 1px dashed black;
@@ -94,17 +124,17 @@ class PosterBody extends React.Component {
         return (
             <div className='container animate slideIn clearfix CrewPoster' style={style.Grid}>
                 <div className='jumbotron mt-3 shadow bg-light HeaderPart'>
-                    {this.props.shb?
+                    {this.props.shb ?
                         <h3 className='text-center clearfix'>
                             <Link to={`/crew/contype/${this.props.shb.shb_num}`} className='Text'>
                                 <span>{this.props.shb.shb_name}</span>
                             </Link>
                             {/* <button className='float-right'>B</button> */}
-                        </h3>:
+                        </h3> :
                         ""}
                 </div>
                 <Paper style={style.paperHeader}>
-                    {this.props.categoryTitle?this.props.categoryTitle:"Loading.."}
+                    {this.props.categoryTitle ? this.props.categoryTitle : "Loading.."}
                 </Paper>
                 {this.props.post ? this.props.post.map(row => {
                     var currentDate = new Date();
@@ -120,18 +150,23 @@ class PosterBody extends React.Component {
                                             <PosterMenuControl
                                                 {...this.state}
                                                 {...this.props}
-                                                _deleteMyPoster = {this.props._deleteMyPoster}
+                                                _deleteMyPoster={this.props._deleteMyPoster}
                                             /> : ""
                                         }
                                     </span>
                                 </div>
-                               
+
                             </Header>
                             <User>
                                 <User_pro>
-                                    <img src={`${awsImageURL}/logo/peopleNo.png`} height="40px" width="40px"/>
+                                    <img src={`${awsImageURL}/logo/peopleNo.png`} height="40px" width="40px" />
                                     <User_name>
-                                        <User_id>{row.user_nickname}</User_id>
+                                        <User_id>
+                                            {row.post_user_isSecret && row.post_user_isSecret === 1 ?
+                                                '익명' :
+                                                row.user_nickname
+                                            }
+                                        </User_id>
                                         <Post_time>{calculateTime(currentDate, createDate)}</Post_time>
                                     </User_name>
                                 </User_pro>
@@ -140,33 +175,36 @@ class PosterBody extends React.Component {
                                 </div> */}
                             </User>
                             <div
-                                className="_TextField"
+                                className="_TextField clearfix"
                             >
                                 <Editor
                                     blockRendererFn={MediaBlockRendererReadOnly}
+                                    blockStyleFn={myBlockStyleFn}
                                     editorState={this.state.editorState}
                                     onChange={this.onEditorChange}
+                                    plugins={plugins}
                                     readOnly
                                 />
-                                <Emoji_bar>
-                                    {row.like==='on'?<a onClick={()=>this.props._handleLikeOff(row.shb_num, row.post_id)} className="text-secondary"><ThumbUpOn_icon /> {row.post_like_count}</a>:
-                                    <a onClick={()=>this.props._handleLikeOn(row.shb_num, row.post_id)} className="text-secondary"><ThumbUpOff_icon/> {row.post_like_count}</a>}
-                                    &nbsp;
-                                    <a onClick={()=>this.props._scrollMoveToComment()} className="text-secondary"><Comment_icon /> {row.post_comment_count}</a>
-                                    &nbsp;
+
+                            </div>
+                            <Emoji_bar>
+                                {row.like === 'on' ? <a onClick={() => this.props._handleLikeOff(row.shb_num, row.post_id)} className="text-secondary "><ThumbUpOn_icon /> {row.post_like_count}</a> :
+                                    <span onClick={() => this.props._handleLikeOn(row.shb_num, row.post_id)} className='text-secondary'><ThumbUpOff_icon />{row.post_like_count}</span>}
+                                &nbsp;
+                                    <a onClick={() => this.props._scrollMoveToComment()} className="text-secondary"><Comment_icon /> {row.post_comment_count}</a>
+                                &nbsp;
                                     <span href="#" className="text-secondary"><Eye_icon />{row.post_view_count}</span>
-                                </Emoji_bar>
-                                <hr/>
-                                <div id='comment_part'>
-                                    <Comments 
-                                        head_type={row.shb_num}
-                                        commentData = {this.props.commentData}
-                                        comment = {this.props.comment}
-                                        _writeComment = {this.props._writeComment}
-                                        _onHandleCommentDataChange = {this.props._onHandleCommentDataChange}
-                                        _DelComment = {this.props._DelComment}
-                                    />
-                                </div>
+                            </Emoji_bar>
+                            <hr />
+                            <div id='comment_part'>
+                                <Comments
+                                    head_type={row.shb_num}
+                                    commentData={this.props.commentData}
+                                    comment={this.props.comment}
+                                    _writeComment={this.props._writeComment}
+                                    _onHandleCommentDataChange={this.props._onHandleCommentDataChange}
+                                    _DelComment={this.props._DelComment}
+                                />
                             </div>
                         </div>
                     );

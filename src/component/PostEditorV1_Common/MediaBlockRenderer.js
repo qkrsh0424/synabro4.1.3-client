@@ -12,11 +12,18 @@ export const MediaBlockRenderer = block => {
 	return null;
 };
 
-export const MediaBlockRendererReadOnly = block => {
+export const MediaBlockRendererReadOnly = (block,props) => {
 	if (block.getType() === "atomic") {
 		return {
 			component: Media,
 			editable: false
+		};
+	}
+
+	if(block && block.getType() === "unstyled" && block.getEntityAt(0)){
+		return{
+			strategy: linkStrategy,
+			component: Link
 		};
 	}
 
@@ -46,3 +53,38 @@ const Media = props => {
 	return media;
 };
 
+const linkStrategy = (contentBlock, callback, contentState) => {
+	contentBlock.findEntityRanges(character => {
+		const entityKey = character.getEntity();
+		return (
+			entityKey !== null &&
+			contentState.getEntity(entityKey).getType() === "LINK"
+		);
+	}, callback);
+};
+
+const Link = props => {
+	const entity = props.contentState.getEntity(props.block.getEntityAt(0));
+	// console.log(entity);
+	const { url } = entity.getData();
+	// console.log(props.block);
+	const type = entity.getType();
+	const text = props.block.text;
+
+	if (type === "link" || type=== "LINK") {
+		return (
+			<a
+				className="link"
+				href={`http://${url}`}
+				rel="noopener noreferrer"
+				target="_blank"
+				aria-label={url}
+			>
+				{text}
+			</a>
+		);
+	}
+
+	
+	
+};

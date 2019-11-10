@@ -1,12 +1,13 @@
 
+
 ._TextField img{
-    max-width: 800px;
+    max-width: 90%;
     max-height: 800px;
 }
 
 @media screen and (max-width:800px){
     ._TextField img{
-        max-width: 100%;
+        width: 100%;
     }
   }
 
@@ -18,3 +19,20 @@
     font-weight: 700;
     font-size: 18px;
 }
+
+.likeOnStyle svg{
+    animation-name: example;
+    animation-duration: 4s;
+}
+
+@keyframes example {
+    0% {
+        transform: scale(1.5) rotate(0deg);
+    }
+    50%{
+        transform: scale(1.5) rotate(360deg);
+    }
+    100%{
+        transform: scale(1.5) rotate(720deg);
+    }
+  }

@@ -25,6 +25,7 @@ import createFocusPlugin from 'draft-js-focus-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createColorBlockPlugin from './colorBlockPlugin';
+import createAddLinkPlugin from './addLinkPlugin';
 
 //Draft CSS
 import 'draft-js-static-toolbar-plugin/lib/plugin.css';
@@ -32,6 +33,14 @@ import 'draft-js-focus-plugin/lib/plugin.css';
 import 'draft-js-image-plugin/lib/plugin.css';
 import 'draft-js-alignment-plugin/lib/plugin.css';
 import '../StyleCss/Draftjs.css';
+
+//Draft Handler
+import {
+    myBlockStyleFn,
+    // myCustomStyleFn
+} from '../DraftPlugIn';
+import createHighlightPlugin from '../DraftPlugIn/highlightPlugin';
+import createTextColorPlugin from '../DraftPlugIn/textColorPlugin';
 
 import {
     ItalicButton,
@@ -68,6 +77,9 @@ const focusPlugin = createFocusPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const staticToolbarPlugin = createToolbarPlugin();
 const alignmentPlugin = createAlignmentPlugin();
+const hightlightPlugin = createHighlightPlugin();
+const textColorPlugin = createTextColorPlugin();
+
 
 const { AlignmentTool } = alignmentPlugin;
 const { Toolbar } = staticToolbarPlugin;
@@ -88,7 +100,10 @@ const plugins = [
     focusPlugin,
     imagePlugin,
     alignmentPlugin,
-    colorBlockPlugin
+    colorBlockPlugin,
+    createAddLinkPlugin,
+    hightlightPlugin,
+    textColorPlugin
 ];
 
 //Use Draft Plugin End
@@ -138,13 +153,6 @@ class HeadlinesButton extends React.Component {
     }
 }
 
-// const staticToolbarPlugin = createToolbarPlugin();
-// const { Toolbar } = staticToolbarPlugin;
-
-// const plugins = [
-//     staticToolbarPlugin
-// ];
-
 class DraftJs extends React.Component {
     constructor(props) {
         super(props);
@@ -154,46 +162,46 @@ class DraftJs extends React.Component {
             queryValues: queryString.parse(this.props.location.search),
             board: '',
             post_topic: '',
-            TYPE_OF_POST:'',
+            TYPE_OF_POST: '',
             imgUploadLoading: false,
-            isMember:false,
+            isMember: false,
         }
     }
 
     componentDidMount = async () => {
         this._memberCheck();
-        await shb_getShbOneItem(this.state.queryValues.Category,this.state.queryValues.BomNo)
+        await shb_getShbOneItem(this.state.queryValues.Category, this.state.queryValues.BomNo)
             .then(data => {
-                if(data.message==='success'){
-                    this.setState({ board: data.data, TYPE_OF_POST:data.data.parent_route });
-                }else{
+                if (data.message === 'success') {
+                    this.setState({ board: data.data, TYPE_OF_POST: data.data.parent_route });
+                } else {
                     alert('잘못된 접근 방식 입니다.');
-                    window.location.href='/';
+                    window.location.href = '/';
                 }
-                
+
                 // this.focus();
             });
-        
+
     }
 
 
     //MemberCheck
-    _memberCheck = async() =>{
+    _memberCheck = async () => {
         // console.log(this.props);
-        if(this.props._sess){
-            if(this.state.queryValues.BomNo==='1101001'){
-                return this.setState({isMember:true});
+        if (this.props._sess) {
+            if (this.state.queryValues.BomNo === '1101001') {
+                return this.setState({ isMember: true });
             }
             await memberApi.member_check(this.props._sess, this.state.queryValues.BomNo)
-            .then(data=>{
-                if(data.message==='valid'){
-                    this.setState({isMember:true});
-                }else{
-                    this.setState({isMember:false});
-                }
-            });
+                .then(data => {
+                    if (data.message === 'valid') {
+                        this.setState({ isMember: true });
+                    } else {
+                        this.setState({ isMember: false });
+                    }
+                });
         }
-        
+
     }
 
 
@@ -221,6 +229,7 @@ class DraftJs extends React.Component {
         return "not-handled";
     };
 
+    //Draft Editor Style Handle Function Start
     onTextStyle = (styleType) => {
         this.onEditorChange(
             RichUtils.toggleInlineStyle(this.state.editorState, styleType)
@@ -233,25 +242,41 @@ class DraftJs extends React.Component {
         );
     }
 
-    onHeaderLeft = () => {
+    onHeaderAlignment = (alignment) => {
+        
         this.onEditorChange(
-            RichUtils.toggleBlockType(this.state.editorState, "align-left")
+            RichUtils.toggleBlockType(this.state.editorState, alignment)
         );
     }
 
-    onHeaderRight = () => {
-        console.log('right');
+    onHeaderTextColor = (color) => {
         this.onEditorChange(
-            RichUtils.toggleBlockType(this.state.editorState, "align-right")
+            RichUtils.toggleInlineStyle(this.state.editorState, color)
         );
     }
 
+    onHeaderLink = () => {
+        const editorState = this.state.editorState;
+        const selection = editorState.getSelection();
+        const link = window.prompt('링크를 입력하세요. (*http:// 생략)')
+        if (!link) {
+            this.onEditorChange(RichUtils.toggleLink(editorState, selection, null));
+            return 'handled';
+        }
+        const content = editorState.getCurrentContent();
+        const contentWithEntity = content.createEntity('LINK', 'MUTABLE', { url: link });
+        const newEditorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+        const entityKey = contentWithEntity.getLastCreatedEntityKey();
+        this.onEditorChange(RichUtils.toggleLink(newEditorState, selection, entityKey))
+    }
+
+    //Draft Editor Style Handle Function END
 
 
     // focus = () => this.refs.editor.focus();
     focus = () => {
         this.editor.focus();
-      };
+    };
 
     onURLChange = e => this.setState({ urlValue: e.target.value });
 
@@ -290,11 +315,11 @@ class DraftJs extends React.Component {
     onImageUpload = async (e) => {
         this.setState({ imgUploadLoading: true });
         // console.log(e.target.files[1]);
-        let filesize=e.target.files.length;
+        let filesize = e.target.files.length;
         const formData = new FormData();
         // formData.append(`file`, e.target.files[0]);
 
-        for(let i=0; i< filesize;i++){
+        for (let i = 0; i < filesize; i++) {
             let filedata = e.target.files[i];
             formData.append(`file`, filedata);
         }
@@ -302,8 +327,8 @@ class DraftJs extends React.Component {
             // onUploadProgress: progressEvent => {
             //     console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
             // }
-            headers:{
-                Authorization:'Bearer ' + AuthKey
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
             }
         })
             .then(res => res.data)
@@ -311,20 +336,20 @@ class DraftJs extends React.Component {
                 if (data.message === 'successOne') {
                     this.onAddImage(data.url);
                     this.setState({ imgUploadLoading: false });
-                }else if(data.message ==='successMultiple'){
-                    
-                    for(let i=0;i<data.dataLength;i++){
+                } else if (data.message === 'successMultiple') {
+
+                    for (let i = 0; i < data.dataLength; i++) {
                         this.onAddImage(data.url[i]);
                     }
                     this.setState({ imgUploadLoading: false });
-                }else if(data.message==='failure'){
+                } else if (data.message === 'failure') {
                     this.setState({ imgUploadLoading: false });
                     alert('서버가 좋지 않습니다. code: (IU:1)');
-                }else{
+                } else {
                     this.setState({ imgUploadLoading: false });
                     alert('예상치 못한 오류가 발생했습니다. code: (IU:2)');
                 }
-            }).catch(err=>{
+            }).catch(err => {
                 this.setState({ imgUploadLoading: false });
                 alert('연결 시간이 초과 되었습니다. 네트워크를 다시 확인해 주십시오.');
             })
@@ -336,7 +361,7 @@ class DraftJs extends React.Component {
     }
     // EditorControl End
 
-    setConvertToJson = () =>{
+    setConvertToJson = () => {
         let contentState = this.state.editorState.getCurrentContent();
         let raw = convertToRaw(contentState);
         let jsonResult = JSON.stringify(raw, null, 2);
@@ -345,37 +370,38 @@ class DraftJs extends React.Component {
     }
 
     //Go To PostRoute
-    onHandleSubmit = async(e) =>{
+    onHandleSubmit = async (e) => {
         e.preventDefault();
         let jsonType = this.setConvertToJson();
-        if(window.confirm("정말로 포스팅 하시겠습니까?")){
+        console.log(jsonType);
+        if (window.confirm("정말로 포스팅 하시겠습니까?")) {
             //Go To PostRoute
             await __sendPost(
                 this.state.TYPE_OF_POST,
                 this.props._sess,
-                this.state.queryValues.BomNo, 
-                this.state.queryValues.Category, 
-                this.state.post_topic, 
+                this.state.queryValues.BomNo,
+                this.state.queryValues.Category,
+                this.state.post_topic,
                 jsonType
-                )
-            .then(data => {
-                console.log(data.message);
-                if (data.message === 'success') {
-                    window.history.back();
-                }else if(data.message==='failure'){
-                    alert('정상적이지 않은 포스팅 입니다...');
-                }else if(data.message==='invalidUser'){
-                    alert('로그인이 기간이 만료 되었습니다.');
-                    window.location.href='/login';
-                }else {
-                    alert('포스팅 에러');
-                    window.location.reload();
-                }
-            });
-        }else{
+            )
+                .then(data => {
+                    console.log(data.message);
+                    if (data.message === 'success') {
+                        window.history.back();
+                    } else if (data.message === 'failure') {
+                        alert('정상적이지 않은 포스팅 입니다...');
+                    } else if (data.message === 'invalidUser') {
+                        alert('로그인이 기간이 만료 되었습니다.');
+                        window.location.href = '/login';
+                    } else {
+                        alert('포스팅 에러');
+                        window.location.reload();
+                    }
+                });
+        } else {
             return;
         }
-        
+
     }
     render() {
         const style = {
@@ -393,7 +419,7 @@ class DraftJs extends React.Component {
         }
 
         if (this.props._isLogged) {
-            
+
             return (
                 <div>
                     {this.state.imgUploadLoading ?
@@ -406,10 +432,10 @@ class DraftJs extends React.Component {
                             <button className="btn btn-primary" onClick={() => window.history.back()}>이전</button>
                         </Paper>
 
-                        {this.state.isMember?
+                        {this.state.isMember ?
                             <Paper style={style.paperBody} className='clearfix'>
                                 <form onSubmit={this.onHandleSubmit}>
-                                    <p>작성지 : {this.state.board?`${this.state.board.shb_name} / ${this.state.board.shb_item_name}`:""}</p>
+                                    <p>작성지 : {this.state.board ? `${this.state.board.shb_name} / ${this.state.board.shb_item_name}` : ""}</p>
                                     <p>작성자 : {this.props._nickname}</p>
                                     <div className="input-group mb-3">
                                         <div className="input-group-prepend">
@@ -425,10 +451,12 @@ class DraftJs extends React.Component {
                                     </div>
 
                                     {/* DraftEditor Start */}
-                                    
+
                                     <div onClick={this.focus} className={'editor'}>
                                         <Editor
                                             blockRendererFn={MediaBlockRenderer}
+                                            blockStyleFn={myBlockStyleFn}
+                                            // customStyleFn={myCustomStyleFn}
                                             editorState={this.state.editorState}
                                             onChange={this.onEditorChange}
                                             handleKeyCommand={this.handleKeyCommand}
@@ -438,7 +466,7 @@ class DraftJs extends React.Component {
                                         />
                                         <AlignmentTool />
                                     </div>
-                                    <Toolbar>
+                                    {/* <Toolbar>
                                         {
                                             // may be use React.Fragment instead of div to improve perfomance after React 16
                                             (externalProps) => (
@@ -452,17 +480,17 @@ class DraftJs extends React.Component {
                                                     <UnorderedListButton {...externalProps} />
                                                     <OrderedListButton {...externalProps} />
                                                     <BlockquoteButton {...externalProps} />
-                                                    <CodeBlockButton {...externalProps} />
                                                 </div>
                                             )
                                         }
 
-                                    </Toolbar>
+                                    </Toolbar> */}
                                     <div className='customToolbar'>
                                         <CustomToolbar
                                             onTextStyle={this.onTextStyle}
-                                            onHeaderLeft={this.onHeaderLeft}
-                                            onHeaderRight={this.onHeaderRight}
+                                            onHeaderAlignment={this.onHeaderAlignment}
+                                            onHeaderTextColor={this.onHeaderTextColor}
+                                            onHeaderLink={this.onHeaderLink}
 
                                             onHeaderStyle={this.onHeaderStyle}
 
@@ -475,20 +503,20 @@ class DraftJs extends React.Component {
                                         <button className="btn btn-primary float-right" disabled>제출</button>
                                         :
                                         <div>
-                                            {this.state.isMember?<input type="submit" className="btn btn-primary float-right mt-2" value='제출' />:<span className="text-danger float-right mt-2">"접근 권한이 없습니다."</span>}
-                                            
+                                            {this.state.isMember ? <input type="submit" className="btn btn-primary float-right mt-2" value='제출' /> : <span className="text-danger float-right mt-2">"접근 권한이 없습니다."</span>}
+
                                         </div>
                                     }
 
                                     {/* DraftEditor End */}
                                 </form>
                             </Paper>
-                        :""}
+                            : ""}
                     </div>
                     {/* <button onClick={()=>this.setState({imgUploadLoading:!this.state.imgUploadLoading})}>button Loading</button> */}
                 </div>
             );
-        }else {
+        } else {
             alert('로그인이 필요한 페이지입니다.');
             return (
                 <Redirect to='/login' />
@@ -496,6 +524,7 @@ class DraftJs extends React.Component {
         }
     }
 }
+
 
 const mapStateToProps = (state) => {
     return {

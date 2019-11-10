@@ -6,6 +6,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import {Link} from 'react-router-dom';
+
+//Core
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 const styles = theme => ({
     root: {
         width: '100%',
@@ -50,7 +54,7 @@ class NestedList extends React.Component {
                             <span>{rows.shb_item_name}</span>
                         </ListItem>
                     </Link>
-                )):"loading"}
+                )):<div className='text-center'><CircularProgress/></div>}
             </List>
         );
     }

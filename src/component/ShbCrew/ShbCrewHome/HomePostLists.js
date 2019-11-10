@@ -6,6 +6,9 @@ import {Link} from 'react-router-dom';
 //URL
 import {awsImageURL} from '../../../config/awsurl';
 
+//Core
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 class HomePostLists extends React.Component{
     
     render(){
@@ -41,7 +44,7 @@ class HomePostLists extends React.Component{
                         </Link>
                     );
                     
-                }):"loading"}
+                }):""}
             </div>
         );
     }

@@ -16,6 +16,7 @@ import { serverUrl } from '../../../config/serverUrl';
 
 //component
 import Nav from '../../Nav/Nav';
+import BoardCategoryLoading from './BoardCategoryLoading';
 
 /**
  * props
@@ -36,6 +37,8 @@ class BoardCategoryMain extends React.Component {
             nextBtnOn: true,
             isMember:false,
             canApplyGroup:false,
+
+            pageLoading:false,
         }
     }
 
@@ -108,21 +111,36 @@ class BoardCategoryMain extends React.Component {
         // console.log(this.props.shb);
         // console.log(this.state.postLists.length);
         // console.log(this.props.shb_item.shb_item_id);
-        if(this.state.postLists && this.props.shb_item){
-            return (
-                <div>
-                    <BoardCategoryBody
-                        {...this.props}
-                        {...this.state}
-                        _onClickReloadPost = {this._onClickReloadPost}
-                    />
-                </div>
-            );
-        }else{
-            return(
-                <div>Loading..</div>
-            );
-        }
+        return(
+            <div>
+                {this.state.postLists && this.props.shb_item?
+                    <div>
+                        <BoardCategoryBody
+                            {...this.props}
+                            {...this.state}
+                            _onClickReloadPost = {this._onClickReloadPost}
+                        />
+                    </div>
+                :
+                    <BoardCategoryLoading/>
+                }
+            </div>
+        );
+        // if(this.state.postLists && this.props.shb_item){
+        //     return (
+        //         <div>
+        //             <BoardCategoryBody
+        //                 {...this.props}
+        //                 {...this.state}
+        //                 _onClickReloadPost = {this._onClickReloadPost}
+        //             />
+        //         </div>
+        //     );
+        // }else{
+        //     return(
+        //         <BoardCategoryLoading/>
+        //     );
+        // }
         
         
     }

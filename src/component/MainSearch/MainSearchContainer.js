@@ -29,7 +29,7 @@ export default class extends React.Component {
   }
 
   async _callPostData(term) {
-    const url = `${serverUrl}/api/univ_post/search/all`;
+    const url = `${serverUrl}/api/utill/mainSearch/search/shb`;
     // console.log(url);
     return await Axios.get(url,{
         params:{
@@ -73,10 +73,15 @@ export default class extends React.Component {
     this.setState({ loading: true });
     try {
       const postVals = await this._callPostData(searchTerm);
-    //   console.log(postVals);
-      this.setState({
-        postVals
-      });
+      if(postVals && postVals.message==='none'){
+        this.setState({postVals:null,error:"Can't find results."});
+      }else{
+        this.setState({
+          postVals:postVals.data,
+          error:""
+        });
+      }
+      
     } catch {
       this.setState({ error: "Can't find results." });
     } finally {
@@ -89,7 +94,7 @@ export default class extends React.Component {
     const { postVals, searchTerm, loading, error } = this.state;
     // console.log(postVals);
     return (
-        <>
+        <div className='mb-5'>
         <MainSearchPresenter
           postVals={postVals}
           searchTerm={searchTerm}
@@ -106,7 +111,7 @@ export default class extends React.Component {
           handleSubmit={this.handleSubmit}
           updateTerm={this.updateTerm}
         /> */}
-        </>
+        </div>
     );
   }
 }

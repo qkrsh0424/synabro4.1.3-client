@@ -155,7 +155,13 @@ class MyLikeList extends React.Component {
                                     <Link to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
                                         <div className="table-bar_column clearfix">
                                             
-                                            <span className="table-bar_writer"><span className='text-primary'>{index + 1}</span>작성자: {rows.user_nickname}</span>
+                                            <span className="table-bar_writer">
+                                                <span className='text-primary'>{index + 1}</span>
+                                                작성자: {rows.post_user_isSecret && rows.post_user_isSecret===1?
+                                                            '익명':
+                                                            rows.user_nickname
+                                                        }
+                                            </span>
                                             {/* <span className="table-bar_time float-right">{calculateTime(new Date(), new Date(rows.post_created))}</span> */}
                                         </div>
                                         <div className="table-bar_column">

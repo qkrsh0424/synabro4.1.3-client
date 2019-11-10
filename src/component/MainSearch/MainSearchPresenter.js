@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 // import Loader from "../Loader";
-import PostList from "../Univ/layout/PostLists";
+// import PostList from "../Univ/layout/PostLists";
+import PostList from './PostLists';
 import { calculateTime } from "./handler";
 import Message from "./message";
 
@@ -63,7 +64,7 @@ const MainsearchPresenter = ({
       <div>
       
         {postVals && postVals.length > 0 && (
-        //   console.log(postVals),
+          // console.log(postVals),
           <PostList
             key="list"
             // noticeIcon={noticeIcon}
