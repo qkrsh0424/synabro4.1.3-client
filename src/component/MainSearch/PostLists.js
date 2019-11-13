@@ -151,7 +151,12 @@ class PostLists extends React.Component {
                                     </Link>
 
                                 </Tooltip>
-                                <span className="table-bar_writer float-left"> 작성자: {rows.user_nickname.length > 6 ? `${rows.user_nickname.substring(0, 6)}...` : rows.user_nickname}</span>
+                                <span className="table-bar_writer float-left"> 
+                                    작성자: {rows.post_user_isSecret && rows.post_user_isSecret===1?
+                                                '익명':
+                                                rows.user_nickname.length > 6 ? `${rows.user_nickname.substring(0, 6)}...` : rows.user_nickname
+                                            }
+                                </span>
                                 <br/>
                                 <span className="table-bar_time float-left font-weight-normal">{calculateTime(new Date(), new Date(rows.post_created))}</span>
                                 <div className="table-bar_column text-right">

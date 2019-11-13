@@ -38,6 +38,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const propTypes = {
@@ -69,6 +70,28 @@ const styles = {
     width: 300,
   },
 };
+
+const LightTooltip = withStyles(theme => ({
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}))(Tooltip);
+
+const parentRoute = [
+  {
+    parent_route:'main',
+    route_name:'상해봄',
+    route_image_url:null
+  },
+  {
+    parent_route:'crew',
+    route_name:'봄 CREW',
+    route_image_url:null
+  }
+];
 
 class Nav extends React.Component {
   constructor(props) {
@@ -145,6 +168,12 @@ class Nav extends React.Component {
     const activeStyle = {
       color: 'green',
       // background:'skyblue'
+      lightTooltip: {
+        backgroundColor: 'red',
+        color: 'rgba(0, 0, 0, 0.87)',
+        // boxShadow: theme.shadows[1],
+        fontSize: 11,
+      },
     }
 
     const AdapterLink = React.forwardRef((props, ref) => <NavLink activeStyle={activeStyle} innerRef={ref} {...props} />);
@@ -185,10 +214,71 @@ class Nav extends React.Component {
         </List>
         <Divider /> */}
         <List>
-          <h5 className="text-center">
-            <Link to='/crew' className='header_style'>봄 CREW</Link>
-          </h5>
-          {this.props.shb_lists ? this.props.shb_lists.map((rows, index) => {
+            {/* New */}
+            {this.props.parentRoute && this.props.parentRoute.map(parentRoute=>{
+              if(parentRoute.parent_route==='main'){
+                return;
+              }
+              return(
+                <LightTooltip
+                  interactive
+                  placement="right"
+                  disableFocusListener disableTouchListener
+                  title={
+                    <React.Fragment>
+                      <div style={{maxHeight:'70vh',overflow:'auto'}}>
+                        <ListItem 
+                          component={PageLink}
+                          to={`/${parentRoute.parent_route}`} 
+                          className='header_style'
+                        >
+                          <ListItemText primary={parentRoute.route_name} />
+                        </ListItem>
+                        <Divider/>
+                        {this.props.shb_lists ? this.props.shb_lists.map((rows, index) => {
+                          if (rows && rows.shb_classify === parentRoute.parent_route) {
+                            return (
+                              <ListItem
+                                button key={rows.shb_name}
+                                component={AdapterLink}
+                                to={`/${rows.shb_classify}/contype/${rows.shb_num}`}
+                                style={{width:'300px'}}
+                              // selected={this.props.matchId==rows.univ_id?true:false}
+                              >
+                                <ListItemIcon>
+                                  <img src={rows.shb_icon_url?rows.shb_icon_url:`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px' />
+                                </ListItemIcon>
+                                <ListItemText primary={rows.shb_name} />
+                              </ListItem>
+                            );
+                          } else {
+                            return;
+                        }}) : ""}
+                      </div>
+                    </React.Fragment>
+                  }
+                >
+                  <ListItem
+                      button
+                      // component={AdapterLink}
+                      // to={`/crew`}
+                    // selected={this.props.matchId==rows.univ_id?true:false}
+                    >
+                      {/* <ListItemIcon>
+                        <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px' />
+                      </ListItemIcon> */}
+                      <ListItemText primary={parentRoute.route_name} className='header_style' style={{textAlign:'center'}}/>
+                  </ListItem>
+                </LightTooltip>
+              );
+            })}
+            
+
+            {/* Origin */}
+          {/* <h5 className="text-center">
+            <Link to='/crew' className='header_style'>봄 CREW</Link>  
+          </h5> */}
+          {/* {this.props.shb_lists ? this.props.shb_lists.map((rows, index) => {
             if (rows.shb_classify === 'crew') {
               return (
                 <ListItem
@@ -204,7 +294,7 @@ class Nav extends React.Component {
             } else {
               return;
             }
-          }) : ""}
+          }) : ""} */}
         </List>
         <Divider />
         {/* <List>
@@ -322,6 +412,7 @@ const mapStateToProps = (state) => {
     _nickname: state.auth_user._nickname,
     univ_lists: state.univ_lists.univs,
     shb_lists: state.shb_lists.shbs,
+    parentRoute: state.parent_route.parentRoute,
   }
 }
 

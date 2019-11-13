@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../action';
 
 //API
-import { shb_getShbAllList } from '../../handler/cliApi/shb';
+import { shb_getParentRouteAll, shb_getShbAllList } from '../../handler/cliApi/shb';
 
 // 로딩 관련 컴포넌트
 import PageLoading from './PageLoading';
@@ -102,6 +102,7 @@ class App extends React.Component {
 
     async componentDidMount() {
         this._Authentication();
+        this._set_parentRoutes();
         this._set_ShbLists();
         this._set_UnivLists().then(data => {
             this.props.handleSetUnivList(data);
@@ -130,6 +131,13 @@ class App extends React.Component {
             })
             .catch(err => alert('서버를 다시 확인해 주세요'));
     }
+    _set_parentRoutes = async() =>{
+        return shb_getParentRouteAll().then(data=>{
+            if(data.message==='success'){
+                this.props.handleSetParentRoute(data.data);
+            }
+        })
+    }
     _set_ShbLists = () => {
         return shb_getShbAllList().then(data => {
             this.props.handleSetShbList(data.data, data.main);
@@ -146,6 +154,7 @@ class App extends React.Component {
     }
 
     render() {
+        // console.log(this.props._parentRoute);
         if (this.state.auth && this.props._main) {
 
             // console.log(this.props._sess);
@@ -179,6 +188,16 @@ class App extends React.Component {
                             component={PostModifyShbMain}
                         />
 
+                        {/* SHB blog Route */}
+                        {/* <Route exact path='/compo/:blog' component={ShbCrewIntro} /> */}
+                        {/* <Route exact path='/crew/contype/:shb_num' component={ShbCrewHome} />
+                        <Route exact path='/crew/category/:shb_item_id' component={ShbCrewCategory} />
+                        <Route exact path='/crew/category/:shb_item_id/v/:post_id' component={ShbCrewBoardPoster} />
+                        <Route exact path='/crew/category/:shb_item_id/writepost' component={PostEditorCommon} />
+                        <Route
+                            exact path='/crew/modifypost'
+                            component={PostModifyShbMain}
+                        /> */}
                         {/* 계정 관련 라우터 */}
                         {/* 회원가입 */}
                         <Route
@@ -258,6 +277,7 @@ App.defaultProps = defaultProps;
 
 const mapStateToProps = (state) => {
     return {
+        _parentRoute:state.parent_route.parentRoute,
         _main: state.shb_lists.mainCategory,
         univ_lists: state.univ_lists.univs,
         _sess: state.auth_user._sess,
@@ -268,6 +288,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        handleSetParentRoute:(parentRoute)=>{dispatch(actions.set_shb_parentRoute(parentRoute))},
         handleSetShbList: (shbs, mainCategory) => { dispatch(actions.set_shb_list(shbs, mainCategory)) },
         handleSetUnivList: (univs) => { dispatch(actions.set_univ_list(univs)) },
         handleAUTH_SUCCESS: (_sess, _nickname) => { dispatch(actions.auth_success(_sess, _nickname)) },

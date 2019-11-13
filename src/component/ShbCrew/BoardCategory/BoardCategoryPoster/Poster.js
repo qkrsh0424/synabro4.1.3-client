@@ -6,6 +6,7 @@ import '../../../PublicStyle/SlideAnimation.css';
 import './Poster.css';
 //API
 import * as api from '../../../../handler/cliApi/shb';
+import * as postApi from '../../../../handler/cliApi/PostApi';
 
 import Snackbar from '@material-ui/core/Snackbar';
 
@@ -57,10 +58,12 @@ class Poster extends React.Component {
             })
     }
     _loadPost = () => {
+        postApi.post_ViewCountPlus(this.props.match.params.post_id);
         api.shb_getShbOnePost(this.props._sess, this.props.match.params.post_id)
             .then(data => {
                 // console.log(data[0])
                 if (data[0].message === 'success') {
+                    
                     this.setState({ post: data });
                 } else if (data[0].message === 'error') {
                     alert('잘못된 접근 방식입니다.');

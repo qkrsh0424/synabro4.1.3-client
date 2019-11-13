@@ -1,5 +1,12 @@
 import * as types from './ActionTypes';
 
+export function set_shb_parentRoute(parentRoute){
+    return {
+        type: types.SET_SHB_PARENTROUTE,
+        parentRoute,
+    }
+}
+
 export function set_shb_list(shbs,mainCategory){
     return {
         type: types.SET_SHB_LIST,

@@ -91,6 +91,19 @@ export function __modifyPost(typeOfPost,_sess, header_id, category_id,post_id, p
     
 }
 
+export function post_ViewCountPlus(post_id){
+    Axios.post(`${serverUrl}/api/shb/post/postCount/plus`,{
+        post_id:post_id
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        console.log(err);
+    })
+}
+
 // headers:{
 //     'content-type': `multipart/form-data;`,
 //     Authorization:'Bearer ' + AuthKey

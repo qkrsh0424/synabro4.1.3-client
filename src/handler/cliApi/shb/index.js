@@ -2,6 +2,17 @@ import Axios from 'axios';
 import {serverUrl} from '../../../config/serverUrl';
 import AuthKey from '../../../config/AuthorizationKey';
 
+//shb parentRoute 관련 API
+const shb_getParentRouteAll = async()=>{
+    return await Axios.get(`${serverUrl}/api/shb/getParentRoute/all`,{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('잘못된 방식 입니다.');
+    });
+}
 // shb 관련 API
 const shb_getShbAllList = async(type) =>{
     if(type){
@@ -294,7 +305,9 @@ const handleLikeOff = async(logincheck, usid, head_type, post_id) =>{
         window.location.href='/login';
     }
 }
-export { shb_getShbAllList, shb_getShbOne,
+export { 
+    shb_getParentRouteAll,
+    shb_getShbAllList, shb_getShbOne,
     shb_getShbAllItemList, shb_getShbOneItem, 
     shb_getShbAllPostForAllBoundary,shb_getShbAllPostForShbNum, shb_getShbOnePost, shb_posterValidationAndMenuControl, shb_deletePosterOne,
     shb_getAllCommentOfCategory, shb_writeCommentOfCategory,shb_deleteCommentOfCategory,

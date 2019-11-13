@@ -68,7 +68,7 @@ const MainBanner = styled.div`
 
 class HomeBigBanner extends React.Component{
     render(){
-        console.log(this.props.bannerHeader);
+        // console.log(this.props.bannerHeader);
         const bannerLoading = (
             <div className="progress d-block bene_Big_Size">
                 <div className="progress-bar progress-bar-striped progress-bar-animated bene_Big_Size bg-light">

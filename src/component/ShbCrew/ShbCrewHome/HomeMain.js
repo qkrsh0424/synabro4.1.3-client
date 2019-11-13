@@ -53,7 +53,7 @@ class HomeMain extends React.Component{
     }
 
     _getBanner = async() =>{
-        console.log(this.props.match.params.shb_num);
+        // console.log(this.props.match.params.shb_num);
         this.setState({bannerHeader:null});
         bannerApi.banner_getBanner_headType_bannerType(this.props.match.params.shb_num, 'header')
         .then(data=>{

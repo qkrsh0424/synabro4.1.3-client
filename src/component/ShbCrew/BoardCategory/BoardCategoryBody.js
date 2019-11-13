@@ -41,7 +41,7 @@ class BoardCategoryBody extends React.Component {
                     <div className='jumbotron mt-3 shadow bg-light HeaderPart'>
                         {this.props.shb ?
                             <h3 className='text-center clearfix'>
-                                <Link to={`/crew/contype/${this.props.shb.shb_num}`} className='Text'>
+                                <Link to={`/${this.props.shb.shb_classify}/contype/${this.props.shb.shb_num}`} className='Text'>
                                     <span>{this.props.shb.shb_name}</span>
                                 </Link>
                                 {/* <button className='float-right'>B</button> */}
