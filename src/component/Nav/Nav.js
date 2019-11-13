@@ -229,7 +229,7 @@ class Nav extends React.Component {
                       <div style={{maxHeight:'70vh',overflow:'auto'}}>
                         <ListItem 
                           component={PageLink}
-                          to={`/${parentRoute.parent_route}`} 
+                          to={`/classify/${parentRoute.parent_route}`} 
                           className='header_style'
                         >
                           <ListItemText primary={parentRoute.route_name} />
@@ -241,7 +241,7 @@ class Nav extends React.Component {
                               <ListItem
                                 button key={rows.shb_name}
                                 component={AdapterLink}
-                                to={`/${rows.shb_classify}/contype/${rows.shb_num}`}
+                                to={`/classify/${rows.shb_classify}/contype/${rows.shb_num}`}
                                 style={{width:'300px'}}
                               // selected={this.props.matchId==rows.univ_id?true:false}
                               >

@@ -41,7 +41,7 @@ class BoardCategoryBody extends React.Component {
                     <div className='jumbotron mt-3 shadow bg-light HeaderPart'>
                         {this.props.shb ?
                             <h3 className='text-center clearfix'>
-                                <Link to={`/${this.props.shb.shb_classify}/contype/${this.props.shb.shb_num}`} className='Text'>
+                                <Link to={`/classify/${this.props.shb.shb_classify}/contype/${this.props.shb.shb_num}`} className='Text'>
                                     <span>{this.props.shb.shb_name}</span>
                                 </Link>
                                 {/* <button className='float-right'>B</button> */}
@@ -73,7 +73,7 @@ class BoardCategoryBody extends React.Component {
                                     {this.props.isMember && this.props._isLogged ?
                                         <Link
                                             className='btn btn-outline-secondary float-right'
-                                            to={`/${shb_item.parent_route}/category/${shb_item.shb_item_id}/writepost?BomNo=${shb_item.shb_num}&Category=${shb_item.shb_item_id}`}
+                                            to={`/classify/${shb_item.parent_route}/category/${shb_item.shb_item_id}/writepost?BomNo=${shb_item.shb_num}&Category=${shb_item.shb_item_id}`}
                                         >
                                             <CreateIcon />
                                         </Link>

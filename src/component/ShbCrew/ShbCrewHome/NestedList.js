@@ -48,7 +48,7 @@ class NestedList extends React.Component {
                     </li>
                 ))} */}
                 {this.props.shb_item?this.props.shb_item.map(rows=>(
-                    <Link to={`/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`} className='NestedList_category_style'>
+                    <Link to={`/classify/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`} className='NestedList_category_style'>
                         <ListItem key={`item-${rows.shb_item_id}`} className="NestedList_category_style_wrapper">
                             {/* <ListItemText primary={`${rows.shb_item_name}`} className='NestedList_category_style_child'/> */}
                             <span>{rows.shb_item_name}</span>

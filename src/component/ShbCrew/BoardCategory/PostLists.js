@@ -121,7 +121,7 @@ class PostLists extends React.Component {
                                     </React.Fragment>
                                 }>
 
-                                    <Link to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
+                                    <Link to={`/classify/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
 
                                         <div className="table-bar_column">
 

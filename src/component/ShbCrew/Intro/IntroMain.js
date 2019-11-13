@@ -27,10 +27,10 @@ class IntroMain extends React.Component {
     }
 
     _getShb = async () => {
-        await api.shb_getShbAllList("crew") //crew는 선택사항.
-        .then(data=>this.setState({shb:data.data, shbParentRoute:'crew'}));
-        // await api.shb_getShbAllList(this.props.match.params.crew) //crew는 선택사항.
-        //     .then(data => this.setState({ shb: data.data }));
+        // await api.shb_getShbAllList("crew") //crew는 선택사항.
+        // .then(data=>this.setState({shb:data.data, shbParentRoute:'crew'}));
+        await api.shb_getShbAllList(this.props.match.params.crew) //crew는 선택사항.
+            .then(data => this.setState({ shb: data.data,shbParentRoute:this.props.match.params.crew }));
     }
 
     render() {

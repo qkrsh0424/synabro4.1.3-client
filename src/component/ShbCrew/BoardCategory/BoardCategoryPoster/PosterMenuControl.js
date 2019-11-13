@@ -48,7 +48,7 @@ class UnivPosterMenuControl extends React.Component {
         // console.log(this.props.match.params.shb_item_id)
         // console.log(this.props.match.params.post_id)
         if(this.props.poster_isValidation){
-            window.location.href=`/crew/modifypost?BomNo=${this.props.queryValues.BomNo}&Category=${this.props.match.params.shb_item_id}&postView=${this.props.match.params.post_id}`;
+            window.location.href=`/classify/${this.props.match.params.crew}/modifypost?BomNo=${this.props.queryValues.BomNo}&Category=${this.props.match.params.shb_item_id}&postView=${this.props.match.params.post_id}`;
         }
         
     }

@@ -126,42 +126,82 @@ class MyPostList extends React.Component {
                     {this.state.postList_Shb ? this.state.postList_Shb.map((rows, index) => {
                         if(rows.message==='success'){
                             if (index >= this.state.startIndexShb && index < this.state.lastIndexShb) {
-                                return (
-                                    <div class="list-group-item __profile_field __border_radius shadow-sm border p-3 mb-2">
-                                        {rows.post_thumbnail_url==='none'?<img src={`${awsImageURL}/logo/imageNo2.gif`} className='float-right thumbnailImage'/> :<img src={rows.post_thumbnail_url} className='float-right thumbnailImage'/>}
-                                        <Link to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
-                                            <div className="table-bar_column">
-    
-                                                <span className="table-bar_writer">
-                                                    <span className='text-primary'>{index + 1}</span> 
-                                                    작성자: {rows.user_nickname.length > 6 ? `${rows.user_nickname.substring(0, 6)}...` : rows.user_nickname}
-                                                    {rows.post_user_isSecret && rows.post_user_isSecret===1?
-                                                        <span className='text-danger'> *익명</span>:
-                                                        ""
-                                                    }
-                                                </span>
-                                                {/* <span className="table-bar_time float-right">{calculateTime(new Date(), new Date(rows.post_created))}</span> */}
-                                            </div>
-                                            <div className="table-bar_column">
-                                                <div className="font-weight-bold p-2 m-0 clearfix">
-                                                {rows.post_title.length > 25 ?
-                                                    `${rows.post_title.substring(0, 25)}...` :
-                                                    rows.post_title
-                                                }
+                                if(rows.parent_route==='main'){
+                                    return (
+                                        <div class="list-group-item __profile_field __border_radius shadow-sm border p-3 mb-2">
+                                            {rows.post_thumbnail_url==='none'?<img src={`${awsImageURL}/logo/imageNo2.gif`} className='float-right thumbnailImage'/> :<img src={rows.post_thumbnail_url} className='float-right thumbnailImage'/>}
+                                            <Link to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
+                                                <div className="table-bar_column">
+        
+                                                    <span className="table-bar_writer">
+                                                        <span className='text-primary'>{index + 1}</span> 
+                                                        작성자: {rows.user_nickname.length > 6 ? `${rows.user_nickname.substring(0, 6)}...` : rows.user_nickname}
+                                                        {rows.post_user_isSecret && rows.post_user_isSecret===1?
+                                                            <span className='text-danger'> *익명</span>:
+                                                            ""
+                                                        }
+                                                    </span>
+                                                    {/* <span className="table-bar_time float-right">{calculateTime(new Date(), new Date(rows.post_created))}</span> */}
                                                 </div>
-                                                
-                                            </div>
-                                            <span className='float-left'>{rows.shb_name}/{rows.shb_item_name}</span>
-                                            <span className='float-right count_text'>
-                                                좋아요[{rows.post_like_count}]
-                                                댓글[{rows.post_comment_count}]
-                                                조회수[{rows.post_view_count}]
-                                            </span>
-                                            {rows.post_image_count !== 0 ? <span className='float-right count_text'><PhotoLibraryOutlinedIcon style={{ fontSize: "20px" }} />({rows.post_image_count})</span> : ""}
-                                        </Link>
-                                        
-                                    </div>
-                                );
+                                                <div className="table-bar_column">
+                                                    <div className="font-weight-bold p-2 m-0 clearfix">
+                                                    {rows.post_title.length > 25 ?
+                                                        `${rows.post_title.substring(0, 25)}...` :
+                                                        rows.post_title
+                                                    }
+                                                    </div>
+                                                    
+                                                </div>
+                                                <span className='float-left'>{rows.shb_name}/{rows.shb_item_name}</span>
+                                                <span className='float-right count_text'>
+                                                    좋아요[{rows.post_like_count}]
+                                                    댓글[{rows.post_comment_count}]
+                                                    조회수[{rows.post_view_count}]
+                                                </span>
+                                                {rows.post_image_count !== 0 ? <span className='float-right count_text'><PhotoLibraryOutlinedIcon style={{ fontSize: "20px" }} />({rows.post_image_count})</span> : ""}
+                                            </Link>
+                                            
+                                        </div>
+                                    );
+                                }else{
+                                    return (
+                                        <div class="list-group-item __profile_field __border_radius shadow-sm border p-3 mb-2">
+                                            {rows.post_thumbnail_url==='none'?<img src={`${awsImageURL}/logo/imageNo2.gif`} className='float-right thumbnailImage'/> :<img src={rows.post_thumbnail_url} className='float-right thumbnailImage'/>}
+                                            <Link to={`/classify/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
+                                                <div className="table-bar_column">
+        
+                                                    <span className="table-bar_writer">
+                                                        <span className='text-primary'>{index + 1}</span> 
+                                                        작성자: {rows.user_nickname.length > 6 ? `${rows.user_nickname.substring(0, 6)}...` : rows.user_nickname}
+                                                        {rows.post_user_isSecret && rows.post_user_isSecret===1?
+                                                            <span className='text-danger'> *익명</span>:
+                                                            ""
+                                                        }
+                                                    </span>
+                                                    {/* <span className="table-bar_time float-right">{calculateTime(new Date(), new Date(rows.post_created))}</span> */}
+                                                </div>
+                                                <div className="table-bar_column">
+                                                    <div className="font-weight-bold p-2 m-0 clearfix">
+                                                    {rows.post_title.length > 25 ?
+                                                        `${rows.post_title.substring(0, 25)}...` :
+                                                        rows.post_title
+                                                    }
+                                                    </div>
+                                                    
+                                                </div>
+                                                <span className='float-left'>{rows.shb_name}/{rows.shb_item_name}</span>
+                                                <span className='float-right count_text'>
+                                                    좋아요[{rows.post_like_count}]
+                                                    댓글[{rows.post_comment_count}]
+                                                    조회수[{rows.post_view_count}]
+                                                </span>
+                                                {rows.post_image_count !== 0 ? <span className='float-right count_text'><PhotoLibraryOutlinedIcon style={{ fontSize: "20px" }} />({rows.post_image_count})</span> : ""}
+                                            </Link>
+                                            
+                                        </div>
+                                    );
+                                }
+                                
                             }
                         }else if(rows.message==='notPost'){
                             return(

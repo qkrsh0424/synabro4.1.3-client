@@ -68,8 +68,8 @@ class TitlebarGridList extends React.Component {
                                 />
                             }
                             <GridListTileBar
-                                title={<Link style={{color:'white'}} to={`/crew/category/${tile.shb_item_id}/v/${tile.post_id}?BomNo=${tile.shb_num}`}>{tile.post_title}</Link>}
-                                subtitle={<Link style={{color:'white'}} to={`/crew/category/${tile.shb_item_id}/v/${tile.post_id}?BomNo=${tile.shb_num}`}><span>by: {tile.user_nickname}</span></Link>}
+                                title={<Link style={{color:'white'}} to={`/classify/${tile.parent_route}/category/${tile.shb_item_id}/v/${tile.post_id}?BomNo=${tile.shb_num}`}>{tile.post_title}</Link>}
+                                subtitle={<Link style={{color:'white'}} to={`/classify/${tile.parent_route}/category/${tile.shb_item_id}/v/${tile.post_id}?BomNo=${tile.shb_num}`}><span>by: {tile.user_nickname}</span></Link>}
                                 actionIcon={
                                     <Tooltip 
                                         disableFocusListener 

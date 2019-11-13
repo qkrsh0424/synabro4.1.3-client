@@ -178,26 +178,15 @@ class App extends React.Component {
                         />
 
                         {/* SHB crew Route */}
-                        <Route exact path='/crew' component={ShbCrewIntro} />
-                        <Route exact path='/crew/contype/:shb_num' component={ShbCrewHome} />
-                        <Route exact path='/crew/category/:shb_item_id' component={ShbCrewCategory} />
-                        <Route exact path='/crew/category/:shb_item_id/v/:post_id' component={ShbCrewBoardPoster} />
-                        <Route exact path='/crew/category/:shb_item_id/writepost' component={PostEditorCommon} />
+                        <Route exact path='/classify/:crew' component={ShbCrewIntro} />
+                        <Route exact path='/classify/:crew/contype/:shb_num' component={ShbCrewHome} />
+                        <Route exact path='/classify/:crew/category/:shb_item_id' component={ShbCrewCategory} />
+                        <Route exact path='/classify/:crew/category/:shb_item_id/v/:post_id' component={ShbCrewBoardPoster} />
+                        <Route exact path='/classify/:crew/category/:shb_item_id/writepost' component={PostEditorCommon} />
                         <Route
-                            exact path='/crew/modifypost'
+                            exact path='/classify/:crew/modifypost'
                             component={PostModifyShbMain}
                         />
-
-                        {/* SHB blog Route */}
-                        {/* <Route exact path='/compo/:blog' component={ShbCrewIntro} /> */}
-                        {/* <Route exact path='/crew/contype/:shb_num' component={ShbCrewHome} />
-                        <Route exact path='/crew/category/:shb_item_id' component={ShbCrewCategory} />
-                        <Route exact path='/crew/category/:shb_item_id/v/:post_id' component={ShbCrewBoardPoster} />
-                        <Route exact path='/crew/category/:shb_item_id/writepost' component={PostEditorCommon} />
-                        <Route
-                            exact path='/crew/modifypost'
-                            component={PostModifyShbMain}
-                        /> */}
                         {/* 계정 관련 라우터 */}
                         {/* 회원가입 */}
                         <Route
