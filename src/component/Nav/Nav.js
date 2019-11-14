@@ -39,6 +39,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Tooltip from '@material-ui/core/Tooltip';
+import { maxWidth } from '@material-ui/system';
 
 
 const propTypes = {
@@ -82,14 +83,14 @@ const LightTooltip = withStyles(theme => ({
 
 const parentRoute = [
   {
-    parent_route:'main',
-    route_name:'상해봄',
-    route_image_url:null
+    parent_route: 'main',
+    route_name: '상해봄',
+    route_image_url: null
   },
   {
-    parent_route:'crew',
-    route_name:'봄 CREW',
-    route_image_url:null
+    parent_route: 'crew',
+    route_name: '봄 CREW',
+    route_image_url: null
   }
 ];
 
@@ -112,8 +113,6 @@ class Nav extends React.Component {
   componentWillMount = () => {
     this._Authentication();
   }
-
-
 
   _Authentication = async () => {
     return await Axios.post(`${serverUrl}/api/auth/authentication`, {
@@ -165,6 +164,7 @@ class Nav extends React.Component {
   }
 
   render() {
+    // console.log(window.innerWidth);
     const activeStyle = {
       color: 'green',
       // background:'skyblue'
@@ -214,67 +214,68 @@ class Nav extends React.Component {
         </List>
         <Divider /> */}
         <List>
-            {/* New */}
-            {this.props.parentRoute && this.props.parentRoute.map(parentRoute=>{
-              if(parentRoute.parent_route==='main'){
-                return;
-              }
-              return(
-                <LightTooltip
-                  interactive
-                  placement="right"
-                  disableFocusListener disableTouchListener
-                  title={
-                    <React.Fragment>
-                      <div style={{maxHeight:'70vh',overflow:'auto'}}>
-                        <ListItem 
-                          component={PageLink}
-                          to={`/classify/${parentRoute.parent_route}`} 
-                          className='header_style'
-                        >
-                          <ListItemText primary={parentRoute.route_name} />
-                        </ListItem>
-                        <Divider/>
-                        {this.props.shb_lists ? this.props.shb_lists.map((rows, index) => {
-                          if (rows && rows.shb_classify === parentRoute.parent_route) {
-                            return (
-                              <ListItem
-                                button key={rows.shb_name}
-                                component={AdapterLink}
-                                to={`/classify/${rows.shb_classify}/contype/${rows.shb_num}`}
-                                style={{width:'300px'}}
-                              // selected={this.props.matchId==rows.univ_id?true:false}
-                              >
-                                <ListItemIcon>
-                                  <img src={rows.shb_icon_url?rows.shb_icon_url:`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px' />
-                                </ListItemIcon>
-                                <ListItemText primary={rows.shb_name} />
-                              </ListItem>
-                            );
-                          } else {
-                            return;
-                        }}) : ""}
-                      </div>
-                    </React.Fragment>
-                  }
+          {/* New */}
+          {this.props.parentRoute && this.props.parentRoute.map(parentRoute => {
+            if (parentRoute.parent_route === 'main') {
+              return;
+            }
+            return (
+              <LightTooltip
+                interactive
+                placement={window.innerWidth < 800 ? "bottom-end" : "right"}
+                disableFocusListener disableTouchListener
+                title={
+                  <React.Fragment>
+                    <div style={{ maxHeight: '70vh', overflow: 'auto' }}>
+                      <ListItem
+                        component={PageLink}
+                        to={`/classify/${parentRoute.parent_route}`}
+                        className='header_style'
+                      >
+                        <ListItemText primary={parentRoute.route_name} />
+                      </ListItem>
+                      <Divider />
+                      {this.props.shb_lists ? this.props.shb_lists.map((rows, index) => {
+                        if (rows && rows.shb_classify === parentRoute.parent_route) {
+                          return (
+                            <ListItem
+                              button key={rows.shb_name}
+                              component={AdapterLink}
+                              to={`/classify/${rows.shb_classify}/contype/${rows.shb_num}`}
+                              style={{ width: '300px' }}
+                            // selected={this.props.matchId==rows.univ_id?true:false}
+                            >
+                              <ListItemIcon>
+                                <img src={rows.shb_icon_url ? rows.shb_icon_url : `https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px' />
+                              </ListItemIcon>
+                              <ListItemText primary={rows.shb_name} />
+                            </ListItem>
+                          );
+                        } else {
+                          return;
+                        }
+                      }) : ""}
+                    </div>
+                  </React.Fragment>
+                }
+              >
+                <ListItem
+                  button
+                // component={AdapterLink}
+                // to={`/crew`}
+                // selected={this.props.matchId==rows.univ_id?true:false}
                 >
-                  <ListItem
-                      button
-                      // component={AdapterLink}
-                      // to={`/crew`}
-                    // selected={this.props.matchId==rows.univ_id?true:false}
-                    >
-                      {/* <ListItemIcon>
+                  {/* <ListItemIcon>
                         <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px' />
                       </ListItemIcon> */}
-                      <ListItemText primary={parentRoute.route_name} className='header_style' style={{textAlign:'center'}}/>
-                  </ListItem>
-                </LightTooltip>
-              );
-            })}
-            
+                  <ListItemText primary={parentRoute.route_name} className='header_style' style={{ textAlign: 'center' }} />
+                </ListItem>
+              </LightTooltip>
+            );
+          })}
 
-            {/* Origin */}
+
+          {/* Origin */}
           {/* <h5 className="text-center">
             <Link to='/crew' className='header_style'>봄 CREW</Link>  
           </h5> */}
@@ -387,12 +388,15 @@ class Nav extends React.Component {
         </div>
         <div className='fixed_Liner'></div>
 
-        <Drawer open={this.state.left} onClose={this.toggleDrawer('left', false)}>
+        <Drawer
+          open={this.state.left}
+          onClose={this.toggleDrawer('left', false)}
+        >
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
+          // onClick={this.toggleDrawer('left', false)}
+          // onKeyDown={this.toggleDrawer('left', false)}
           >
             {sideList}
           </div>
