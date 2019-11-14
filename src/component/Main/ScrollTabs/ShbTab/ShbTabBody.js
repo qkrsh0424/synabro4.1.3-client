@@ -196,22 +196,27 @@ class ShbTabBody extends React.Component{
                     <h3>상해봄</h3>
                     <div className="row">
                         {this.props.shb_main_items?this.props.shb_main_items.map((rows,index)=>{
-                            if(index<3)
+                            // if(index<3)
+                            if(rows.shb_item_classify==='board'){
                                 return(
                                     <ShbTabCard
                                         category={rows}
                                     />
                                 );
+                            }else{
+                                return;
+                            }
+                                
                         })
                             :
                             "loading"
                         }
                         
                         {/* 베너 오는곳 */}
-                        <div className="col-md-3">
+                        {/* <div className="col-md-3">
                             <div className="right card">banner</div>
                             <div className="right card">banner</div>
-                        </div>
+                        </div> */}
                     </div>
               </Container>
         );

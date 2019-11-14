@@ -242,7 +242,7 @@ class Nav extends React.Component {
                               button key={rows.shb_name}
                               component={AdapterLink}
                               to={`/classify/${rows.shb_classify}/contype/${rows.shb_num}`}
-                              style={{ width: '300px' }}
+                              style={{ width: '250px'}}
                             // selected={this.props.matchId==rows.univ_id?true:false}
                             >
                               <ListItemIcon>
