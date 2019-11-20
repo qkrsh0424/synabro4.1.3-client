@@ -7,6 +7,9 @@ https://github.com/qkrsh0424/synabro4.0.0-client.git
 https://github.com/qkrsh0424/synabro4.1.0-client.git
 
 # synabro4.1.1-client
+https://github.com/qkrsh0424/synabro4.1.1-client.git
+
+# synabro4.1.2-client optimize version of 4.1.1
 
 ## Available Scripts
 
