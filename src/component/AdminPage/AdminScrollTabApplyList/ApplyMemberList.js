@@ -56,7 +56,7 @@ class CustomizedTable extends React.Component {
     }
 
     render(){
-        console.log(this.props.applicants);
+        // console.log(this.props.applicants);
         const {classes} = this.props;
         return (
             <Paper className={classes.root}>

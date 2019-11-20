@@ -18,7 +18,7 @@ class ContactPresenter extends React.Component {
     super(props);
   }
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const style = {
       paperHeader: {
         padding: "1rem",

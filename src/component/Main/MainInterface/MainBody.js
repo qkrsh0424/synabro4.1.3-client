@@ -32,6 +32,10 @@ import MainPostList from './MainPostList';
 const Container = styled.div`
     padding-top: 30px;
 
+    .bene_Big_Size{
+        width:100%;
+        height:300px;
+    }
 
     .mainBene {
         font-size: 200px;
@@ -258,6 +262,8 @@ const StyleDropdown = styled(DropdownIcon)`
 const propTypes = {};
 
 const defaultProps = {};
+
+
 
 class MainBody extends React.Component {
     _isMounted = false;

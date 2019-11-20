@@ -67,7 +67,7 @@ const StyledLink = styled(Link)`
 const defaultProps = {
 
 }
-
+const PageLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
 class LoginCard extends React.Component{
     constructor(props){
         super(props)
@@ -90,7 +90,7 @@ class LoginCard extends React.Component{
     }
 
     render(){
-      const PageLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
+      
       if(this.props._isLogged){
         return (
           <Container>

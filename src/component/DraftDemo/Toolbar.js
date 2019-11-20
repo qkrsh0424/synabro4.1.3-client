@@ -16,15 +16,15 @@ import FormatAlignCenterIcon from '@material-ui/icons/FormatAlignCenter';
 import FormatAlignRightIcon from '@material-ui/icons/FormatAlignRight';
 import FormatAlignJustifyIcon from '@material-ui/icons/FormatAlignJustify';
 import FormatSizeIcon from '@material-ui/icons/FormatSizeRounded';
-
+const style = {
+    toggleBtn:{
+        height:'auto',
+        padding:'6px'
+    }
+}
 class Toolbar extends React.Component {
     render() {
-        const style = {
-            toggleBtn:{
-                height:'auto',
-                padding:'6px'
-            }
-        }
+        
         return (
             <div>
                 {/* <Paper className='p-4 mb-2'> */}

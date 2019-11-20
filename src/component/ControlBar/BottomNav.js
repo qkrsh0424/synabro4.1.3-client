@@ -23,6 +23,8 @@ const styles = {
     },
 };
 
+const PageLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
+
 class SimpleBottomNavigation extends React.Component {
 
     goHome = () => {
@@ -41,7 +43,7 @@ class SimpleBottomNavigation extends React.Component {
 
     }
     render() {
-        const PageLink = React.forwardRef((props, ref) => <Link innerRef={ref} {...props} />);
+        
         return (
             <BottomNavigation
                 showLabels

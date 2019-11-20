@@ -83,6 +83,20 @@ const plugins = [
     staticToolbarPlugin
 ];
 
+const style = {
+    paperHeader: {
+        marginTop: '1rem',
+        marginBottom: '1rem',
+        padding: '1rem',
+        fontSize: '1.5rem'
+    },
+    paperBody: {
+        padding: '1rem',
+        marginBottom: '1rem',
+        fontSize: '1rem'
+    },
+}
+
 class DraftJs extends React.Component {
     constructor(props) {
         super(props);
@@ -200,19 +214,7 @@ class DraftJs extends React.Component {
         document.getElementById('file').click();
     }
     render() {
-        const style = {
-            paperHeader: {
-                marginTop: '1rem',
-                marginBottom: '1rem',
-                padding: '1rem',
-                fontSize: '1.5rem'
-            },
-            paperBody: {
-                padding: '1rem',
-                marginBottom: '1rem',
-                fontSize: '1rem'
-            },
-        }
+        
         return (
             <div>
                 <Nav/>

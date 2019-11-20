@@ -48,15 +48,6 @@ import Profile from '../Profile/Profile';
 
 //컨트롤바 컴포넌트
 import ControlBar from '../ControlBar';
-import GotoHomeActionButton from '../ControlBar/GotoHomeActionButton';
-import BackActionButton from '../ControlBar/BackActionButton';
-import MoreActionButton from '../ControlBar/MoreActionButton';
-import UpActionButton from '../ControlBar/UpActionButton';
-import BottomNav from '../ControlBar/BottomNav';
-
-//Univ 관련 컴포넌트
-// import Univ from '../Univ/Univ';
-// import UnivIntro from '../Univ/Intro';
 
 //AdminPage 관련 컴포넌트
 import AdminPage from '../AdminPage';
@@ -65,13 +56,7 @@ import AdminPage from '../AdminPage';
 import GroupApply from '../GroupApply';
 
 //각종 하위 컴포넌트
-// import RichText from'../RichText/RichText';
-// import TextAreaDemo from '../RichText/TextAreaDemo';
-// import DraftJs from '../RichText/DraftJs'
-import DraftDemo from '../DraftDemo';
-// import PostEditorUniv from '../PostEditorV1_Univ';
 import PostEditorCommon from '../PostEditorV1_Common';
-// import PostModifyUniv from '../Univ/PostModifyV1_Univ';
 import PostModifyShbMain from '../PostModifyV1_Main';
 
 //Error Page
@@ -203,39 +188,6 @@ class App extends React.Component {
                         {/* 프로필 */}
                         <Route exact path='/profile' component={Profile} />
                         <Route exact path='/profile/:conType' component={Profile} />
-
-                        {/* 포스터 관련 라우터 */}
-                        {/* <Route 
-                            exact path='/univ/:univ_id/:board_type/richtext' 
-                            component={RichText}
-                        /> */}
-                        {/* <Route
-                                exact path='/textareaDemo'
-                                component={TextAreaDemo}
-                            />
-                            <Route
-                                exact path='/draft'
-                                component={DraftDemo}
-                            />
-                            <Route
-                                exact path='/draft2'
-                                component={DraftJs}
-                            /> */}
-                        {/* <Route
-                            exact path='/univ/:univ_id/:board_type/writepost'
-                            component={PostEditorUniv}
-                        /> */}
-
-                        {/* <Route
-                            exact path='/univ/modifypost'
-                            component={PostModifyUniv}
-                        /> */}
-
-                        {/* Univ 관련 라우터 */}
-                        {/* <Route exact path='/univ/:univ_id/:board_type/v/:post_id' component={Univ} />
-                        <Route exact path='/univ/:univ_id/:board_type' component={Univ} />
-                        <Route exact path='/univ/:univ_id' component={Univ} />
-                        <Route exact path='/univ' component={UnivIntro} /> */}
 
                         {/* AdminPage 관련 라우터 */}
                         <Route exact path='/admin' component={AdminPage}/>
