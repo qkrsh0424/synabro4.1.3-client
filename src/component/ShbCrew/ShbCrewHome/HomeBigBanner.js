@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import $ from "jquery";
 const MainBanner = styled.div`
 .carousel-inner{
     border-radius:30px;

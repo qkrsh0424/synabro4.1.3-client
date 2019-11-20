@@ -5,7 +5,7 @@ import Message from "./message";
 import ContactCard from "./ContactCard";
 import SearchContact from "./SearchContact";
 import Nav from "../Nav/Nav";
-import MoreCategory from "../Univ/layout/MoreCategory";
+// import MoreCategory from "../Univ/layout/MoreCategory";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 

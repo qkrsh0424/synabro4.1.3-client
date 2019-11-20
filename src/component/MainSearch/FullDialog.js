@@ -13,7 +13,7 @@ import Slide from "@material-ui/core/Slide";
 import MainSearchPresenter from "./index";
 import { red } from "@material-ui/core/colors";
 // import Loader from "../Loader";
-import PostList from "../Univ/layout/PostLists";
+// import PostList from "../Univ/layout/PostLists";
 import { calculateTime } from "./handler";
 import Message from "./message";
 import SearchIcon from '@material-ui/icons/Search';
