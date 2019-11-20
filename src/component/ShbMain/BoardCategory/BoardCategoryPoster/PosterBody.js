@@ -14,6 +14,7 @@ import { MediaBlockRendererReadOnly } from '../../../PostEditorV1_Common/MediaBl
 //Draft Plugin Load
 import createImagePlugin from 'draft-js-image-plugin';
 import createAlignmentPlugin from 'draft-js-alignment-plugin';
+import createResizeablePlugin from 'draft-js-resizeable-plugin';
 
 //Draft Handler
 import { myBlockStyleFn } from '../../../DraftPlugIn';
@@ -22,6 +23,7 @@ import createTextColorPlugin from '../../../DraftPlugIn/textColorPlugin';
 
 //Core
 import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 //Icons
@@ -38,9 +40,11 @@ import PosterMenuControl from './PosterMenuControl';
 const alignmentPlugin = createAlignmentPlugin();
 const highLightPlugin = createHighLightPlugin();
 const textColorPlugin = createTextColorPlugin();
+const resizeablePlugin = createResizeablePlugin();
 
 const decorator = composeDecorators(
     alignmentPlugin.decorator,
+    resizeablePlugin.decorator,
 );
 // const colorBlockPlugin = createColorBlockPlugin({ decorator });
 const imagePlugin = createImagePlugin({ decorator });
@@ -50,7 +54,8 @@ const plugins = [
     imagePlugin,
     alignmentPlugin,
     highLightPlugin,
-    textColorPlugin
+    textColorPlugin,
+    resizeablePlugin
 ];
 
 //Use Draft Plugin End
@@ -122,7 +127,7 @@ class PosterBody extends React.Component {
         return (
             <div className='container animate slideIn clearfix CommonPosterPart' style={style.Grid}>
                 <Paper style={style.paperHeader}>
-                    {this.props.categoryTitle ? this.props.categoryTitle : "Loading.."}
+                    {this.props.categoryTitle ? this.props.categoryTitle : <button className="progress-bar-striped progress-bar-animated btn btn-light btn-lg btn-block"></button>}
                 </Paper>
                 {this.props.post ? this.props.post.map(row => {
                     var currentDate = new Date();
@@ -196,7 +201,7 @@ class PosterBody extends React.Component {
                             </div>
                         </div>
                     );
-                }) : "loading"}
+                }) : <div className='text-center mt-4'><CircularProgress/></div>}
 
             </div>
         );

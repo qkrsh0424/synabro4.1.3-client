@@ -36,7 +36,6 @@ class Category extends React.Component {
     componentWillUnmount() {
         this._isMounted = false
     }
-
     _getShb = async()=>{
         await api.shb_getShbOne(this.state.queryValues.BomNo) //crew는 선택사항.
         .then(data=>this.setState({shb:data.data[0]}));

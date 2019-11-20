@@ -98,8 +98,8 @@ class BoardCategoryBody extends React.Component {
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <div className='jumbotron'>
-                                    hi
-                            </div>
+                                    <a href={`/main/category/11?BomNo=1101001`}>신규 게시판 문의 받습니다.</a>
+                                </div>
                             </Grid>
                         </Grid>
                     </div>

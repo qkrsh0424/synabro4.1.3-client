@@ -1,9 +1,9 @@
 
 
-._TextField img{
+/* ._TextField img{
     max-width: 90%;
     max-height: 800px;
-}
+} */
 
 @media screen and (max-width:800px){
     ._TextField img{

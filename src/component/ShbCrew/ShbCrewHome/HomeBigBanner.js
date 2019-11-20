@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import $ from "jquery";
 const MainBanner = styled.div`
 .carousel-inner{
     border-radius:30px;
@@ -67,7 +67,11 @@ const MainBanner = styled.div`
 `;
 
 class HomeBigBanner extends React.Component{
+    componentDidMount = () =>{
+        
+    }
     render(){
+
         // console.log(this.props.bannerHeader);
         const bannerLoading = (
             <div className="progress d-block bene_Big_Size">
@@ -83,45 +87,52 @@ class HomeBigBanner extends React.Component{
                 </div>  
             </div>
         );
+        // let banners = (
+            
+        // );
         return(
             <MainBanner>
-                <div id="carouselExampleControls" className="carousel slide shadow-sm animate slideIn" data-ride="carousel">
-                    <div className="carousel-inner card mainBene">
+                <div id="carouselExampleControls" className="carousel slide shadow-sm" data-ride='carousel'>
+                    <div className="carousel-inner mainBene">
                         {this.props.bannerHeader?this.props.bannerHeader.map((rows,index)=>{
+                            var active = index === 0 ? "active" : "";
                             if(rows==='nonBanner'){
                                 return(nullBanner);
                             }
-                            if(rows && index===0){
+                            // if(rows && index===0){
                                 return(
                                     <div
-                                        className="carousel-item active main"
-                                        data-interval="4000"
+                                        key={`carousel${index}`}
+                                        className={`carousel-item ${active} main`}
+                                        data-interval="1000"
                                     >
                                         <img
                                             // src={require("../../asset/6.jpg")}
                                             src={rows.banner_image}
+                                            // src={'https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/bannerImage/synabrologo2.png'}
                                             className="d-block bene_Big_Size"
                                             alt="..."
                                         />
                                     </div>
                                 );
-                            }
-                            return(
-                                <div
-                                    className="carousel-item main"
-                                    data-interval="4000"
-                                >
-                                    <img
-                                        // src={require("../../asset/6.jpg")}
-                                        src={rows.banner_image}
-                                        className="d-block bene_Big_Size"
-                                        alt="..."
-                                    />
-                                </div>
-                            )
+                            // }
+                            // return(
+                            //     <div
+                            //         className="carousel-item main"
+                            //         data-interval="2000"
+                            //     >
+                            //         <img
+                            //             // src={require("../../asset/6.jpg")}
+                            //             src={rows.banner_image}
+                            //             className="d-block bene_Big_Size"
+                            //             alt="..."
+                            //         />
+                            //     </div>
+                            // );
                         })
                         :
                         (bannerLoading)}
+                                    
                     </div>
                     <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -132,6 +143,27 @@ class HomeBigBanner extends React.Component{
                         <span className="sr-only">Next</span>
                     </a>
                 </div>
+                {/* <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/bannerImage/synabrologo2.png" class="d-block w-100" alt="..."/>
+    </div>
+    <div class="carousel-item">
+      <img src="https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/bannerImage/synabrologo2.png" class="d-block w-100" alt="..."/>
+    </div>
+    <div class="carousel-item">
+      <img src="https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/bannerImage/synabrologo2.png" class="d-block w-100" alt="..."/>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div> */}
             </MainBanner>
         );
     }

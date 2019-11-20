@@ -26,6 +26,7 @@ import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createColorBlockPlugin from './colorBlockPlugin';
 import createAddLinkPlugin from './addLinkPlugin';
+import createResizeablePlugin from 'draft-js-resizeable-plugin';
 
 //Draft CSS
 import 'draft-js-static-toolbar-plugin/lib/plugin.css';
@@ -79,6 +80,7 @@ const staticToolbarPlugin = createToolbarPlugin();
 const alignmentPlugin = createAlignmentPlugin();
 const hightlightPlugin = createHighlightPlugin();
 const textColorPlugin = createTextColorPlugin();
+const resizeablePlugin = createResizeablePlugin();
 
 
 const { AlignmentTool } = alignmentPlugin;
@@ -88,7 +90,8 @@ const { Toolbar } = staticToolbarPlugin;
 const decorator = composeDecorators(
     alignmentPlugin.decorator,
     focusPlugin.decorator,
-    blockDndPlugin.decorator
+    blockDndPlugin.decorator,
+    resizeablePlugin.decorator,
 );
 const colorBlockPlugin = createColorBlockPlugin({ decorator });
 const imagePlugin = createImagePlugin({ decorator });
@@ -103,7 +106,8 @@ const plugins = [
     colorBlockPlugin,
     createAddLinkPlugin,
     hightlightPlugin,
-    textColorPlugin
+    textColorPlugin,
+    resizeablePlugin
 ];
 
 //Use Draft Plugin End

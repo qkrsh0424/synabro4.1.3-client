@@ -16,6 +16,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Material Icons
 import ThumbUpOff_icon from '@material-ui/icons/ThumbUpAltOutlined';
@@ -271,7 +272,7 @@ class PostLists extends React.Component {
                             }
                             
                         }
-                    }) : ""}
+                    }) : <div className='text-center'><CircularProgress/></div>}
                 </div>
             </Wrapper>
         );

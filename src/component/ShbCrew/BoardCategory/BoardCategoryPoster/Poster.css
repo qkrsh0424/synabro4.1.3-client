@@ -27,14 +27,14 @@
     font-size: 18px;
 }
 
-._TextField img{
+/* ._TextField img{
     max-width: 90%;
     max-height: 800px;
-}
+} */
 
 @media screen and (max-width:800px){
     ._TextField img{
-        width: 100%;
+        width: 100% !important;
     }
   }
 

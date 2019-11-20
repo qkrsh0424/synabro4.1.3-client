@@ -146,7 +146,9 @@ class PostLists extends React.Component {
                                                             : ""
                                                         }
                                                         <br/>
-                                                        <span style={{fontSize:'10px',fontWeight:'unset', color:'gray'}}>{descText.length>80?`${descText.substring(0,80)}...`:descText}</span>
+                                                        <span style={{fontSize:'10px',fontWeight:'unset', color:'gray'}}>
+                                                            {descText.length>80?`${descText.substring(0,80)}...`:descText}
+                                                        </span>
                                                     </div>
                                                     
                                                 </div>

@@ -313,7 +313,7 @@ class MainBody extends React.Component {
                                 className="carousel slide shadow-sm animate slideIn"
                                 data-ride="carousel"
                             >
-                                <div className="carousel-inner card mainBene">
+                                <div className="carousel-inner mainBene">
                                     {this.props.bannerHeader? this.props.bannerHeader.map((rows,index)=>{
                                         if(rows && index===0){
                                             return(
@@ -451,7 +451,7 @@ class MainBody extends React.Component {
                                                         <div className="item_icon">
                                                             {rows.shb_item_icon_url ?
                                                                 <img src={rows.shb_item_icon_url} width="50px" height="50px" /> :
-                                                                <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
+                                                                <img src={`https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/android-icon-144x144.png`} width="50px" height="50px" />
                                                             }
                                                         </div>
                                                         <div className="item_name">{rows.shb_item_name}</div>
@@ -468,12 +468,12 @@ class MainBody extends React.Component {
                                 </button>
                             </div>
                         </div>
-                        <div className="col-md-3">
+                        {/* <div className="col-md-3">
                             <div className="right card shadow-sm">
                                 forecast
-                                {/* {this.props.forecastBool?<Forecast />:"loading..."} */}
+                                {this.props.forecastBool?<Forecast />:"loading..."}
                             </div>
-                        </div>
+                        </div> */}
                     </div>
 
                     <MainPostList

@@ -93,7 +93,7 @@ class IntroBody extends React.Component {
                             <span className="yellow"> 향상</span>시키는 것입니다.
                         </h1>
                         <div className="introBox">
-                            <h2 className="intro">인삿말</h2>
+                            <h2 className="intro">인사말</h2>
                             <div className="box">
                                 안녕하세요. 저희는 현재 상해에서 유학 생활을 하고 있는
                                 상해봄팀 입니다. 2018년 10월 이후 중국정부는 네이버

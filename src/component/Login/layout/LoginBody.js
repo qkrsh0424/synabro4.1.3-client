@@ -30,14 +30,15 @@ class LoginBody extends React.Component{
                     <div className="container container__t animate slideIn">
                         <div className="row row__t">
                             <form className="form-signin form-signin__t text-center" onSubmit={this.props.handleFormSubmit}>
-                                <img 
+                                {/* <img 
                                     className="mb-4" 
-                                    src='https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/synabrologo2.png' 
+                                    src='https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/%E1%84%89%E1%85%A1%E1%86%BC%E1%84%92%E1%85%A2%E1%84%87%E1%85%A9%E1%86%B7%20%E1%84%86%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%87%E1%85%A2%E1%84%82%E1%85%A51.png' 
                                     alt="" 
                                     width="288" 
                                     height="72"
                                     onClick={this.props.handleMoveHome}
-                                />
+                                /> */}
+                                <h1 className='text-secondary mb-4' onClick={this.props.handleMoveHome}>상해봄</h1>
                                 <h1 className="h3 mb-3 font-weight-normal">로그인</h1>
                                 <label htmlFor="user_uid" className="sr-only">ID</label>
                                 <input type="text" id="user_uid" name="user_uid" className="form-control" placeholder="아이디" required

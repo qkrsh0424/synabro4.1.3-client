@@ -61,19 +61,21 @@ class AdsCategoryBody extends React.Component{
                                                 상해봄에서는 광고주분들이 간편하고 효과적으로 광고를 할 수
                                                 있게 도와드립니다.
                                             </h4>
-                                            <a href="#" class="btn btn-primary">
-                                            지금 시작하기
-                                            </a>
+                                            <button class="btn btn-primary" disabled>
+                                            준비 중 입니다...
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="intro img">
-                                        {/* <img
-                                            src={require("../../asset/7.png")}
+                                        <img
+                                            src={`
+                                            https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202019-11-15%20%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE%206.44.42.png
+                                            `}
                                             className="d-block bene_Big_Size"
                                             alt="..."
-                                        /> */}
+                                        />
                                     </div>
               
                                 </div>

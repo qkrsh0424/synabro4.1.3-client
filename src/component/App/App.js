@@ -135,6 +135,8 @@ class App extends React.Component {
         return shb_getParentRouteAll().then(data=>{
             if(data.message==='success'){
                 this.props.handleSetParentRoute(data.data);
+            }else{
+                return;
             }
         })
     }
@@ -168,7 +170,7 @@ class App extends React.Component {
 
                         {/* SHB main Route */}
                         <Route exact path='/main' component={ShbMainIntro} />
-                        <Route exact path='/main/contact' component={Contact} />
+                        {/* <Route exact path='/main/contact' component={Contact} /> */}
                         <Route exact path='/main/category/:shb_item_id' component={ShbMainCategory} />
                         <Route exact path='/main/category/:shb_item_id/writepost' component={PostEditorCommon} />
                         <Route exact path='/main/category/:shb_item_id/v/:post_id' component={ShbMainBoardPoster} />

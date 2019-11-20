@@ -11,6 +11,9 @@ import { connect } from "react-redux";
 //URL
 import { serverUrl } from '../../../config/serverUrl';
 
+//Core
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 /**
  * props
  * shb_item
@@ -24,7 +27,7 @@ class BoardCategoryMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            postLists: '',
+            postLists: null,
             startPostIndex:0,
             currentPostIndex:20,
             nextBtnOn: true,
@@ -56,7 +59,12 @@ class BoardCategoryMain extends React.Component {
         })
         .then(res=>res.data)
         .then(data=>{
-            this.setState({postLists:data});
+            if(data[0]){
+                this.setState({postLists:data});
+            }else{
+                this.setState({postLists:[]});
+            }
+            
         })
         .catch(err=>alert('포스트 겟 에러'))
     }
@@ -81,7 +89,7 @@ class BoardCategoryMain extends React.Component {
             );
         }else{
             return(
-                <div>Loading..</div>
+                <div className='text-center mt-4'><CircularProgress/></div>
             );
         }
         

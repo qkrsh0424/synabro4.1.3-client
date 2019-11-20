@@ -15,7 +15,7 @@ class HomeBody extends React.Component {
     render() {
         return (
             <div className='container crewContainer'>
-                <div className='jumbotron mt-3 shadow bg-light HeaderPart'>
+                <div className='jumbotron mt-3 mb-3 shadow bg-light HeaderPart'>
                     {this.props.shb?
                         
                             <h3 className='text-center clearfix'>
@@ -25,6 +25,9 @@ class HomeBody extends React.Component {
                                 {/* <button className='float-right'>B</button> */}
                             </h3>
                         :""}
+                </div>
+                <div class="marquee">
+                    <p>{this.props.shb? this.props.shb.shb_introduce:""}</p>
                 </div>
                 <div className='row mb-3'>
                     <div className='col-md-9'>

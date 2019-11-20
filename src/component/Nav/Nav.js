@@ -186,8 +186,8 @@ class Nav extends React.Component {
       <div className={classes.list}>
         <div className='text-center p-3'>
           <img
-            src={'https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/synabrologo2.png'}
-            width='100px' height='50px'
+            src={'https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/android-icon-144x144.png'}
+            width='100px' height='100px'
             onClick={() => { window.location.href = '/' }}
           />
           <br />
@@ -242,11 +242,12 @@ class Nav extends React.Component {
                               button key={rows.shb_name}
                               component={AdapterLink}
                               to={`/classify/${rows.shb_classify}/contype/${rows.shb_num}`}
+                              onClick={this.toggleDrawer('left', false)}
                               style={{ width: '250px'}}
                             // selected={this.props.matchId==rows.univ_id?true:false}
                             >
                               <ListItemIcon>
-                                <img src={rows.shb_icon_url ? rows.shb_icon_url : `https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px' />
+                                <img src={rows.shb_icon_url ? rows.shb_icon_url : `https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/android-icon-144x144.png`} width='24px' height='24px' />
                               </ListItemIcon>
                               <ListItemText primary={rows.shb_name} />
                             </ListItem>
@@ -333,8 +334,8 @@ class Nav extends React.Component {
               component={PageLink}
               to={"/"}
             >
-              Synabro
-                </Typography>
+              상해봄
+            </Typography>
 
             {this.props._isLogged ?
               <div>
@@ -361,7 +362,7 @@ class Nav extends React.Component {
                   onClose={this.handleClose}
                 >
                   <MenuItem component={PageLink} to={'/profile'}>내 프로필</MenuItem>
-                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  {/* <MenuItem onClick={this.handleClose}>My account</MenuItem> */}
                   <MenuItem onClick={this.handleLogout}>로그아웃</MenuItem>
                 </Menu>
               </div> :

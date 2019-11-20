@@ -36,8 +36,14 @@ function LoadingNav(props) {
                     <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" color="inherit" className={classes.grow}>
-                        Synabro
+                    <Typography
+                        variant="h6"
+                        color="inherit"
+                        className={classes.grow}
+                        // component={PageLink}
+                        // to={"/"}
+                        >
+                        상해봄
                     </Typography>
                     <IconButton>
                             <LensIcon />
