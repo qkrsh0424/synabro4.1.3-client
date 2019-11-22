@@ -194,25 +194,6 @@ class Nav extends React.Component {
           <em className='text-secondary'>Beta version</em>
         </div>
         <Divider />
-        {/* <List>
-          <h5 className="text-center">
-            <Link to='/univ' className='header_style'>봄 UNIVERSITY</Link>  
-          </h5>
-          {this.props.univ_lists ? this.props.univ_lists.map((rows, index) => {
-            return (
-              <ListItem
-                button key={rows.univ_title}
-                component={AdapterLink}
-                to={"/univ/" + rows.univ_id}
-              >
-                
-                <ListItemIcon><img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px'/></ListItemIcon>
-                <ListItemText primary={rows.univ_title} />
-              </ListItem>
-            );
-          }) : ""}
-        </List>
-        <Divider /> */}
         <List>
           {/* New */}
           {this.props.parentRoute && this.props.parentRoute.map(parentRoute => {
@@ -231,6 +212,7 @@ class Nav extends React.Component {
                         component={PageLink}
                         to={`/classify/${parentRoute.parent_route}`}
                         className='header_style'
+                        onClick={this.toggleDrawer('left', false)}
                       >
                         <ListItemText primary={parentRoute.route_name} />
                       </ListItem>
@@ -244,7 +226,6 @@ class Nav extends React.Component {
                               to={`/classify/${rows.shb_classify}/contype/${rows.shb_num}`}
                               onClick={this.toggleDrawer('left', false)}
                               style={{ width: '250px'}}
-                            // selected={this.props.matchId==rows.univ_id?true:false}
                             >
                               <ListItemIcon>
                                 <img src={rows.shb_icon_url ? rows.shb_icon_url : `https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/android-icon-144x144.png`} width='24px' height='24px' />
@@ -262,51 +243,14 @@ class Nav extends React.Component {
               >
                 <ListItem
                   button
-                // component={AdapterLink}
-                // to={`/crew`}
-                // selected={this.props.matchId==rows.univ_id?true:false}
                 >
-                  {/* <ListItemIcon>
-                        <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px' />
-                      </ListItemIcon> */}
                   <ListItemText primary={parentRoute.route_name} className='header_style' style={{ textAlign: 'center' }} />
                 </ListItem>
               </LightTooltip>
             );
           })}
-
-
-          {/* Origin */}
-          {/* <h5 className="text-center">
-            <Link to='/crew' className='header_style'>봄 CREW</Link>  
-          </h5> */}
-          {/* {this.props.shb_lists ? this.props.shb_lists.map((rows, index) => {
-            if (rows.shb_classify === 'crew') {
-              return (
-                <ListItem
-                  button key={rows.shb_name}
-                  component={AdapterLink}
-                  to={`/${rows.shb_classify}/contype/${rows.shb_num}`}
-                // selected={this.props.matchId==rows.univ_id?true:false}
-                >
-                  <ListItemIcon><img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width='24px' height='24px' /></ListItemIcon>
-                  <ListItemText primary={rows.shb_name} />
-                </ListItem>
-              );
-            } else {
-              return;
-            }
-          }) : ""} */}
         </List>
         <Divider />
-        {/* <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List> */}
       </div>
     );
 

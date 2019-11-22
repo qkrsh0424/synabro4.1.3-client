@@ -7,7 +7,10 @@ import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../action';
 
-import {logoutHandler} from '../../handler/LogoutHandler'
+import {logoutHandler} from '../../handler/LogoutHandler';
+
+//AWS URL
+import { awsImageURL } from '../../config/awsurl';
 
 
 const Container=styled.div`
@@ -98,7 +101,7 @@ class LoginCard extends React.Component{
             <div className='user_image'>
             <img
                       className="user_img"
-                      src={`https://ddpf5wamlzit3.cloudfront.net/logo/peopleNo.png`}
+                      src={`${awsImageURL}/logo/peopleNo.png`}
                       circular="true"
                     />
             </div>

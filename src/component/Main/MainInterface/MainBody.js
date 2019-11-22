@@ -356,26 +356,6 @@ class MainBody extends React.Component {
                                     (beneLoading)
                                     
                                     }
-                                    {/* <div
-                                        className="carousel-item active main"
-                                        data-interval="4000"
-                                    >
-                                        <img
-                                            // src={require("../../asset/6.jpg")}
-                                            src={"https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/bannerImage/synabrologo2.png"}
-                                            className="d-block bene_Big_Size"
-                                            alt="..."
-                                        />
-                                    </div>
-
-                                    <div className="carousel-item main" data-interval="4000">
-                                        <img
-                                            // src={require("../../asset/6.jpg")}
-                                            src={"https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/bannerImage/synabrologo1.png"}
-                                            className="d-block bene_Big_Size"
-                                            alt="..."
-                                        />
-                                    </div> */}
                                 </div>
                                 <a
                                     className="carousel-control-prev"

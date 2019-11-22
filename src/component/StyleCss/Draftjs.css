@@ -160,3 +160,7 @@
   .text-black-color-draft{
     color:black;
   }
+
+  ._TextField .public-DraftStyleDefault-block{
+    background: none;
+  }

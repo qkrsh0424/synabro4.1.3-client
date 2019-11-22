@@ -27,13 +27,11 @@ import PageLoading from './PageLoading';
 
 //메인 관련 컴포넌트
 import Main from '../Main/Main';
-import Contact from '../Contact'
 
 // Shb main 관련 컴포넌트
 import ShbMainIntro from '../ShbMain/Intro';
 import ShbMainCategory from '../ShbMain/Category';
 import ShbMainBoardPoster from '../ShbMain/BoardCategory/BoardCategoryPoster';
-import ShbMainBoardWrite from '../ShbMain/MainBoardWrite';
 
 //Shb crew 관련 컴포넌트
 import ShbCrewIntro from '../ShbCrew/Intro';
@@ -197,6 +195,8 @@ class App extends React.Component {
                         {/* error 관련 라우터 */}
                         <Route exact path='/error' component={ErrorPage404} />
                         <Route component={ErrorPage404} />
+
+
                     </Switch>
                     <h1 className='position-fixed bomVersionCheck1'>Beta version</h1>
 

@@ -11,30 +11,32 @@ import CreateIcon from '@material-ui/icons/Create';
 //Component
 import PostLists from './PostLists';
 
+
+
+
+const style = {
+    paperHeader: {
+        padding: '1rem',
+        fontSize: '1.5rem'
+    },
+    paperBody: {
+        padding: '1rem',
+        fontSize: '1rem'
+    },
+    Grid: {
+        padding: '8px'
+    }
+}
+
 class BoardCategoryBody extends React.Component {
     render() {
-        console.log(this.props);
-
-
+        // console.log(this.props);
         const { 
             shb_item, postLists,
             nextBtnOn
         } = this.props;
 
-
-        const style = {
-            paperHeader: {
-                padding: '1rem',
-                fontSize: '1.5rem'
-            },
-            paperBody: {
-                padding: '1rem',
-                fontSize: '1rem'
-            },
-            Grid: {
-                padding: '8px'
-            }
-        }
+        
         return (
             <div>
                 <div className='container' id='board_ScrollTop'>

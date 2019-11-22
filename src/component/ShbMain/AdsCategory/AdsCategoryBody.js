@@ -22,23 +22,27 @@ const Container = styled.div`
         width: 85%;
     }
 
+    .bene_Big_Size{
+        width:100%;
+    }
+
 `;
 
+const style = {
+    paperHeader: {
+        padding: "1rem",
+        fontSize: "1.5rem"
+    },
+    paperBody: {
+        padding: "1rem",
+        fontSize: "1rem"
+    },
+    Grid: {
+        padding: "8px"
+    }
+};
 class AdsCategoryBody extends React.Component{
     render(){
-        const style = {
-            paperHeader: {
-                padding: "1rem",
-                fontSize: "1.5rem"
-            },
-            paperBody: {
-                padding: "1rem",
-                fontSize: "1rem"
-            },
-            Grid: {
-                padding: "8px"
-            }
-        };
         return(
             <div>
                 <div className="container shadow-sm animate slideIn clearfix">

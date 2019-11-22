@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-// import { Form, Image, TextArea } from "semantic-ui-react";
 import { __sendComment } from "../../../../../handler/cliApi/CommentApi";
 
+//URL
+import {awsImageURL} from '../../../../../config/awsurl';
 const AddCommentBar = styled.div`
   display: flex;
   margin-top: 16px;
@@ -121,7 +122,7 @@ export default class AddComment extends React.Component {
         <AddCommentBar>
           <img
             className="user-image"
-            src={`https://ddpf5wamlzit3.cloudfront.net/logo/peopleNo.png`}
+            src={`${awsImageURL}/logo/peopleNo.png`}
             circular="true"
           />
           <form onSubmit={this.props._writeComment} >

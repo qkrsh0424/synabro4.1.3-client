@@ -220,7 +220,7 @@ class Signup extends React.Component{
                     <div>
                         <div className="header py-5 text-center">
                             <img 
-                                className="d-block mx-auto mb-3" 
+                                className="d-block w-100 mb-3" 
                                 src='https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/%E1%84%89%E1%85%A1%E1%86%BC%E1%84%92%E1%85%A2%E1%84%87%E1%85%A9%E1%86%B7%20%E1%84%86%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%87%E1%85%A2%E1%84%82%E1%85%A51.png' 
                                 alt=""
                                 onClick={this.handleMoveHome}

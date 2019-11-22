@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { calculateTime } from "../../../../../controler/calculateTime";
 import DelComment from './DelComment';
 import '../Poster.css';
+
+//URL
+import {awsImageURL} from '../../../../../config/awsurl';
 const CommentBar = styled.div` 
     display: flex;
     margin: 8px 0;
@@ -69,7 +72,7 @@ class Comment extends React.Component {
                 <CommentBar>
                   <img
                     className='user-image'
-                    src={`https://ddpf5wamlzit3.cloudfront.net/logo/peopleNo.png`}
+                    src={`${awsImageURL}/logo/peopleNo.png`}
                     circular="true"
                   />
                   <CommentBox>
