@@ -2,7 +2,7 @@ import React from 'react';
 
 class AdminBody extends React.Component{
     render(){
-        console.log(this.props.members);
+        // console.log(this.props.members);
         return(
             <div>
                 {this.props.group?this.props.group.shb_name:""}

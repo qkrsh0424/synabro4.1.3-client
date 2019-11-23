@@ -62,6 +62,7 @@ import { MediaBlockRenderer } from './MediaBlockRenderer';
 import Nav from '../Nav/Nav';
 import CustomToolbar from './Toolbar';
 import ImageUploadLoading from './ImageUploadLoading';
+import FileUploadPart from '../DraftPlugIn/FileUploadPart';
 
 //Material Core
 import Paper from '@material-ui/core/Paper';
@@ -169,6 +170,7 @@ class DraftJs extends React.Component {
             TYPE_OF_POST: '',
             imgUploadLoading: false,
             isMember: false,
+            commonFiles:[],
         }
     }
 
@@ -377,7 +379,8 @@ class DraftJs extends React.Component {
     onHandleSubmit = async (e) => {
         e.preventDefault();
         let jsonType = this.setConvertToJson();
-        console.log(jsonType);
+        // console.log(this.state.commonFiles);
+        // console.log(jsonType);
         if (window.confirm("정말로 포스팅 하시겠습니까?")) {
             //Go To PostRoute
             await __sendPost(
@@ -386,10 +389,11 @@ class DraftJs extends React.Component {
                 this.state.queryValues.BomNo,
                 this.state.queryValues.Category,
                 this.state.post_topic,
-                jsonType
+                jsonType,
+                this.state.commonFiles
             )
                 .then(data => {
-                    console.log(data.message);
+                    // console.log(data.message);
                     if (data.message === 'success') {
                         window.history.back();
                     } else if (data.message === 'failure') {
@@ -407,6 +411,45 @@ class DraftJs extends React.Component {
         }
 
     }
+
+    _fileUploaded = async(e) =>{
+        // console.log(e.target.files.length);
+        this.setState({ imgUploadLoading: true });
+        const filesize = e.target.files.length;
+        const formData = new FormData();
+        for (let i = 0; i < filesize; i++) {
+            let filedata = e.target.files[i];
+            formData.append(`commonfile`, filedata);
+        }
+
+        await Axios.post(`${serverUrl}/api/uploadimg//draft-oss/file/upload`, formData, {
+            // onUploadProgress: progressEvent => {
+            //     console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
+            // }
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
+            }
+        }).then(res=>res.data)
+        .then(data=>{
+            if(data.message==='successOne' || data.message==='successMultiple'){
+                //concat 은 개별적으로든 배열로든 추가가능 그래서 멀티와 싱글을 한번에 처리
+                // console.log(data.file);
+                this.setState({commonFiles:this.state.commonFiles.concat(data.file)});
+                this.setState({ imgUploadLoading: false });
+            }else if(data.message==='maybeEmpty'){
+                alert('파일이 비었거나, 업로드 할 수 없는 파일 입니다.');
+                this.setState({ imgUploadLoading: false });
+            }else{
+                alert('undefined');
+                this.setState({ imgUploadLoading: false });
+            }
+        })
+    }
+
+    _fileDeleteIndex = async(thisfile) =>{
+        this.setState({commonFiles:this.state.commonFiles.filter(idx=>idx.url!==thisfile.url)});
+    }
+
     render() {
         const style = {
             paperHeader: {
@@ -470,25 +513,6 @@ class DraftJs extends React.Component {
                                         />
                                         <AlignmentTool />
                                     </div>
-                                    {/* <Toolbar>
-                                        {
-                                            // may be use React.Fragment instead of div to improve perfomance after React 16
-                                            (externalProps) => (
-                                                <div>
-                                                    <BoldButton {...externalProps} />
-                                                    <ItalicButton {...externalProps} />
-                                                    <UnderlineButton {...externalProps} />
-                                                    <CodeButton {...externalProps} />
-                                                    <Separator {...externalProps} />
-                                                    <HeadlinesButton {...externalProps} />
-                                                    <UnorderedListButton {...externalProps} />
-                                                    <OrderedListButton {...externalProps} />
-                                                    <BlockquoteButton {...externalProps} />
-                                                </div>
-                                            )
-                                        }
-
-                                    </Toolbar> */}
                                     <div className='customToolbar'>
                                         <CustomToolbar
                                             onTextStyle={this.onTextStyle}
@@ -503,6 +527,11 @@ class DraftJs extends React.Component {
                                             ImageButtonClick={this.ImageButtonClick}
                                         />
                                     </div>
+                                    <FileUploadPart
+                                        commonFiles = {this.state.commonFiles}
+                                        _fileUploaded = {this._fileUploaded}
+                                        _fileDeleteIndex = {this._fileDeleteIndex}
+                                    />
                                     {this.state.imgUploadLoading === true ?
                                         <button className="btn btn-primary float-right" disabled>제출</button>
                                         :

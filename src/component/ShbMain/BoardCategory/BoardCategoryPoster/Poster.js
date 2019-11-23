@@ -56,7 +56,9 @@ class Poster extends React.Component {
         postApi.post_ViewCountPlus(this.props.match.params.post_id);
         api.shb_getShbOnePost(this.props._sess, this.props.match.params.post_id)
         .then(data=>{
-            // console.log(data[0])
+            // console.log(data[0].post_materials)
+            // const materials = JSON.parse(data[0].post_materials);
+            // console.log(materials.length);
             if(data[0].message==='success'){
                 this.setState({post:data});
             }else if(data[0].message==='error'){

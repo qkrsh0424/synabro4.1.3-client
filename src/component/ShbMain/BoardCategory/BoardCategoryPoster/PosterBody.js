@@ -5,7 +5,9 @@ import styled from 'styled-components';
 import { awsImageURL } from '../../../../config/awsurl';
 
 //Controler
-import { calculateTime } from '../../../../controler/calculateTime'
+import { calculateTime } from '../../../../controler/calculateTime';
+import handleStorageToFileName from '../../../../controler/hadleStorageToFileName';
+
 // DraftJs
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
 import Editor, { createEditorStateWithText, composeDecorators } from 'draft-js-plugins-editor';
@@ -25,12 +27,14 @@ import createTextColorPlugin from '../../../DraftPlugIn/textColorPlugin';
 import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 //Icons
 import ThumbUpOff_icon from '@material-ui/icons/ThumbUpAltOutlined';
 import ThumbUpOn_icon from '@material-ui/icons/ThumbUpAlt';
 import Comment_icon from '@material-ui/icons/Comment';
 import Eye_icon from '@material-ui/icons/RemoveRedEye';
+import Share_icon from '@material-ui/icons/Share';
 
 //Component
 import Comments from './Comments';
@@ -89,7 +93,7 @@ font-size : 8px;
 
 const Emoji_bar = styled.div`
 margin-bottom:10px;
-margin-top:5rem;
+margin-top:1rem;
 `;
 
 class PosterBody extends React.Component {
@@ -138,6 +142,7 @@ class PosterBody extends React.Component {
                             <Header className='clearfix'>
                                 <div className="Header-bar">
                                     <span className='float-left'>{row.post_title}</span>
+                                    
                                     <span className='float-right'>
                                         {this.props._isLogged ?
                                             <PosterMenuControl
@@ -166,6 +171,11 @@ class PosterBody extends React.Component {
                                 {/* <div>
                                     <MenuList />
                                 </div> */}
+                                <CopyToClipboard text={window.location.href}>
+                                    <a class="btn btn-outline-secondary float-right">
+                                            <Share_icon/>
+                                    </a>
+                                </CopyToClipboard>
                             </User>
                             <div
                                 className="_TextField clearfix"
@@ -178,8 +188,24 @@ class PosterBody extends React.Component {
                                     plugins={plugins}
                                     readOnly
                                 />
-
                             </div>
+                            {row.post_materials?
+                                <div>
+                                    <p><strong>첨부파일</strong></p>
+                                    <ul>
+                                    {row.post_materials.map(mat=>{
+                                        
+                                        return(
+                                            <li>
+                                                <a href={mat.url} target='_black' download>{mat.name}</a>
+                                            </li>
+                                        )
+                                        
+                                    })}
+                                    </ul>
+                                </div>
+                            :""}
+                            
                             <Emoji_bar>
                                 {row.like === 'on' ? <a onClick={() => this.props._handleLikeOff(row.shb_num, row.post_id)} className="text-secondary"><span id='currentLikeOn'><ThumbUpOn_icon /></span> {row.post_like_count}</a> :
                                     <a onClick={() => this.props._handleLikeOn(row.shb_num, row.post_id)} className="text-secondary"><span id="currentLikeOff"><ThumbUpOff_icon /></span> {row.post_like_count}</a>}

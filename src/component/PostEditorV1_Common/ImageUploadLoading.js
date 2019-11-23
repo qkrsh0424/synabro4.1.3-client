@@ -31,19 +31,11 @@ class ImgUploadLoading extends React.Component {
           //   onClose={this.handleClose}
           aria-labelledby="responsive-dialog-title"
         >
-          <DialogTitle id="responsive-dialog-title">{"이미지 업로드 중입니다. 잠시만 기다려주세요."}</DialogTitle>
+          <DialogTitle id="responsive-dialog-title">{"업로드 중입니다. 잠시만 기다려주세요."}</DialogTitle>
           <DialogContent className='text-center'>
-            {/* <DialogContentText> */}
             <Progress />
-            {/* </DialogContentText> */}
           </DialogContent>
           <DialogActions>
-            {/* <Button onClick={this.handleClose} color="primary">
-                닫기
-            </Button> */}
-            {/* <Button onClick={this.handleClose} color="primary" autoFocus>
-              Agree
-            </Button> */}
           </DialogActions>
         </Dialog>
       </div>

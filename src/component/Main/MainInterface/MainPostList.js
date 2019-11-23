@@ -99,7 +99,7 @@ class PostLists extends React.Component {
                                                 {rows.post_thumbnail_url === 'none' ? <em>No Thumbnail</em> :
                                                     <div>
                                                         <p><em>Thumbnail</em></p>
-                                                        <img src={rows.post_thumbnail_url} width="200px" height="200px" />
+                                                        <img src={rows.post_thumbnail_url} width="250" height="150" />
                                                     </div>}
                                             </React.Fragment>
                                         }>
@@ -114,8 +114,8 @@ class PostLists extends React.Component {
                                                                 <div className='topic_custom mb-0' style={{ fontSize: "16px" }}>
                                                                     <span className='text-primary' fontSize="14px" >{index + 1}</span>
                                                                     &nbsp;
-                                                            {rows.post_title && rows.post_title.length > 15 ?
-                                                                        `${rows.post_title.substring(0, 15)}...` :
+                                                                    {rows.post_title && rows.post_title.length > 32 ?
+                                                                        `${rows.post_title.substring(0, 32)}...` :
                                                                         rows.post_title
                                                                     }
     

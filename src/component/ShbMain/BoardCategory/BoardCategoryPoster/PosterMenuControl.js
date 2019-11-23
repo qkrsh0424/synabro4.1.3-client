@@ -101,9 +101,12 @@ class UnivPosterMenuControl extends React.Component {
                             </MenuItem>
                         </div>
                         :
-                        <MenuItem onClick={this.handleClose} disabled>
-                            신고하기
-                        </MenuItem>
+                        <div>
+                            <MenuItem onClick={this.handleClose} disabled>
+                                신고하기
+                            </MenuItem>
+                        </div>
+                        
                     }
                 </Menu>
                 <Dialog

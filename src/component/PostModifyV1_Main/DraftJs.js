@@ -64,6 +64,7 @@ import { MediaBlockRenderer } from './MediaBlockRenderer';
 import Nav from '../Nav/Nav';
 import CustomToolbar from './Toolbar';
 import ImageUploadLoading from './ImageUploadLoading';
+import FileUploadPart from '../DraftPlugIn/FileUploadPart';
 
 //Material Core
 import Paper from '@material-ui/core/Paper';
@@ -176,6 +177,7 @@ class DraftJs extends React.Component {
             TYPE_OF_POST: '',
             imgUploadLoading: false,
             poster_isValidation: false,
+            commonFiles:[],
         }
     }
 
@@ -221,7 +223,10 @@ class DraftJs extends React.Component {
 
     _getPostId = () => {
         return shb_getShbOnePost(this.props._sess, this.state.queryValues.postView)
-            .then(data => this.setState({ postData: data }))
+            .then(data => {
+                // console.log(data);
+                this.setState({ postData: data, commonFiles:data[0].post_materials })
+            })
     }
 
     //Common Control Start
@@ -401,12 +406,13 @@ class DraftJs extends React.Component {
                 this.state.queryValues.Category,
                 this.state.queryValues.postView,
                 this.state.post_topic,
-                jsonType
+                jsonType,
+                this.state.commonFiles
             )
                 .then(data => {
                     // console.log(data.message);
                     if (data.message === 'success') {
-                        setTimeout(() => window.history.back(), 1000);
+                        setTimeout(() => window.history.back(), 0);
                     } else if (data.message === 'failure') {
                         alert('정상적이지 않은 포스팅 입니다...');
                     } else if (data.message === 'invalidUser') {
@@ -421,6 +427,44 @@ class DraftJs extends React.Component {
             return;
         }
 
+    }
+
+    _fileUploaded = async(e) =>{
+        // console.log(e.target.files.length);
+        this.setState({ imgUploadLoading: true });
+        const filesize = e.target.files.length;
+        const formData = new FormData();
+        for (let i = 0; i < filesize; i++) {
+            let filedata = e.target.files[i];
+            formData.append(`commonfile`, filedata);
+        }
+
+        await Axios.post(`${serverUrl}/api/uploadimg/draft-oss/file/upload`, formData, {
+            // onUploadProgress: progressEvent => {
+            //     console.log(Math.round((progressEvent.loaded / progressEvent.total) * 100))
+            // }
+            headers: {
+                Authorization: 'Bearer ' + AuthKey
+            }
+        }).then(res=>res.data)
+        .then(data=>{
+            if(data.message==='successOne' || data.message==='successMultiple'){
+                //concat 은 개별적으로든 배열로든 추가가능 그래서 멀티와 싱글을 한번에 처리
+                // console.log(data.file);
+                this.setState({commonFiles:this.state.commonFiles.concat(data.file)});
+                this.setState({ imgUploadLoading: false });
+            }else if(data.message==='maybeEmpty'){
+                alert('파일이 비었거나, 업로드 할 수 없는 파일 입니다.');
+                this.setState({ imgUploadLoading: false });
+            }else{
+                alert('undefined');
+                this.setState({ imgUploadLoading: false });
+            }
+        })
+    }
+
+    _fileDeleteIndex = async(thisfile) =>{
+        this.setState({commonFiles:this.state.commonFiles.filter(idx=>idx.url!==thisfile.url)});
     }
     render() {
         // console.log(this.state.postData);
@@ -520,6 +564,11 @@ class DraftJs extends React.Component {
                                             ImageButtonClick={this.ImageButtonClick}
                                         />
                                     </div>
+                                    <FileUploadPart
+                                        commonFiles = {this.state.commonFiles}
+                                        _fileUploaded = {this._fileUploaded}
+                                        _fileDeleteIndex = {this._fileDeleteIndex}
+                                    />
                                     {this.state.imgUploadLoading === true ?
                                         <button className="btn btn-primary float-right" disabled>제출</button>
                                         :

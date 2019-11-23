@@ -66,7 +66,7 @@ class Toolbar extends React.Component {
         }
 
         return (
-            <div className='mb-5'>
+            <div className='mb-2'>
                 <div>
                     <input
                         type='file'
@@ -76,6 +76,7 @@ class Toolbar extends React.Component {
                         onChange={this.props.onImageUpload}
                         hidden
                         multiple
+                        accept="image/*"
                     />
                     <div className={'headlineButtonWrapper'}>
                         <ToggleButton type='button' onClick={() => this.props.onTextStyle("BOLD")} style={style.toggleBtn}><FormatBoldIcon /></ToggleButton>

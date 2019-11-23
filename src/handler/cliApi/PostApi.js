@@ -5,7 +5,7 @@ import AuthKey from '../../config/AuthorizationKey';
 
 import { serverUrl } from '../../config/serverUrl';
 
-export function __sendPost(typeOfPost,_sess, header_id, category_id, post_topic, post_desc) {
+export function __sendPost(typeOfPost,_sess, header_id, category_id, post_topic, post_desc, post_materials) {
     if(typeOfPost==='univ'){
         let url = `${serverUrl}/api/univ_post/writePost`;
 
@@ -34,6 +34,7 @@ export function __sendPost(typeOfPost,_sess, header_id, category_id, post_topic,
             shb_item_id: category_id,
             post_topic: post_topic,
             post_desc: post_desc,
+            post_materials: post_materials
         },{
             headers:{
                 Authorization:'Bearer ' + AuthKey
@@ -46,7 +47,7 @@ export function __sendPost(typeOfPost,_sess, header_id, category_id, post_topic,
     
 }
 
-export function __modifyPost(typeOfPost,_sess, header_id, category_id,post_id, post_topic, post_desc) {
+export function __modifyPost(typeOfPost,_sess, header_id, category_id,post_id, post_topic, post_desc, post_materials) {
     if(typeOfPost==='univ'){
         let url = `${serverUrl}/api/univ_post/updatePost`;
 
@@ -78,6 +79,7 @@ export function __modifyPost(typeOfPost,_sess, header_id, category_id,post_id, p
             post_id:post_id,
             post_title: post_topic,
             post_desc: post_desc,
+            post_materials
         },{
             headers:{
                 Authorization:'Bearer ' + AuthKey
