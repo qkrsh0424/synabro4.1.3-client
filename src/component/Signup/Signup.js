@@ -291,9 +291,9 @@ class Signup extends React.Component{
                                     </div>
 
                                     <div className="mb-3">
-                                        <label htmlFor="user_job">학교 입력</label>
+                                        <label htmlFor="user_job">직업 및 학교</label>
                                         <input 
-                                            type="text" className="form-control" name="user_job" id="user_job" placeholder="xx대학교" required
+                                            type="text" className="form-control" name="user_job" id="user_job" placeholder="회사명 or 학교명" required
                                             value={this.state.user_job} onChange={this.handleValueChange}
                                         />
                                         <div className="invalid-feedback">
@@ -302,9 +302,9 @@ class Signup extends React.Component{
                                     </div>
     
                                     <div className="mb-3">
-                                        <label htmlFor="user_major">학과 </label>
+                                        <label htmlFor="user_major">직무 및 학과</label>
                                         <input 
-                                            type="text" className="form-control" name="user_major" id="user_major" placeholder="국제무역학과" required
+                                            type="text" className="form-control" name="user_major" id="user_major" placeholder="부서명 or 학과명" required
                                             value={this.state.user_major} onChange={this.handleValueChange}
                                         />
                                         <div className="invalid-feedback">

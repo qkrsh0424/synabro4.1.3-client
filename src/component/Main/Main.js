@@ -109,6 +109,7 @@ const mapStateToProps = (state)=>{
         shb_lists: state.shb_lists.shbs,
         _main: state.shb_lists.mainCategory,
         univ_lists: state.univ_lists.univs,
+        parentRoute: state.parent_route.parentRoute,
     }
 }
 

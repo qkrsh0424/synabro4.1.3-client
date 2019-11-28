@@ -28,12 +28,18 @@ import createColorBlockPlugin from './colorBlockPlugin';
 import createAddLinkPlugin from './addLinkPlugin';
 import createResizeablePlugin from 'draft-js-resizeable-plugin';
 
+// import createLinkifyPlugin from 'draft-js-linkify-plugin';
+// import createHashtagPlugin from 'draft-js-hashtag-plugin';
+
 //Draft CSS
 import 'draft-js-static-toolbar-plugin/lib/plugin.css';
 import 'draft-js-focus-plugin/lib/plugin.css';
 import 'draft-js-image-plugin/lib/plugin.css';
 import 'draft-js-alignment-plugin/lib/plugin.css';
+import 'draft-js-hashtag-plugin/lib/plugin.css';
+
 import '../StyleCss/Draftjs.css';
+// import 'draft-js-linkify-plugin/lib/plugin.css';
 
 //Draft Handler
 import {
@@ -83,6 +89,9 @@ const hightlightPlugin = createHighlightPlugin();
 const textColorPlugin = createTextColorPlugin();
 const resizeablePlugin = createResizeablePlugin();
 
+// const hashtagPlugin = createHashtagPlugin();
+// const linkifyPlugin = createLinkifyPlugin({ target: '_self' });
+
 
 const { AlignmentTool } = alignmentPlugin;
 const { Toolbar } = staticToolbarPlugin;
@@ -108,7 +117,10 @@ const plugins = [
     createAddLinkPlugin,
     hightlightPlugin,
     textColorPlugin,
-    resizeablePlugin
+    resizeablePlugin,
+    
+    // linkifyPlugin,
+    // hashtagPlugin,
 ];
 
 //Use Draft Plugin End
@@ -436,13 +448,18 @@ class DraftJs extends React.Component {
                 // console.log(data.file);
                 this.setState({commonFiles:this.state.commonFiles.concat(data.file)});
                 this.setState({ imgUploadLoading: false });
+                document.getElementById('commonfile').value = '';
+                
             }else if(data.message==='maybeEmpty'){
                 alert('파일이 비었거나, 업로드 할 수 없는 파일 입니다.');
                 this.setState({ imgUploadLoading: false });
+                document.getElementById('commonfile').value = '';
             }else{
                 alert('undefined');
                 this.setState({ imgUploadLoading: false });
+                document.getElementById('commonfile').value = '';
             }
+            
         })
     }
 

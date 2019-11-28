@@ -55,34 +55,31 @@ class ScrollTabsMain extends React.Component {
 
         return (
             <div className={classes.root}>
-                <AppBar position="static" style={{background:'white'}}>
+                <AppBar position="static" color='default' style={{background:'white'}}>
                     <Tabs
                         value={value}
                         onChange={this.handleChange}
                         variant="scrollable"
-                        scrollButtons="on"
+                        scrollButtons="auto"
                         indicatorColor="primary"
                         textColor="primary"
                     >
-                        <Tab label="홈" />
-                        <Tab label="상해봄" 
-                            // icon={<FavoriteIcon />} 
+                        <Tab 
+                            label="홈"
                         />
-                        <Tab label="봄 대학교" disabled
-                            // icon={<PersonPinIcon />} 
+                        <Tab
+                            label="봄 게시판"
+                            value='homeboards'
                         />
-                        <Tab label="봄 크루" 
-                            // icon={<HelpIcon />} 
-                        />
-                        {/* <Tab label="Item Five" icon={<ShoppingBasket />} />
-                        <Tab label="Item Six" icon={<ThumbDown />} />
-                        <Tab label="Item Seven" icon={<ThumbUp />} />
-                        <Tab label="Item Seven" icon={<ThumbUp />} />
-                        <Tab label="Item Seven" icon={<ThumbUp />} />
-                        <Tab label="Item Seven" icon={<ThumbUp />} />
-                        <Tab label="Item Seven" icon={<ThumbUp />} />
-                        <Tab label="Item Seven" icon={<ThumbUp />} />
-                        <Tab label="Item Seven" icon={<ThumbUp />} /> */}
+                        {this.props.parentRoute && this.props.parentRoute.map(rows=>{
+                            return(
+                                <Tab 
+                                    label={rows.route_name}
+                                    value={rows.parent_route}
+                                    // icon={<FavoriteIcon />} 
+                                />        
+                            )
+                        })}
                     </Tabs>
                 </AppBar>
                 {value === 0 && <TabContainer>
@@ -91,21 +88,42 @@ class ScrollTabsMain extends React.Component {
                         {...this.state}
                     />
                 </TabContainer>}
-                {value === 1 &&
+                {value === 'homeboards' &&
                     <TabContainer>
                         <ShbTab
                             {...this.props}
                             {...this.state}
                         />
-                    </TabContainer>}
-                {value === 2 && 
+                    </TabContainer>
+                }
+                {this.props.parentRoute && this.props.parentRoute.map((rows,index)=>{
+                    if(value === rows.parent_route){
+                        return(
+                            <TabContainer>
+                                <CrewTab
+                                    {...this.props}
+                                    {...this.state}
+                                    parent={rows}
+                                />
+                            </TabContainer>
+                        );
+                    }
+                })}
+                {/* {value === 1 &&
+                    <TabContainer>
+                        <ShbTab
+                            {...this.props}
+                            {...this.state}
+                        />
+                    </TabContainer>} */}
+                {/* {value === 2 && 
                     <TabContainer>
                         <UnivTab
                             {...this.props}
                             {...this.state}
                         />
-                    </TabContainer>}
-                {value === 3 && 
+                    </TabContainer>} */}
+                {/* {value === 3 && 
                     <TabContainer>
                         <CrewTab
                             {...this.props}
@@ -115,7 +133,7 @@ class ScrollTabsMain extends React.Component {
                 }
                 {value === 4 && <TabContainer>Item Five</TabContainer>}
                 {value === 5 && <TabContainer>Item Six</TabContainer>}
-                {value === 6 && <TabContainer>Item Seven</TabContainer>}
+                {value === 6 && <TabContainer>Item Seven</TabContainer>} */}
             </div>
         );
     }
@@ -124,5 +142,6 @@ class ScrollTabsMain extends React.Component {
 ScrollTabsMain.propTypes = {
     classes: PropTypes.object.isRequired,
 };
+
 
 export default withStyles(styles)(ScrollTabsMain);

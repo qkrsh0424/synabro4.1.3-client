@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 //RouterDom
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 //Component
 import CrewTabCard from './CrewTabCard';
@@ -151,6 +151,8 @@ const Container = styled.div`
 `;
 
 const StyledLink = styled(Link)`
+    font-size:30px;
+    font-weight:500;
     text-decoration: none;
         color: black;
         &:focus,
@@ -166,49 +168,25 @@ const StyledLink = styled(Link)`
     :hover {
         color:#636e72;
     }
-    :hover:after {
-        -webkit-transform: scale(1.3);
-        -moz-transform: scale(1.3);
-        -ms-transform: scale(1.3);
-        transform: scale(1.3);
-        opacity: 0;
-    }
-
-    .item {
-        box-shadow: 0 0 0 4px #fff;
-        -webkit-transition: color 0.3s;
-        -moz-transition: color 0.3s;
-        transition: color 0.3s;
-    }
-    .item:after {
-        top: -2px;
-        left: -2px;
-        padding: 2px;
-        z-index: -1;
-        background: #fff;
-        -webkit-transition: -webkit-transform 0.2s, opacity 0.3s;
-        -moz-transition: -moz-transform 0.2s, opacity 0.3s;
-        transition: transform 0.2s, opacity 0.3s;
-    }
 `;
 
-class CrewTabBody extends React.Component{
-    render(){
-        return(
+class CrewTabBody extends React.Component {
+    render() {
+        return (
             <Container className='container'>
-                <h3>봄 크루</h3>
-                    <div className="row">
-                        {this.props.shb_lists?this.props.shb_lists.map((rows,index)=>{
-                            if(rows.shb_classify==='crew'){
-                                return(
-                                    <CrewTabCard
-                                        shb={rows}
-                                    />
-                                );
-                            }
-                            
-                        }):""}
-                    </div>
+                <StyledLink to={`/classify/${this.props.parent.parent_route}`}>{this.props.parent.route_name}</StyledLink>
+                <div className="row">
+                    {this.props.shb_lists ? this.props.shb_lists.map((rows, index) => {
+                        if (rows.shb_classify === this.props.parent.parent_route) {
+                            return (
+                                <CrewTabCard
+                                    shb={rows}
+                                />
+                            );
+                        }
+
+                    }) : ""}
+                </div>
             </Container>
         );
     }

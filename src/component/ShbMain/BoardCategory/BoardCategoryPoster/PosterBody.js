@@ -17,6 +17,15 @@ import { MediaBlockRendererReadOnly } from '../../../PostEditorV1_Common/MediaBl
 import createImagePlugin from 'draft-js-image-plugin';
 import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createResizeablePlugin from 'draft-js-resizeable-plugin';
+import createAddLinkPlugin from '../../../PostEditorV1_Common/addLinkPlugin';
+import createColorBlockPlugin from '../../../PostEditorV1_Common/colorBlockPlugin';
+
+//Draft CSS
+import 'draft-js-static-toolbar-plugin/lib/plugin.css';
+import 'draft-js-focus-plugin/lib/plugin.css';
+import 'draft-js-image-plugin/lib/plugin.css';
+import 'draft-js-alignment-plugin/lib/plugin.css';
+import '../../../StyleCss/Draftjs.css';
 
 //Draft Handler
 import { myBlockStyleFn } from '../../../DraftPlugIn';
@@ -50,7 +59,8 @@ const decorator = composeDecorators(
     alignmentPlugin.decorator,
     resizeablePlugin.decorator,
 );
-// const colorBlockPlugin = createColorBlockPlugin({ decorator });
+
+const colorBlockPlugin = createColorBlockPlugin({ decorator });
 const imagePlugin = createImagePlugin({ decorator });
 
 
@@ -59,7 +69,9 @@ const plugins = [
     alignmentPlugin,
     highLightPlugin,
     textColorPlugin,
-    resizeablePlugin
+    resizeablePlugin,
+    createAddLinkPlugin,
+    colorBlockPlugin
 ];
 
 //Use Draft Plugin End
@@ -104,8 +116,7 @@ class PosterBody extends React.Component {
         }
     }
 
-    componentDidMount() {
-
+    componentDidMount = () =>{
     }
     onEditorChange = () => {
         // console.log(this.props.post[0].post_desc);
@@ -180,14 +191,17 @@ class PosterBody extends React.Component {
                             <div
                                 className="_TextField clearfix"
                             >
-                                <Editor
-                                    blockRendererFn={MediaBlockRendererReadOnly}
-                                    blockStyleFn={myBlockStyleFn}
-                                    editorState={this.state.editorState}
-                                    onChange={this.onEditorChange}
-                                    plugins={plugins}
-                                    readOnly
-                                />
+                                {this.props.post[0]?
+                                    <Editor
+                                        blockRendererFn={MediaBlockRendererReadOnly}
+                                        blockStyleFn={myBlockStyleFn}
+                                        editorState={this.state.editorState}
+                                        onChange={this.onEditorChange}
+                                        plugins={plugins}
+                                        readOnly
+                                    />
+                                :""}
+                                
                             </div>
                             {row.post_materials?
                                 <div>

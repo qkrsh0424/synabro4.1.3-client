@@ -81,19 +81,6 @@ const LightTooltip = withStyles(theme => ({
   },
 }))(Tooltip);
 
-const parentRoute = [
-  {
-    parent_route: 'main',
-    route_name: '상해봄',
-    route_image_url: null
-  },
-  {
-    parent_route: 'crew',
-    route_name: '봄 CREW',
-    route_image_url: null
-  }
-];
-
 class Nav extends React.Component {
   constructor(props) {
     super(props);

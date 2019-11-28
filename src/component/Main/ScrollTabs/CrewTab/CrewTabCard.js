@@ -1,15 +1,32 @@
 import React from 'react';
-import Axios from 'axios';
-import { serverUrl } from '../../../../config/serverUrl';
-import { awsImageURL } from '../../../../config/awsurl';
-import AuthKey from '../../../../config/AuthorizationKey';
+
 import {Link} from 'react-router-dom';
 
+import styled from 'styled-components';
 //API
 import * as shbApi from '../../../../handler/cliApi/shb';
 //Component
 import CrewTabCard_Image from './CrewTabCard_Image';
 
+
+const StyledLink = styled(Link)`
+    font-weight:700;
+    text-decoration: none;
+        color: black;
+        &:focus,
+        &:hover,
+        &:visited,
+        &:link,
+    &:active {
+        text-decoration: none;
+        color: black;
+    }
+    color: #f06060;
+
+    :hover {
+        color:#636e72;
+    }
+`;
 
 class CrewTabCard extends React.Component {
     constructor(props){
@@ -33,7 +50,9 @@ class CrewTabCard extends React.Component {
         return(
             <div className="col-md-4">
                 <div className="card board">
-                    <div className="board_title">{this.props.shb.shb_name}</div>
+                    <div className="board_title">
+                        <StyledLink to={`/classify/${this.props.shb.shb_classify}/contype/${this.props.shb.shb_num}`}>{this.props.shb.shb_name}</StyledLink>
+                    </div>
                     <CrewTabCard_Image
                         tileData={this.state.post}
                     />
