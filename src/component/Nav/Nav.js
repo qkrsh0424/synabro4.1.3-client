@@ -99,7 +99,29 @@ class Nav extends React.Component {
 
   componentWillMount = () => {
     this._Authentication();
+    
   }
+
+  componentDidMount = () =>{
+    setTimeout(()=>{
+      window.onscroll = function() {myFunction()};
+
+      var navbar = document.getElementById("PcyTopNavBar");
+      var sticky = navbar.offsetTop;
+      var stickyTextField = document.getElementById("header_stickyTest")?document.getElementById("header_stickyTest").clientHeight:0;
+      // console.log(stickyTextField);
+      function myFunction() {
+        if (window.pageYOffset >= stickyTextField) {
+          navbar.classList.add("sticky")
+        } else {
+          navbar.classList.remove("sticky");
+        }
+      }
+    },1000);
+    
+  }
+
+  
 
   _Authentication = async () => {
     return await Axios.post(`${serverUrl}/api/auth/authentication`, {
@@ -148,6 +170,12 @@ class Nav extends React.Component {
         }
 
       });
+  }
+
+  memoryScroll= () =>{
+    // console.log(window.scrollY);
+    window.localStorage.setItem("scroll",0);
+    document.documentElement.scrollTop = document.body.scrollTop = 0;
   }
 
   render() {
@@ -242,10 +270,12 @@ class Nav extends React.Component {
     );
 
     return (
-      <div className={classes.root}>
+    <div>
+        <div className={classes.root}>
         <div
           position='fixed'
-          className='PcyTopNavBar'
+          // className='PcyTopNavBar'
+          id='PcyTopNavBar'
         // className={classes.AppBar}
         // className={c}
         >
@@ -264,6 +294,7 @@ class Nav extends React.Component {
               className={classes.grow}
               component={PageLink}
               to={"/"}
+              onClick={this.memoryScroll}
             >
               상해봄
             </Typography>
@@ -334,6 +365,8 @@ class Nav extends React.Component {
           </div>
         </Drawer>
       </div>
+    </div>
+      
     );
   }
 }

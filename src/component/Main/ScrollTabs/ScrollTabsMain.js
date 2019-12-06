@@ -49,12 +49,17 @@ class ScrollTabsMain extends React.Component {
         this.setState({ value });
     };
 
+    setScrollZero = () =>{
+        import('../../Scroll/SaveScrollPosition')
+        .then(ret=>ret.saveScrollZero());
+    }
+
     render() {
         const { classes } = this.props;
         const { value } = this.state;
 
         return (
-            <div className={classes.root}>
+            <div className={`${classes.root} scrollTabsMainNav`}>
                 <AppBar position="static" color='default' style={{background:'white'}}>
                     <Tabs
                         value={value}
@@ -66,6 +71,7 @@ class ScrollTabsMain extends React.Component {
                     >
                         <Tab 
                             label="홈"
+                            onClick={this.setScrollZero}
                         />
                         <Tab
                             label="봄 게시판"

@@ -66,6 +66,18 @@ class AdminMain extends React.Component{
         })
     }
 
+    _deleteGroupMemberOne = (head_type, MemberId) =>{
+        // console.log(head_type, UserUid);
+        adminApi.admin_DeleteMemberOne(head_type,MemberId)
+        .then(data=>{
+            if(data.message==='success'){
+                return this._getGroupMembers(head_type);
+            }else{
+                alert('undefined');
+            }
+        })
+    }
+
     render(){
         return(
 
@@ -81,6 +93,7 @@ class AdminMain extends React.Component{
                             {...this.props}
                             {...this.state}
                             _getGroupMembers = {this._getGroupMembers}
+                            _deleteGroupMemberOne = {this._deleteGroupMemberOne}
                         />
                     </>
                 :""}

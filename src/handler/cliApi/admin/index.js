@@ -91,10 +91,26 @@ const admin_Applicant_Reject = async(applicantId, head_type)=>{
     });
 }
 
+const admin_DeleteMemberOne = async(head_type, member_id) =>{
+    return await Axios.post(`${serverUrl}/api/auth/admin/group/deleteMember/one`,{
+        head_type:head_type,
+        member_id:member_id
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('에러가 발생 했습니다.');
+        window.location.href='/'
+    });
+}
+
 export {
     admin_group_master_check,
     admin_Members_Of_Group,
     admin_Applicants_Of_Group,
     admin_Applicant_Confirm,
-    admin_Applicant_Reject
+    admin_Applicant_Reject,
+    admin_DeleteMemberOne
 };

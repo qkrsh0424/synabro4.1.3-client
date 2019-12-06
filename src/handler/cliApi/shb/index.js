@@ -90,17 +90,34 @@ const shb_getShbOneItem = async(shb_item_id,shb_num)=>{
 
 // post 관련 API
 
-const shb_getShbAllPostForAllBoundary = async() =>{
-    return await Axios.get(`${serverUrl}/api/shb/post/getpost/all`,{
+const shb_getShbAllPostForAllBoundary = async(numIndex) =>{
+    console.log(numIndex);
+    if(numIndex){
+        return await Axios.get(`${serverUrl}/api/shb/post/getpost/all`,{
+            params:{
+                numIndex:numIndex
+            },
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+              }
+        }).then(res=>res.data)
+        .catch(err=>{
+            alert('잘못된 방식 입니다.');
+            window.location.href='/'
+        });
+    }else{
+        return await Axios.get(`${serverUrl}/api/shb/post/getpost/all`,{
         
-        headers:{
-            Authorization:'Bearer ' + AuthKey
-          }
-    }).then(res=>res.data)
-    .catch(err=>{
-        alert('잘못된 방식 입니다.');
-        window.location.href='/'
-    });
+            headers:{
+                Authorization:'Bearer ' + AuthKey
+              }
+        }).then(res=>res.data)
+        .catch(err=>{
+            alert('잘못된 방식 입니다.');
+            window.location.href='/'
+        });
+    }
+    
 }
 /**
  * 

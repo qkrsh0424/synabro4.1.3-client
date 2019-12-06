@@ -28,7 +28,7 @@ import PhotoLibraryOutlinedIcon from '@material-ui/icons/PhotoLibraryOutlined';
 
 import { calculateTime } from '../../../controler/calculateTime';
 
-
+import {saveScrollValY, getScrollValY} from '../../Scroll/SaveScrollPosition';
 
 const propTypes = {
 }
@@ -84,6 +84,15 @@ class PostLists extends React.Component {
         this.setState({ tooltipOpen: true });
     };
 
+    memoryScroll= async() =>{
+        // console.log(window.scrollY);
+        // let val = {
+        //     "m":window.scrollY,
+        // }
+        // window.localStorage.setItem("scroll",JSON.stringify(val));
+        saveScrollValY(window.scrollY);
+    }
+
     render() {
         return (
             <Wrapper className='MainPostList'>
@@ -104,7 +113,10 @@ class PostLists extends React.Component {
                                             </React.Fragment>
                                         }>
     
-                                            <Link to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
+                                            <Link 
+                                                to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark"
+                                                onClick={this.memoryScroll}
+                                            >
     
                                                 <div className="table-bar_column  box-MainPostList">
                                                     <div className="table-bar_column">
@@ -114,8 +126,15 @@ class PostLists extends React.Component {
                                                                 <div className='topic_custom mb-0' style={{ fontSize: "16px" }}>
                                                                     <span className='text-primary' fontSize="14px" >{index + 1}</span>
                                                                     &nbsp;
-                                                                    {rows.post_title && rows.post_title.length > 32 ?
+                                                                    {
+                                                                        window.innerWidth<800?
+
+                                                                        rows.post_title && rows.post_title.length > 32 ?
                                                                         `${rows.post_title.substring(0, 32)}...` :
+                                                                        rows.post_title
+                                                                        :
+                                                                        rows.post_title && rows.post_title.length > 70 ?
+                                                                        `${rows.post_title.substring(0, 70)}...` :
                                                                         rows.post_title
                                                                     }
     
@@ -203,9 +222,15 @@ class PostLists extends React.Component {
                                                                 <div className='topic_custom mb-0' style={{ fontSize: "16px" }}>
                                                                     <span className='text-primary' fontSize="14px" >{index + 1}</span>
                                                                     &nbsp;
-                                                            {rows.post_title && rows.post_title.length > 32 ?
-                                                                        `${rows.post_title.substring(0, 32)}...` :
-                                                                        rows.post_title
+                                                                    {
+                                                                        window.innerWidth<800?
+                                                                        rows.post_title && rows.post_title.length > 32 ?
+                                                                            `${rows.post_title.substring(0, 32)}...` :
+                                                                            rows.post_title
+                                                                            :
+                                                                            rows.post_title && rows.post_title.length > 70 ?
+                                                                            `${rows.post_title.substring(0, 70)}...` :
+                                                                            rows.post_title
                                                                     }
     
                                                                     {rows.post_image_count !== 0 ?

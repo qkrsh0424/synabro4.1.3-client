@@ -105,7 +105,7 @@ class ChangeInformation extends React.Component{
                             <label>이메일</label>
                             <div class="form-group row">
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" name="Email" value={this.state.user.Email} onChange={this.handleValueChange} required/>
+                                    <input type="email" class="form-control" name="Email" value={this.state.user.Email} onChange={this.handleValueChange} required disabled/>
                                     
                                 </div>
                             </div>

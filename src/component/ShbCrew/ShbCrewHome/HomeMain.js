@@ -1,6 +1,7 @@
 import React from 'react';
 import './ShbCrewHome.css';
 
+import {Link} from 'react-router-dom';
 //API
 import * as api from '../../../handler/cliApi/shb';
 import * as bannerApi from '../../../handler/cliApi/banner';
@@ -21,14 +22,17 @@ class HomeMain extends React.Component{
     }
 
     componentDidMount = ()=>{
+        document.documentElement.scrollTop = document.body.scrollTop = 0;
         this._getShb();
         this._getShbItem();
         this._getPostListsForShbNum();
         this._getBanner();
+        
     }
 
     componentDidUpdate = (prevProps, prevState)=>{
         if (prevProps.location != this.props.location) {
+            document.documentElement.scrollTop = document.body.scrollTop = 0;
             this._getShb();
             this._getShbItem();
             this._getPostListsForShbNum();
@@ -71,7 +75,45 @@ class HomeMain extends React.Component{
         // console.log(this.state.postLists);
         return(
             <div>
-                <Nav/>
+                
+                <div 
+                    id="header_stickyTest"
+                    class="header_stickyTest w-100 crewContainer" 
+                    style={{
+                        backgroundImage:this.state.shb?`url(${this.state.shb.shb_image_url})`:"",
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                    }}
+                >
+                    <Nav/>
+                    <div className='header_stickyTest2 '>
+                        {/* {this.state.shb?
+                            <div className='textStyle'>
+                                <h3 className='text-center clearfix'>
+                                    <h2>{this.state.shb.shb_name}</h2>
+                                </h3>
+                                <p>{this.state.shb.shb_introduce}</p>
+                            </div>
+                        :""} */}
+                        <div className='jumbotron mt-3 mb-3 shadow bg-light HeaderPart'>
+                    {this.state.shb?
+                        <div>
+                            <h3 className='text-center clearfix'>
+                                <Link to={`/classify/${this.state.shb.shb_classify}/contype/${this.state.shb.shb_num}`} className='Text'>
+                                    <span>{this.state.shb.shb_name}</span>
+                                </Link>
+                                
+                                {/* <button className='float-right'>B</button> */}
+                            </h3>
+                            <p>{this.state.shb.shb_introduce?this.state.shb.shb_introduce:""}</p>
+                            </div>
+                        :""}
+                </div>
+                    </div>
+                    
+                </div>
+                
                 <HomeBody
                     {...this.props}
                     {...this.state}

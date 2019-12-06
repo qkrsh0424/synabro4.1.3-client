@@ -15,6 +15,7 @@ import * as bannerApi from '../../handler/cliApi/banner';
 import Nav from '../Nav/Nav';
 import MainBody from './MainInterface';
 import ScrollTabs from './ScrollTabs';
+// import SaveScrollPosition from '../Scroll/SaveScrollPosition';
 
 
 const propTypes = {
@@ -44,10 +45,16 @@ class Main extends React.Component{
             this._getBanner();
             this.setState({forecastBool:true});
         }
+        // document.documentElement.scrollTop = document.body.scrollTop=0;
         
-        document.documentElement.scrollTop = document.body.scrollTop = 0;
-        
+        // window.addEventListener("scroll", function(event) {
+        //     var top = this.scrollY,
+        //         left =this.scrollX;
+        //         console.log(top,left)
+        // }, false);
     }
+
+    
 
     componentWillUnmount = () =>{
         this._isMounted = false;

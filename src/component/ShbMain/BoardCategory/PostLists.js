@@ -29,6 +29,7 @@ import { calculateTime } from '../../../controler/calculateTime';
 
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
 
+import {saveScrollValY_mBoard} from '../../Scroll/SaveScrollPosition';
 
 
 const propTypes = {
@@ -105,6 +106,15 @@ class PostLists extends React.Component {
         this.setState({ tooltipOpen: true });
     };
 
+    memoryScroll= async() =>{
+        // console.log(window.scrollY);
+        // let val = {
+        //     "m":window.scrollY,
+        // }
+        // window.localStorage.setItem("scroll",JSON.stringify(val));
+        saveScrollValY_mBoard(window.scrollY);
+    }
+
     render() {
         return (
             <div className='table-body animate slideIn clearfix'>
@@ -125,7 +135,7 @@ class PostLists extends React.Component {
                                     </React.Fragment>
                                 }>
                                     
-                                    <Link to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
+                                    <Link to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark" onClick={this.memoryScroll}>
 
                                         <div className="table-bar_column">
                                             

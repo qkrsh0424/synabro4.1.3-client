@@ -16,8 +16,8 @@ class ShbTabCard extends React.Component {
         }
     }
 
-    componentDidMount(){
-        this.getPost();
+    componentDidMount = async()=>{
+        await setTimeout(()=>this.getPost(),500)
     }
 
     getPost = () =>{

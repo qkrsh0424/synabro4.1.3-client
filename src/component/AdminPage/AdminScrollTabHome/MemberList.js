@@ -86,7 +86,9 @@ class CustomizedTable extends React.Component {
                                     <CustomTableCell align="right">{rows.UserMajor}</CustomTableCell>
                                     <CustomTableCell align="right">{rows.UserEmail}</CustomTableCell>
                                     <CustomTableCell align="right">{rows.UserGender}</CustomTableCell>
-                                    <CustomTableCell align="right"><button className='btn btn-danger'>삭제</button></CustomTableCell>
+                                    <CustomTableCell align="right">
+                                        <button type='button' className='btn btn-danger' onClick={()=>this.props._deleteGroupMemberOne(this.props.group.shb_num, rows.MemberId)}>삭제</button>
+                                    </CustomTableCell>
                                     
                                 </TableRow>
                             );

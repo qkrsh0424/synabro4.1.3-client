@@ -2,21 +2,22 @@
     margin-top:64px;
 }
 
-@media screen and (max-width:600px){
+@media screen and (max-width:800px){
     .fixed_Liner{
         margin-top:56px;
     }
 }
 
-.PcyTopNavBar{
+#PcyTopNavBar{
     position:fixed;
-    z-index:1100;
+    /* z-index:1100; */
     width:100%;
-    background: white;
-    color: gray;
-    border-bottom: 1px solid #f0f0f0;
+    /* background: white; */
+    color: #505050;
+    /* border-bottom: 1px solid #f0f0f0; */
     /* box-shadow:0px 2px 4px -1px rgba(0,0,0,0.1); */
 }
+
 
 .header_style{
     color:#768cc2;
@@ -25,3 +26,43 @@
 .header_style:hover{
     text-decoration:none;
 }
+
+.header_stickyTest {
+    background-color: #f1f1f1;
+    /* padding: 30px; */
+    /* text-align: center; */
+    height:auto;
+    /* min-height: 500px; */
+    /* min-height: 30vw; */
+    border-bottom: 1px solid #f1f1f1;
+    /* background-image: url("https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/shbomLogo.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
+  }
+
+  .header_stickyTest2{
+    padding: 30px;
+    margin:10% 10% 3% 10%;
+    text-align: center;
+    border-radius: 20px;
+    /* background-color: #f1f1f191; */
+    opacity: 0.8;
+  }
+
+  .header_stickyTest .textStyle{
+    font-weight: 900;
+  }
+
+  .sticky {
+    position: fixed;
+    z-index:1100;
+    background: white;
+    border-bottom: 1px solid #f0f0f0;
+    top: 0;
+    width: 100%;
+  }
+
+  .scrollTabsMainNav .MuiPaper-elevation4{
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14)
+  }

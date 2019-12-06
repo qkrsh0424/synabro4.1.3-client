@@ -1,19 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Popper from '@material-ui/core/Popper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Fade from '@material-ui/core/Fade';
-import Paper from '@material-ui/core/Paper';
+// import Popper from '@material-ui/core/Popper';
+import Popover from '@material-ui/core/Popover';
 import Fab from '@material-ui/core/Fab';
 import MoreIcon from '@material-ui/icons/MoreHorizRounded';
+import AppsIcon from '@material-ui/icons/Apps';
+import SmsIcon from '@material-ui/icons/Textsms';
 
 const styles = theme => ({
     typography: {
         padding: theme.spacing(2),
     },
+    fab:{
+        background: "#397bf6",
+    }
 });
+
+
+
 
 class SimplePopper extends React.Component {
     state = {
@@ -21,39 +26,64 @@ class SimplePopper extends React.Component {
         open: this.props.moreOpen,
     };
 
-    handleClick = event => {
-        const { currentTarget } = event;
-        this.setState(state => ({
-            anchorEl: currentTarget,
-            open: !state.open,
-        }));
-    };
+    // handleClick = event => {
+    //     const { currentTarget } = event;
+    //     this.setState(state => ({
+    //         anchorEl: currentTarget,
+    //         open: !state.open,
+    //     }));
+    // };
+
+    
 
     render() {
         const { classes } = this.props;
         const { anchorEl, open } = this.state;
-        const id = open ? 'simple-popper' : null;
+        const id = open ? 'simple-popperMoreItems' : null;
 
         return (
             <div>
-                {/* <Button aria-describedby={id} variant="contained" onClick={this.handleClick}>
-          Toggle Popper
-        </Button> */}
-                <Popper id={id} open={open} anchorEl={anchorEl} placement={'right'} transition>
-                    {({ TransitionProps }) => (
-                        <Fade {...TransitionProps} timeout={400} >
+                <Popover
+                    id={id} 
+                    open={open} 
+                    anchorEl={anchorEl} 
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                      }}
+                    placement={'right'}
+                    onClose={this.props.handleClose}
+                >
+                {/* {({ TransitionProps }) => (
+                        <Fade {...TransitionProps} timeout={400} > */}
                             
                             <div>
-                                <Fab color="inherit" size="medium" aria-label="Home" style={{marginLeft:'10px'}}>
-                                    <MoreIcon />
+                                <Fab 
+                                    color="primary" 
+                                    size="medium" 
+                                    aria-label="Home" 
+                                    style={{marginLeft:'10px'}}
+                                    onClick={this.props.handleAppsClick}
+                                >
+                                    <AppsIcon />
                                 </Fab>    
-                                <Fab color="inherit" size="medium" aria-label="Home" style={{marginLeft:'10px'}} >
-                                    <MoreIcon />
+                                <Fab 
+                                    color="primary" 
+                                    size="medium" 
+                                    aria-label="Home" 
+                                    style={{marginLeft:'10px'}} 
+                                    disabled
+                                >
+                                    <SmsIcon />
                                 </Fab>
                             </div>
-                        </Fade>
-                    )}
-                </Popper>
+                        {/* </Fade>
+                    )} */}
+                </Popover>
             </div>
         );
     }

@@ -38,8 +38,8 @@ class CrewTabCard extends React.Component {
         }
     }
 
-    componentDidMount(){
-        this._getPost();
+    componentDidMount = async()=>{
+        await setTimeout(()=>this._getPost(),500)
     }
 
     _getPost = () =>{

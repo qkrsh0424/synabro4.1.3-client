@@ -1,8 +1,13 @@
+.crewContentBodyScale{
+  padding-bottom: 500px;
+}
 .crewContainer .HeaderPart{
     /* height: 100px; */
     background-color: #2cb5e8; /* For browsers that do not support gradients */
     /* background-image: linear-gradient(90deg, #9fb8ad, #2cb5e8); */
-    background-image: linear-gradient(90deg, #6c73bd, #dd90a2); /* Standard syntax (must be last) */
+    /* background-image: linear-gradient(90deg, #6c73bd, #dd90a2); Standard syntax (must be last) */
+    background-image: linear-gradient(90deg, #6c73bd49, #dd90a252);
+    /* opacity: 0; */
 }
 
 .crewContainer .HeaderPart .Text{

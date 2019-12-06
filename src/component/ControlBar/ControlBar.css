@@ -27,3 +27,11 @@
     position:fixed;
     background: #fff;
 }
+#simple-popperMoreItems .MuiPaper-root{
+    background:none;
+    padding: 15px;
+}
+
+#simple-popperMoreItems .MuiPaper-elevation8{
+    box-shadow: none;
+}

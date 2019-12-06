@@ -61,6 +61,7 @@ import PostModifyShbMain from '../PostModifyV1_Main';
 import ErrorPage404 from '../ErrorPage';
 
 
+import {saveScrollZero, getScrollValY} from '../Scroll/SaveScrollPosition';
 
 
 
@@ -90,6 +91,13 @@ class App extends React.Component {
         this._set_UnivLists().then(data => {
             this.props.handleSetUnivList(data);
         }).catch(err => console.log(err));
+        localStorage.clear();
+        // localStorage.setItem("mNumPost",10);
+        // await saveScrollZero();
+        await setTimeout(()=>{
+            getScrollValY();
+        },0);
+        
     }
 
     _Authentication = async () => {

@@ -12,6 +12,9 @@ import * as shbApi from '../../../handler/cliApi/shb';
 
 //Material Core
 import { IconButton } from "@material-ui/core";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import Slide from '@material-ui/core/Slide';
 
 //Icons
 import searchIcon from '@material-ui/icons/Search';
@@ -20,6 +23,8 @@ import Language from "@material-ui/icons/Translate";
 import Contact from "@material-ui/icons/ContactPhone";
 import DropdownIcon from '@material-ui/icons/ArrowDownward';
 import DropUpIcon from '@material-ui/icons/ArrowUpward';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 //Component
 import Forecast from "../Forecast";
@@ -264,6 +269,11 @@ const propTypes = {};
 const defaultProps = {};
 
 
+const defaultNumIndex = 20;
+
+function TransitionUp(props) {
+    return <Slide {...props} direction="up" />;
+}
 
 class MainBody extends React.Component {
     _isMounted = false;
@@ -273,12 +283,21 @@ class MainBody extends React.Component {
         this.state = {
             dropdownHeight: "128px",
             isDropdown: false,
-            post:null
+            post:null,
+            numIndex:localStorage.getItem("mNumPost")?localStorage.getItem("mNumPost"):20,
+            // numIndex:20,
+            nextPostLoading:false,
+            reloadSnackOpen:false,
         }
     }
 
-    componentDidMount = () =>{
-        this._getMainAllPosts();
+    componentDidMount = async() =>{
+        await this._getMainAllPosts();
+        await setTimeout(()=>{
+            import('../../Scroll/SaveScrollPosition')
+            .then(ret=>ret.getScrollValY());
+        },0);
+        
     }
 
     categoryDropdown = () => {
@@ -286,8 +305,8 @@ class MainBody extends React.Component {
         this.setState({ dropdownHeight: navHeight, isDropdown: !this.state.isDropdown });
     }
 
-    _getMainAllPosts = () =>{
-        shbApi.shb_getShbAllPostForAllBoundary()
+    _getMainAllPosts = async() =>{
+        return shbApi.shb_getShbAllPostForAllBoundary(this.state.numIndex)
         .then(data=>{
             if(data.message==='success'){
                 this.setState({post:data.data});
@@ -297,6 +316,34 @@ class MainBody extends React.Component {
                 alert('포스트 에러');
             }
         });
+
+        
+    }
+
+    memoryScroll=()=>{
+        import('../../Scroll/SaveScrollPosition')
+        .then(ret=>ret.saveScrollZero());
+    }
+
+    nextPost = async() =>{
+        // window.localStorage.setItem("mNumPost",);
+        await this.setState({nextPostLoading:true});
+        window.localStorage.setItem("mNumPost",Number(this.state.numIndex)+20);
+        await this.setState({numIndex:window.localStorage.getItem("mNumPost")});
+        await this._getMainAllPosts(this.state.numIndex);
+        await this.setState({nextPostLoading:false});
+
+    }
+
+    reloadPost = async()=>{
+        document.documentElement.scrollTop = document.body.scrollTop = 0;
+        await this.setState({numIndex:window.localStorage.getItem("mNumPost"),reloadSnackOpen:true});
+        await this._getMainAllPosts(this.state.numIndex);
+        
+    }
+
+    reloadSnackClose = async()=>{
+        await this.setState({reloadSnackOpen:false});
     }
 
     render() {
@@ -404,7 +451,7 @@ class MainBody extends React.Component {
                                     {this.props.shb_lists ? this.props.shb_lists.map(rows => {
                                         if (rows.shb_num === 1101001) {
                                             return (
-                                                <StyledLink to={`/${rows.shb_classify}`}>
+                                                <StyledLink to={`/${rows.shb_classify}`} onClick={this.memoryScroll}>
                                                     <div className="item">
                                                         <div className="item_icon">
                                                             {/* <Card_giftcard
@@ -432,7 +479,7 @@ class MainBody extends React.Component {
                                     {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
                                         if (rows) {
                                             return (
-                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`}>
+                                                <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`} onClick={this.memoryScroll}>
                                                     <div className="item">
                                                         <div className="item_icon">
                                                             {rows.shb_item_icon_url ?
@@ -466,114 +513,31 @@ class MainBody extends React.Component {
                         {...this.props}
                         {...this.state}
                     />
-
-
-                    
-                    {/* <h3>상해봄</h3>
-                    <div className="row">
-                        {this.props.shb_main_items?this.props.shb_main_items.map((rows,index)=>{
-                            if(index<3)
-                                return(
-                                    <MainPostCard1
-                                        category={rows}
-                                    />
-                                );
-                        })
+                    <div className='text-center'>
+                        {this.state.nextPostLoading?
+                            <CircularProgress/>
                             :
-                            "loading"
-                        } */}
-                        
-                        {/* 베너 오는곳 */}
-                        {/* <div className="col-md-3">
-                            <div className="right card">banner</div>
-                            <div className="right card">banner</div>
-                        </div>
-                    </div> */}
-
-                    {/* <h3>대학교</h3>
-                    <div className="row">
-                        {this.props.univ_lists?this.props.univ_lists.map((rows,index)=>{
-                            return(
-                                <MainPostCard2
-                                    univ={rows}
-                                />
-                            );
-                        }):""}
-                    </div> */}
-
-
-
-                    {/* <div className="row">
-                        <div className="col-md-3">
-                            <div className="card board">
-                                <div className="board_title">제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
+                            this.state.post&&this.state.post.length<this.state.numIndex?
+                            <div>
+                                <h5>마지막 포스터 입니다.</h5>
+                                <IconButton type='button' onClick={this.reloadPost}><RefreshIcon style={{fontSize:'35px'}}/></IconButton>
                             </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="card board">
-                                <div className="board_title">제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="card board">
-                                <div className="board_title">제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                                <div className="post title">포스트제목</div>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="right card">bene</div>
-                            <div className="right card">bene</div>
-                        </div>
+                            :
+                            <IconButton type='button' onClick={this.nextPost}><ExpandMoreIcon style={{fontSize:'35px'}}/></IconButton>
+                        }
                     </div>
 
-                    <div className="row">
-                        <div className="col-md-3">
-                            <div className="card board poster">
-                                <div className="board_title">문화</div>
-                                <p className="board_desc">문화생활 하는 포스터 </p>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="card board poster">
-                                <div className="board_title">전시회</div>
-                                <p className="board_desc">상해의 전시회 포스터</p>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="card board poster">
-                                <div className="board_title">대학생창업</div>
-                                <p className="board_desc">
-                                    당신의 프로젝트를 알려주세요! 저희가 홍보해 드리겠습니다.
-                                        </p>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="right card">bene</div>
-                            <div className="right card">bene</div>
-                        </div>
-                    </div> */}
-
                 </div>
+                <Snackbar
+                    open={this.state.reloadSnackOpen}
+                    onClose={this.reloadSnackClose}
+                    TransitionComponent={TransitionUp}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    autoHideDuration={3000}
+                    message={<span id="message-id">피드를 새로고침 하였습니다.</span>}
+                />
             </Container>
         );
     }

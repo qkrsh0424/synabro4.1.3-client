@@ -14,6 +14,9 @@ import { serverUrl } from '../../../config/serverUrl';
 //Core
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+
+//Scroll
+import {getScrollValY} from '../../Scroll/SaveScrollPosition';
 /**
  * props
  * shb_item
@@ -44,8 +47,8 @@ class BoardCategoryMain extends React.Component {
         }
     }
 
-    _getPost = () => {
-        Axios.get(`${serverUrl}/api/shb/post/getpost/category/all`,{
+    _getPost = async() => {
+        await Axios.get(`${serverUrl}/api/shb/post/getpost/category/all`,{
             params:{
                 usid:this.props._sess,
                 shb_num: this.props.shb_item.shb_num,
@@ -67,6 +70,10 @@ class BoardCategoryMain extends React.Component {
             
         })
         .catch(err=>alert('포스트 겟 에러'))
+
+        await setTimeout(()=>{
+            getScrollValY('mb');
+        });
     }
 
     _onClickReloadPost = async()=>{
