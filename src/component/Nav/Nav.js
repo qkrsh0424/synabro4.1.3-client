@@ -111,7 +111,7 @@ class Nav extends React.Component {
       var stickyTextField = document.getElementById("header_stickyTest")?document.getElementById("header_stickyTest").clientHeight:0;
       // console.log(stickyTextField);
       function myFunction() {
-        if (window.pageYOffset >= stickyTextField) {
+        if (window.pageYOffset >= 1) {
           navbar.classList.add("sticky")
         } else {
           navbar.classList.remove("sticky");

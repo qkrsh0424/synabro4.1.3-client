@@ -297,7 +297,6 @@ class MainBody extends React.Component {
             import('../../Scroll/SaveScrollPosition')
             .then(ret=>ret.getScrollValY());
         },0);
-        
     }
 
     categoryDropdown = () => {
@@ -526,7 +525,6 @@ class MainBody extends React.Component {
                             <IconButton type='button' onClick={this.nextPost}><ExpandMoreIcon style={{fontSize:'35px'}}/></IconButton>
                         }
                     </div>
-
                 </div>
                 <Snackbar
                     open={this.state.reloadSnackOpen}

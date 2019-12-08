@@ -43,9 +43,6 @@ const Wrapper = styled.div`
     margin-bottom:30px
 }
 
-img{
-    height:125px;
-}
 .box-MainPostList{
     display:flex;
     justify-content:space-between;
@@ -61,7 +58,14 @@ img{
 .table-bar_column img{
     border-radius: 0px 20px 20px 0px;
     /* border-radius:0px; */
+    width:125px;
+    height:125px;
 }
+
+.table-bar{
+    border-radius: 20px;
+}
+
 .tb-border-MainPostList{
     border: 1px solid #f0f0f0
 }
@@ -118,7 +122,7 @@ class PostLists extends React.Component {
                                                 onClick={this.memoryScroll}
                                             >
     
-                                                <div className="table-bar_column  box-MainPostList">
+                                                <div className="table-bar_column box-MainPostList">
                                                     <div className="table-bar_column">
                                                         <div className="font-weight-bold px-3 pt-3  m-0 clearfix">
                                                             <div>

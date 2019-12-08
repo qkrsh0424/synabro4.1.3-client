@@ -61,6 +61,14 @@
     border: 1px solid #cecece;
     border-radius: 10px;
 }
+
+.wrapper_notice {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr) ) ;
+  
+  color: #444;
+}
 @media screen and (max-width:800px){
     /* .mainThum{
         min-height: 30vh !important;

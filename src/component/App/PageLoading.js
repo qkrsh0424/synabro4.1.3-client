@@ -38,7 +38,7 @@ class DemoLoad extends React.Component{
     componentDidMount(){
         this.timer = setTimeout(()=>{
             this.setState({hasServerError: true});
-        }, 10000);
+        }, 20000);
     }
 
     componentWillUnmount(){

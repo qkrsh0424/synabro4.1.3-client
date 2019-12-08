@@ -1,5 +1,6 @@
 import React from 'react';
 import '../PublicStyle/SlideAnimation.css';
+import '../ShbMain/BoardCategory/PostLists.css';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
 

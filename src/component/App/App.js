@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{Suspense, lazy}from 'react';
 import './App.css';
 import PropTypes from 'prop-types';
 import Axios from 'axios';
@@ -26,43 +26,42 @@ import { shb_getParentRouteAll, shb_getShbAllList } from '../../handler/cliApi/s
 import PageLoading from './PageLoading';
 
 //메인 관련 컴포넌트
-import Main from '../Main/Main';
+// import Main from '../Main/Main'; //origin
 
 // Shb main 관련 컴포넌트
-import ShbMainIntro from '../ShbMain/Intro';
-import ShbMainCategory from '../ShbMain/Category';
-import ShbMainBoardPoster from '../ShbMain/BoardCategory/BoardCategoryPoster';
+// import ShbMainIntro from '../ShbMain/Intro'; //origin
+// import ShbMainCategory from '../ShbMain/Category';   //origin
+// import ShbMainBoardPoster from '../ShbMain/BoardCategory/BoardCategoryPoster';   //origin
 
 //Shb crew 관련 컴포넌트
-import ShbCrewIntro from '../ShbCrew/Intro';
-import ShbCrewHome from '../ShbCrew/ShbCrewHome';
-import ShbCrewCategory from '../ShbCrew/Category';
-import ShbCrewBoardPoster from '../ShbCrew/BoardCategory/BoardCategoryPoster';
+// import ShbCrewIntro from '../ShbCrew/Intro'; //origin
+// import ShbCrewHome from '../ShbCrew/ShbCrewHome';    //origin
+// import ShbCrewCategory from '../ShbCrew/Category';   //origin
+// import ShbCrewBoardPoster from '../ShbCrew/BoardCategory/BoardCategoryPoster';   //origin
 
 //계정관련 컴포넌트
-import Signup from '../Signup/Signup';
-import Login from '../Login/Login';
-import Profile from '../Profile/Profile';
+// import Signup from '../Signup/Signup';   //origin
+// import Login from '../Login/Login';  //origin
+// import Profile from '../Profile/Profile';    //origin
 
 //컨트롤바 컴포넌트
-import ControlBar from '../ControlBar';
+// import ControlBar from '../ControlBar';  //origin
 
 //AdminPage 관련 컴포넌트
-import AdminPage from '../AdminPage';
+// import AdminPage from '../AdminPage';    //origin
 
 //그룹 신청 관련 컴포넌트
 import GroupApply from '../GroupApply';
 
 //각종 하위 컴포넌트
-import PostEditorCommon from '../PostEditorV1_Common';
-import PostModifyShbMain from '../PostModifyV1_Main';
+// import PostEditorCommon from '../PostEditorV1_Common';   //origin
+// import PostModifyShbMain from '../PostModifyV1_Main';    //origin
 
 //Error Page
 import ErrorPage404 from '../ErrorPage';
 
 
 import {saveScrollZero, getScrollValY} from '../Scroll/SaveScrollPosition';
-
 
 
 const propTypes = {
@@ -72,6 +71,27 @@ const propTypes = {
 const defaultProps = {
 
 }
+
+const Main = lazy(()=>import('../Main/Main'));
+const ControlBar = lazy(()=>import('../ControlBar'));
+
+const ShbMainIntro = lazy(()=>import('../ShbMain/Intro'));
+const ShbMainCategory = lazy(()=>import('../ShbMain/Category'));
+const ShbMainBoardPoster = lazy(()=>import('../ShbMain/BoardCategory/BoardCategoryPoster'));
+
+const ShbCrewIntro = lazy(()=>import('../ShbCrew/Intro'));
+const ShbCrewHome = lazy(()=>import('../ShbCrew/ShbCrewHome'));
+const ShbCrewCategory = lazy(()=>import('../ShbCrew/Category'));
+const ShbCrewBoardPoster = lazy(()=>import('../ShbCrew/BoardCategory/BoardCategoryPoster'));
+
+const Signup = lazy(()=>import('../Signup/Signup'));
+const Login = lazy(()=>import('../Login/Login'));
+const Profile = lazy(()=>import('../Profile/Profile'));
+
+const AdminPage = lazy(()=>import('../AdminPage'));
+
+const PostEditorCommon = lazy(()=>import('../PostEditorV1_Common'));
+const PostModifyShbMain = lazy(()=>import('../PostModifyV1_Main'));
 
 class App extends React.Component {
     constructor(props) {
@@ -156,59 +176,66 @@ class App extends React.Component {
             return (
 
                 <div className='app-body'>
-                    <Switch>
-                        <Route exact path='/' component={Main} />
+                    <Suspense fallback={<div><PageLoading/></div>}>
+                        <Switch>
+                            
+                            <Route exact path='/' component={Main} />
 
-                        {/* SHB main Route */}
-                        <Route exact path='/main' component={ShbMainIntro} />
-                        {/* <Route exact path='/main/contact' component={Contact} /> */}
-                        <Route exact path='/main/category/:shb_item_id' component={ShbMainCategory} />
-                        <Route exact path='/main/category/:shb_item_id/writepost' component={PostEditorCommon} />
-                        <Route exact path='/main/category/:shb_item_id/v/:post_id' component={ShbMainBoardPoster} />
-                        <Route
-                            exact path='/main/modifypost'
-                            component={PostModifyShbMain}
-                        />
+                            {/* SHB main Route */}
+                            
+                            <Route exact path='/main' 
+                            component={
+                                ShbMainIntro
+                            } 
+                            />
+                            {/* <Route exact path='/main/contact' component={Contact} /> */}
+                            <Route exact path='/main/category/:shb_item_id' component={ShbMainCategory} />
+                            <Route exact path='/main/category/:shb_item_id/v/:post_id' component={ShbMainBoardPoster} />
+                            <Route exact path='/main/category/:shb_item_id/writepost' component={PostEditorCommon} />
+                            <Route
+                                exact path='/main/modifypost'
+                                component={PostModifyShbMain}
+                            />
 
-                        {/* SHB crew Route */}
-                        <Route exact path='/classify/:crew' component={ShbCrewIntro} />
-                        <Route exact path='/classify/:crew/contype/:shb_num' component={ShbCrewHome} />
-                        <Route exact path='/classify/:crew/category/:shb_item_id' component={ShbCrewCategory} />
-                        <Route exact path='/classify/:crew/category/:shb_item_id/v/:post_id' component={ShbCrewBoardPoster} />
-                        <Route exact path='/classify/:crew/category/:shb_item_id/writepost' component={PostEditorCommon} />
-                        <Route
-                            exact path='/classify/:crew/modifypost'
-                            component={PostModifyShbMain}
-                        />
-                        {/* 계정 관련 라우터 */}
-                        {/* 회원가입 */}
-                        <Route
-                            exact path='/signup'
-                            component={Signup}
-                        />
-                        {/* 로그인 */}
-                        <Route
-                            exact path='/login'
-                            component={Login}
-                        />
-                        {/* 프로필 */}
-                        <Route exact path='/profile' component={Profile} />
-                        <Route exact path='/profile/:conType' component={Profile} />
+                            {/* SHB crew Route */}
+                            <Route exact path='/classify/:crew' component={ShbCrewIntro} />
+                            <Route exact path='/classify/:crew/contype/:shb_num' component={ShbCrewHome} />
+                            <Route exact path='/classify/:crew/category/:shb_item_id' component={ShbCrewCategory} />
+                            <Route exact path='/classify/:crew/category/:shb_item_id/v/:post_id' component={ShbCrewBoardPoster} />
+                            <Route exact path='/classify/:crew/category/:shb_item_id/writepost' component={PostEditorCommon} />
+                            <Route
+                                exact path='/classify/:crew/modifypost'
+                                component={PostModifyShbMain}
+                            />
+                            {/* 계정 관련 라우터 */}
+                            {/* 회원가입 */}
+                            <Route
+                                exact path='/signup'
+                                component={Signup}
+                            />
+                            {/* 로그인 */}
+                            <Route
+                                exact path='/login'
+                                component={Login}
+                            />
+                            {/* 프로필 */}
+                            <Route exact path='/profile' component={Profile} />
+                            <Route exact path='/profile/:conType' component={Profile} />
 
-                        {/* AdminPage 관련 라우터 */}
-                        <Route exact path='/admin' component={AdminPage}/>
+                            {/* AdminPage 관련 라우터 */}
+                            <Route exact path='/admin' component={AdminPage}/>
 
-                        <Route exact path='/apply' component={GroupApply}/>
+                            <Route exact path='/apply' component={GroupApply}/>
 
-                        {/* error 관련 라우터 */}
-                        <Route exact path='/error' component={ErrorPage404} />
-                        <Route component={ErrorPage404} />
+                            {/* error 관련 라우터 */}
+                            <Route exact path='/error' component={ErrorPage404} />
+                            <Route component={ErrorPage404} />
+                        </Switch>
+                        <h1 className='position-fixed bomVersionCheck1'>Beta version</h1>
 
-
-                    </Switch>
-                    <h1 className='position-fixed bomVersionCheck1'>Beta version</h1>
-
-                    <ControlBar />
+                        <ControlBar />
+                    </Suspense>
+                    
                 </div>
             );
         } else {

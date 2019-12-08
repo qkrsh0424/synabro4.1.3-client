@@ -1,5 +1,6 @@
 import React from 'react';
 import './ShbCrewHome.css';
+import '../Intro/Intro.css';
 
 import {Link} from 'react-router-dom';
 //API
@@ -15,6 +16,7 @@ class HomeMain extends React.Component{
         super(props);
         this.state={
             shb:null,
+            shb_itemHeaders:null,
             shb_item:null,
             postLists:null,
             bannerHeader:null,
@@ -24,6 +26,7 @@ class HomeMain extends React.Component{
     componentDidMount = ()=>{
         document.documentElement.scrollTop = document.body.scrollTop = 0;
         this._getShb();
+        this._getShbItemHeader();
         this._getShbItem();
         this._getPostListsForShbNum();
         this._getBanner();
@@ -34,6 +37,7 @@ class HomeMain extends React.Component{
         if (prevProps.location != this.props.location) {
             document.documentElement.scrollTop = document.body.scrollTop = 0;
             this._getShb();
+            this._getShbItemHeader();
             this._getShbItem();
             this._getPostListsForShbNum();
             this._getBanner();
@@ -44,6 +48,13 @@ class HomeMain extends React.Component{
     _getShb = async()=>{
         await api.shb_getShbOne(this.props.match.params.shb_num) //crew는 선택사항.
         .then(data=>this.setState({shb:data.data[0]}));
+    }
+
+    _getShbItemHeader = async()=>{
+        await api.shb_getShbAllItemHeader(this.props.match.params.shb_num)
+        .then(data=>{
+            this.setState({shb_itemHeaders:data.data})
+        });
     }
 
     _getShbItem = async() => {

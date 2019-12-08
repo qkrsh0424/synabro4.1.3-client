@@ -58,6 +58,20 @@ const shb_getShbOne = async(shb_num) =>{
 
 //shb_item 관련 API
 
+const shb_getShbAllItemHeader = async(shb_num) =>{
+    return await Axios.get(`${serverUrl}/api/shb/getshbItemHeader/all`,{
+        params:{
+            shb_num:shb_num
+        },
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+          }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('잘못된 방식 입니다.');
+    });
+}
+
 const shb_getShbAllItemList = async(shb_num) =>{
     return await Axios.get(`${serverUrl}/api/shb/getshbItemAll`,{
         params:{
@@ -91,7 +105,7 @@ const shb_getShbOneItem = async(shb_item_id,shb_num)=>{
 // post 관련 API
 
 const shb_getShbAllPostForAllBoundary = async(numIndex) =>{
-    console.log(numIndex);
+    // console.log(numIndex);
     if(numIndex){
         return await Axios.get(`${serverUrl}/api/shb/post/getpost/all`,{
             params:{
@@ -325,7 +339,7 @@ const handleLikeOff = async(logincheck, usid, head_type, post_id) =>{
 export { 
     shb_getParentRouteAll,
     shb_getShbAllList, shb_getShbOne,
-    shb_getShbAllItemList, shb_getShbOneItem, 
+    shb_getShbAllItemHeader,shb_getShbAllItemList, shb_getShbOneItem, 
     shb_getShbAllPostForAllBoundary,shb_getShbAllPostForShbNum, shb_getShbOnePost, shb_posterValidationAndMenuControl, shb_deletePosterOne,
     shb_getAllCommentOfCategory, shb_writeCommentOfCategory,shb_deleteCommentOfCategory,
     handleLikeOn, handleLikeOff };
