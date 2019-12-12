@@ -9,6 +9,9 @@ import Typography from '@material-ui/core/Typography';
 //Component
 import AdminScrollTabHome from '../AdminScrollTabHome';
 import AdminScrollTabApplyList from '../AdminScrollTabApplyList';
+import AdminScrollTabHeaderCategory from '../AdminScrollTabHeaderCategory';
+import AdminScrollTabCategory from '../AdminScrollTabCategory';
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -56,11 +59,11 @@ class AdminScrollTabsMain extends React.Component {
                 label={this.props.group?this.props.group.shb_name:""} 
             />
             <Tab label="회원 신청" />
-            <Tab label="Item Three" />
-            <Tab label="Item Four" />
-            <Tab label="Item Five" />
+            <Tab label="헤더 카테고리" />
+            <Tab label="서브 카테고리" />
+            {/* <Tab label="Item Five" />
             <Tab label="Item Six" />
-            <Tab label="Item Seven" />
+            <Tab label="Item Seven" /> */}
           </Tabs>
         </AppBar>
         {value === 0 && 
@@ -78,8 +81,20 @@ class AdminScrollTabsMain extends React.Component {
                 />
             </TabContainer>
         }
-        {value === 2 && <TabContainer>Item Three</TabContainer>}
-        {value === 3 && <TabContainer>Item Four</TabContainer>}
+        {value === 2 && 
+          <TabContainer>
+            <AdminScrollTabHeaderCategory
+              {...this.props}
+            />
+          </TabContainer>
+        }
+        {value === 3 && 
+          <TabContainer>
+            <AdminScrollTabCategory
+              {...this.props}
+            />
+          </TabContainer>
+        }
         {value === 4 && <TabContainer>Item Five</TabContainer>}
         {value === 5 && <TabContainer>Item Six</TabContainer>}
         {value === 6 && <TabContainer>Item Seven</TabContainer>}

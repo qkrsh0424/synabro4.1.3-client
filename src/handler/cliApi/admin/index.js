@@ -106,11 +106,149 @@ const admin_DeleteMemberOne = async(head_type, member_id) =>{
     });
 }
 
+const admin_HeaderCategoryNameUpdate = async(item)=>{
+    // console.log(item)
+    return await Axios.post(`${serverUrl}/api/auth/admin/category/header/updateName`,{
+        targetId:item.sih_id,
+        targetName:item.sih_name
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('에러가 발생 했습니다.');
+        window.location.href='/'
+    });
+}
+
+const admin_HeaderCategoryDelete = async(item)=>{
+    // console.log(item)
+    return await Axios.post(`${serverUrl}/api/auth/admin/category/header/delete/one`,{
+        targetId:item.sih_id,
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('에러가 발생 했습니다.');
+        window.location.href='/'
+    });
+}
+
+const admin_HeaderCategoryAdd = async(head_type, sih_name, parent_route)=>{
+    // console.log(item)
+    return await Axios.post(`${serverUrl}/api/auth/admin/category/header/add/one`,{
+        head_type:head_type,
+        sih_name:sih_name,
+        parent_route:parent_route
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('에러가 발생 했습니다.');
+        window.location.href='/'
+    });
+}
+
+const admin_HeaderCategoryArraySet = async(invisibleArray,visibleArray)=>{
+    // console.log(item)
+    return await Axios.post(`${serverUrl}/api/auth/admin/category/header/arraySet`,{
+        visibleArray:visibleArray,
+        invisibleArray:invisibleArray
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('에러가 발생 했습니다.');
+        window.location.href='/'
+    });
+}
+
+const admin_SubCategoryNameUpdate = async(item)=>{
+    // console.log(item)
+    return await Axios.post(`${serverUrl}/api/auth/admin/category/sub/updateName`,{
+        targetId:item.shb_item_id,
+        targetName:item.shb_item_name
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('에러가 발생 했습니다.');
+        window.location.href='/'
+    });
+}
+
+const admin_SubCategoryDelete = async(item)=>{
+    // console.log(item)
+    return await Axios.post(`${serverUrl}/api/auth/admin/category/sub/delete/one`,{
+        targetId:item.shb_item_id,
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('에러가 발생 했습니다.');
+        window.location.href='/'
+    });
+}
+
+const admin_SubCategoryAdd = async(headerItem, newName)=>{
+    console.log(headerItem);
+    console.log(newName);
+    return await Axios.post(`${serverUrl}/api/auth/admin/category/sub/add/one`,{
+        headerItem:headerItem,
+        newName:newName
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('에러가 발생 했습니다.');
+        window.location.href='/'
+    });
+}
+
+const admin_SubCategoryArraySet = async(invisibleArray,visibleArray)=>{
+    // console.log(invisibleArray);
+    // console.log(visibleArray);
+    return await Axios.post(`${serverUrl}/api/auth/admin/category/sub/arraySet`,{
+        visibleArray:visibleArray,
+        invisibleArray:invisibleArray
+    },{
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+        }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('에러가 발생 했습니다.');
+        window.location.href='/'
+    });
+}
 export {
     admin_group_master_check,
     admin_Members_Of_Group,
     admin_Applicants_Of_Group,
     admin_Applicant_Confirm,
     admin_Applicant_Reject,
-    admin_DeleteMemberOne
+    admin_DeleteMemberOne,
+
+    admin_HeaderCategoryNameUpdate,
+    admin_HeaderCategoryDelete,
+    admin_HeaderCategoryAdd,
+    admin_HeaderCategoryArraySet,
+
+    admin_SubCategoryNameUpdate,
+    admin_SubCategoryDelete,
+    admin_SubCategoryAdd,
+    admin_SubCategoryArraySet
 };

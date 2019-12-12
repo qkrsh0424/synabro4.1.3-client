@@ -107,8 +107,8 @@ class Nav extends React.Component {
       window.onscroll = function() {myFunction()};
 
       var navbar = document.getElementById("PcyTopNavBar");
-      var sticky = navbar.offsetTop;
-      var stickyTextField = document.getElementById("header_stickyTest")?document.getElementById("header_stickyTest").clientHeight:0;
+      // var sticky = navbar.offsetTop;
+      // var stickyTextField = document.getElementById("header_stickyTest")?document.getElementById("header_stickyTest").clientHeight:0;
       // console.log(stickyTextField);
       function myFunction() {
         if (window.pageYOffset >= 1) {

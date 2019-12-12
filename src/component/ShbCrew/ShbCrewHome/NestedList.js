@@ -39,44 +39,32 @@ class NestedList extends React.Component {
 
         return (
             <List className={classes.root} subheader={<li />}>
-                {/* {[0, 1, 2, 3, 4].map(sectionId => (
-                    <li key={`section-${sectionId}`} className={classes.listSection}>
-                        <ul className={classes.ul}>
-                            <ListSubheader>{`I'm sticky ${sectionId}`}</ListSubheader>
-                            {[0, 1, 2].map(item => (
-                                <ListItem key={`item-${sectionId}-${item}`}>
-                                    <ListItemText primary={`Item ${item}`} />
-                                </ListItem>
-                            ))}
-                            
-                        </ul>
-                    </li>
-                ))} */}
                 
                 {this.props.shb_itemHeaders?this.props.shb_itemHeaders.map((headerRows,sectionId) => {
                     
-                    return (
-                        <li key={`section-${sectionId}`} className={classes.listSection}>
-                            <ul className={classes.ul}>
-                                <ListSubheader style={{color:'#768cc2', fontSize:'15px'}}>
-                                    {`${sectionId+1}. ${headerRows.sih_name}`}
-                                </ListSubheader>
-                                {this.props.shb_item ? this.props.shb_item.map(rows => {
-                                    if(rows.parent_header===headerRows.sih_id){
-                                        return(
-                                            <Link to={`/classify/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`} className='NestedList_category_style'>
-                                                <ListItem key={`item-${rows.shb_item_id}`} className="NestedList_category_style_wrapper">
-                                                    {/* <ListItemText primary={`${rows.shb_item_name}`} className='NestedList_category_style_child'/> */}
-                                                    <span>{rows.shb_item_name}</span>
-                                                </ListItem>
-                                            </Link>
-                                        );
-                                    }
-                                }) : ''}
-                            </ul>
-                        </li>
-                    );
-                    
+                    if(headerRows.sih_visible===1){
+                        return (
+                            <li key={`section-${sectionId}`} className={classes.listSection}>
+                                <ul className={classes.ul}>
+                                    <ListSubheader style={{color:'#768cc2', fontSize:'15px'}}>
+                                        {`${sectionId+1}. ${headerRows.sih_name}`}
+                                    </ListSubheader>
+                                    {this.props.shb_item ? this.props.shb_item.map(rows => {
+                                        if(rows.parent_header===headerRows.sih_id && rows.shb_item_visible===1){
+                                            return(
+                                                <Link to={`/classify/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`} className='NestedList_category_style'>
+                                                    <ListItem key={`item-${rows.shb_item_id}`} className="NestedList_category_style_wrapper">
+                                                        {/* <ListItemText primary={`${rows.shb_item_name}`} className='NestedList_category_style_child'/> */}
+                                                        <span>{rows.shb_item_name}</span>
+                                                    </ListItem>
+                                                </Link>
+                                            );
+                                        }
+                                    }) : ''}
+                                </ul>
+                            </li>
+                        );
+                    }                    
                 }):<div className='text-center'><CircularProgress /></div>}
             </List>
         );
