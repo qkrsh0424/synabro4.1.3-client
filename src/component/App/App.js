@@ -144,6 +144,7 @@ class App extends React.Component {
     }
     _set_parentRoutes = async() =>{
         return shb_getParentRouteAll().then(data=>{
+            // console.log(data);
             if(data.message==='success'){
                 this.props.handleSetParentRoute(data.data);
             }else{
@@ -168,6 +169,7 @@ class App extends React.Component {
 
     render() {
         // console.log(this.props._parentRoute);
+        // console.log(this.props._main);
         if (this.state.auth && this.props._main) {
 
             // console.log(this.props._sess);

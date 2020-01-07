@@ -63,7 +63,7 @@ class Poster extends React.Component {
             .then(data => {
                 // console.log(data[0])
                 if (data[0].message === 'success') {
-                    
+                    // console.log(data)
                     this.setState({ post: data });
                 } else if (data[0].message === 'error') {
                     alert('잘못된 접근 방식입니다.');
@@ -145,7 +145,7 @@ class Poster extends React.Component {
     _DelComment = async (head_type, cmt_id) => {
         api.shb_deleteCommentOfCategory(cmt_id, head_type, this.props.match.params.post_id)
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if (data.message === 'success') {
                     this.setState({ openCommentSnackbar: true });
                     this._loadComment();
@@ -197,17 +197,20 @@ class Poster extends React.Component {
         return (
             <div>
                 <Nav />
-                <PosterBody
-                    {...this.state}
-                    {...this.props}
-                    _handleLikeOn={this._handleLikeOn}
-                    _handleLikeOff={this._handleLikeOff}
-                    _scrollMoveToComment={this._scrollMoveToComment}
-                    _writeComment={this._writeComment}
-                    _onHandleCommentDataChange={this._onHandleCommentDataChange}
-                    _DelComment={this._DelComment}
-                    _deleteMyPoster={this._deleteMyPoster}
-                />
+                {this.state.post&&
+                    <PosterBody
+                        {...this.state}
+                        {...this.props}
+                        _handleLikeOn={this._handleLikeOn}
+                        _handleLikeOff={this._handleLikeOff}
+                        _scrollMoveToComment={this._scrollMoveToComment}
+                        _writeComment={this._writeComment}
+                        _onHandleCommentDataChange={this._onHandleCommentDataChange}
+                        _DelComment={this._DelComment}
+                        _deleteMyPoster={this._deleteMyPoster}
+                    />
+                }
+                
 
                 <Snackbar
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}

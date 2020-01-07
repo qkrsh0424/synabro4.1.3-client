@@ -13,6 +13,7 @@ import BoardCategory from '../BoardCategory';
 import AdsCategory from '../AdsCategory';
 import ContactCategory from '../ContactCategory';
 import PartnerCategory from '../PartnerCategory';
+import ContentsListsCategory from '../ContentsListsCategory';
 
 class Category extends React.Component {
     _isMounted = false;
@@ -30,6 +31,14 @@ class Category extends React.Component {
 
     componentWillUnmount() {
         this._isMounted = false
+    }
+
+    componentDidUpdate = (prevProps) =>{
+        
+        if(prevProps!==this.props){
+            this._getCategoryClassify(this.props.match.params.shb_item_id)
+        }
+        
     }
 
     _getCategoryClassify = async (shb_item_id) => {
@@ -75,6 +84,9 @@ class Category extends React.Component {
                         break;
                     case 'partner':
                         categoryComponent.push(<PartnerCategory/>);
+                        break;
+                    case 'contents-list':
+                        categoryComponent.push(<ContentsListsCategory/>);
                         break;
                     default:
                         break;

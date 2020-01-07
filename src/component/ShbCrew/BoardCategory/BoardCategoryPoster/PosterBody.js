@@ -11,7 +11,7 @@ import handleStorageToFileName from '../../../../controler/hadleStorageToFileNam
 // DraftJs
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
 import Editor, { createEditorStateWithText, composeDecorators } from 'draft-js-plugins-editor';
-import { MediaBlockRendererReadOnly } from '../../../PostEditorV1_Common/MediaBlockRenderer';
+import { MediaBlockRendererReadOnly,MediaBlockRenderer } from '../../../PostEditorV1_Common/MediaBlockRenderer';
 
 //Router Dom
 import { Link } from 'react-router-dom';
@@ -20,6 +20,16 @@ import { Link } from 'react-router-dom';
 import createImagePlugin from 'draft-js-image-plugin';
 import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createResizeablePlugin from 'draft-js-resizeable-plugin';
+import createAddLinkPlugin from '../../../PostEditorV1_Common/addLinkPlugin';
+import createColorBlockPlugin from '../../../PostEditorV1_Common/colorBlockPlugin';
+
+//Draft CSS
+import 'draft-js-static-toolbar-plugin/lib/plugin.css';
+import 'draft-js-focus-plugin/lib/plugin.css';
+import 'draft-js-image-plugin/lib/plugin.css';
+import 'draft-js-alignment-plugin/lib/plugin.css';
+import 'draft-js-hashtag-plugin/lib/plugin.css';
+import '../../../StyleCss/Draftjs.css';
 
 //Draft Handler
 import { myBlockStyleFn } from '../../../DraftPlugIn';
@@ -49,11 +59,13 @@ const highLightPlugin = createHighLightPlugin();
 const textColorPlugin = createTextColorPlugin();
 const resizeablePlugin = createResizeablePlugin();
 
+
 const decorator = composeDecorators(
     alignmentPlugin.decorator,
     resizeablePlugin.decorator,
 );
-// const colorBlockPlugin = createColorBlockPlugin({ decorator });
+
+const colorBlockPlugin = createColorBlockPlugin({ decorator });
 const imagePlugin = createImagePlugin({ decorator });
 
 
@@ -62,7 +74,9 @@ const plugins = [
     alignmentPlugin,
     highLightPlugin,
     textColorPlugin,
-    resizeablePlugin
+    resizeablePlugin,
+    createAddLinkPlugin,
+    colorBlockPlugin
 ];
 
 //Use Draft Plugin End
@@ -108,12 +122,16 @@ class PosterBody extends React.Component {
         }
     }
 
-    componentDidMount() {
-
+    componentDidMount = async() =>{
+        if(this.props.post){
+            await setTimeout(
+                ()=>this.setState({ editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.post[0].post_desc))) })
+            ,0)
+        }
     }
-    onEditorChange = () => {
-        // console.log(this.props.post);
-        this.setState({ editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.post[0].post_desc))) });
+    // EditorControl Start
+    onEditorChange = (editorState) => {
+        this.setState({ editorState });
     }
 
     render() {
@@ -189,14 +207,16 @@ class PosterBody extends React.Component {
                             <div
                                 className="_TextField clearfix"
                             >
-                                <Editor
-                                    blockRendererFn={MediaBlockRendererReadOnly}
-                                    blockStyleFn={myBlockStyleFn}
-                                    editorState={this.state.editorState}
-                                    onChange={this.onEditorChange}
-                                    plugins={plugins}
-                                    readOnly
-                                />
+                                {this.props.post[0]?
+                                    <Editor
+                                        blockRendererFn={MediaBlockRenderer}
+                                        blockStyleFn={myBlockStyleFn}
+                                        editorState={this.state.editorState}
+                                        onChange={this.onEditorChange}
+                                        plugins={plugins}
+                                        readOnly
+                                    />
+                                :""}
 
                             </div>
                             {row.post_materials?

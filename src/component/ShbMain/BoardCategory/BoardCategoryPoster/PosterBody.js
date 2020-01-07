@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-
 //URL 
 import { awsImageURL } from '../../../../config/awsurl';
 
@@ -11,13 +10,13 @@ import handleStorageToFileName from '../../../../controler/hadleStorageToFileNam
 // DraftJs
 import { EditorState, RichUtils, AtomicBlockUtils, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js';
 import Editor, { createEditorStateWithText, composeDecorators } from 'draft-js-plugins-editor';
-import { MediaBlockRendererReadOnly } from '../../../PostEditorV1_Common/MediaBlockRenderer';
+import { MediaBlockRendererReadOnly,MediaBlockRenderer } from '../../../PostEditorV1_Common/MediaBlockRenderer';
 
 //Draft Plugin Load
 import createImagePlugin from 'draft-js-image-plugin';
 import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import createResizeablePlugin from 'draft-js-resizeable-plugin';
-import createAddLinkPlugin from '../../../PostEditorV1_Common/addLinkPlugin';
+import createAddLinkPlugin from '../../../PostModifyV1_Main/addLinkPlugin';
 import createColorBlockPlugin from '../../../PostEditorV1_Common/colorBlockPlugin';
 
 //Draft CSS
@@ -70,8 +69,8 @@ const plugins = [
     highLightPlugin,
     textColorPlugin,
     resizeablePlugin,
+    colorBlockPlugin,
     createAddLinkPlugin,
-    colorBlockPlugin
 ];
 
 //Use Draft Plugin End
@@ -116,11 +115,31 @@ class PosterBody extends React.Component {
         }
     }
 
-    componentDidMount = () =>{
+    componentDidMount = async() =>{
+        if(this.props.post){
+            await setTimeout(
+                ()=>this.setState({ editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.post[0].post_desc))) })
+            ,0)
+        }
     }
-    onEditorChange = () => {
-        // console.log(this.props.post[0].post_desc);
-        this.setState({ editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(this.props.post[0].post_desc))) });
+    // EditorControl Start
+    onEditorChange = (editorState) => {
+        this.setState({ editorState });
+    }
+
+    onHeaderLink = () => {
+        const editorState = this.state.editorState;
+        const selection = editorState.getSelection();
+        const link = window.prompt('링크를 입력하세요. (*http:// 생략)')
+        if (!link) {
+            this.onEditorChange(RichUtils.toggleLink(editorState, selection, null));
+            return 'handled';
+        }
+        const content = editorState.getCurrentContent();
+        const contentWithEntity = content.createEntity('LINK', 'MUTABLE', { url: link });
+        const newEditorState = EditorState.push(editorState, contentWithEntity, 'create-entity');
+        const entityKey = contentWithEntity.getLastCreatedEntityKey();
+        this.onEditorChange(RichUtils.toggleLink(newEditorState, selection, entityKey))
     }
 
     render() {
@@ -193,7 +212,7 @@ class PosterBody extends React.Component {
                             >
                                 {this.props.post[0]?
                                     <Editor
-                                        blockRendererFn={MediaBlockRendererReadOnly}
+                                        blockRendererFn={MediaBlockRenderer}
                                         blockStyleFn={myBlockStyleFn}
                                         editorState={this.state.editorState}
                                         onChange={this.onEditorChange}
@@ -201,7 +220,6 @@ class PosterBody extends React.Component {
                                         readOnly
                                     />
                                 :""}
-                                
                             </div>
                             {row.post_materials?
                                 <div>

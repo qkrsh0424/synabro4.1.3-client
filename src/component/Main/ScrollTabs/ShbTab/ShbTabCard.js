@@ -39,7 +39,11 @@ class ShbTabCard extends React.Component {
         return(
             <div className="col-lg-3">
                 <div className="card board">
-                    <div className="board_title">{this.props.category.shb_item_name}</div>
+                    <div className="board_title">
+                        <Link to={`${this.props.category.parent_route}/category/${this.props.category.shb_item_id}?BomNo=${this.props.category.shb_num}`}>
+                            {this.props.category.shb_item_name}
+                        </Link>
+                    </div>
                     {this.state.post?this.state.post.map((rows, index)=>{
                         return(
                             <Link className="post title clearfix" to={`${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`}>

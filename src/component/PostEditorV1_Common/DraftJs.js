@@ -276,7 +276,7 @@ class DraftJs extends React.Component {
     onHeaderLink = () => {
         const editorState = this.state.editorState;
         const selection = editorState.getSelection();
-        const link = window.prompt('링크를 입력하세요. (*http:// 생략)')
+        const link = window.prompt('링크를 입력하세요.')
         if (!link) {
             this.onEditorChange(RichUtils.toggleLink(editorState, selection, null));
             return 'handled';

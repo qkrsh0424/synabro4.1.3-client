@@ -33,6 +33,7 @@ import LoginCard from '../../Login/LoginCard';
 // import MainPostCard1 from './MainPostCard1';
 // import MainPostCard2 from './MainPostCard2';
 import MainPostList from './MainPostList';
+import MainContentsSingleLists from './MainContentsSingleLists';
 
 const Container = styled.div`
     padding-top: 30px;
@@ -65,7 +66,7 @@ const Container = styled.div`
         background-color: white;
         margin: 0 0 2rem;
         border: none;
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
     }
 
     .cardWrapper .card{
@@ -95,7 +96,6 @@ const Container = styled.div`
         flex-wrap: wrap;
         overflow: auto;
         overflow-y: hidden;
-        weight: 825px;
         height: 128px;
         
     }
@@ -439,26 +439,31 @@ class MainBody extends React.Component {
                         </div>
                     </div>
 
-                    <div className="row">
+
+                    {/* 
+                        Old version of contents lists
+                    */}
+
+                    {/* <div className="row">
                         <div className="col-md-9">
                             <div className='cardWrapper'>
-                                <div className="card nav m-0" style={{ height: this.state.dropdownHeight }}>
+                                <div className="card nav m-0" style={{ height: this.state.dropdownHeight }}> */}
 
                                     {/* 
                                                 *** 메인 카테고리 ***
                                             */}
-                                    {this.props.shb_lists ? this.props.shb_lists.map(rows => {
+                                    {/* {this.props.shb_lists ? this.props.shb_lists.map(rows => {
                                         if (rows.shb_num === 1101001) {
                                             return (
                                                 <StyledLink to={`/${rows.shb_classify}`} onClick={this.memoryScroll}>
                                                     <div className="item">
-                                                        <div className="item_icon">
+                                                        <div className="item_icon"> */}
                                                             {/* <Card_giftcard
                                                                         style={{
                                                                             fontSize: "50px"
                                                                         }}
                                                                     /> */}
-                                                            {rows.shb_icon_url ?
+                                                            {/* {rows.shb_icon_url ?
                                                                 <img src={rows.shb_icon_url} width="50px" height="50px" /> :
                                                                 <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
                                                             }
@@ -470,12 +475,12 @@ class MainBody extends React.Component {
                                                 </StyledLink>
                                             );
                                         }
-                                    }) : ""}
+                                    }) : ""} */}
 
                                     {/* 
                                                 *** 서브 메인 카테고리 ***
                                             */}
-                                    {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
+                                    {/* {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
                                         if (rows) {
                                             return (
                                                 <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`} onClick={this.memoryScroll}>
@@ -492,20 +497,29 @@ class MainBody extends React.Component {
 
                                             );
                                         }
-                                    }) : ""}
+                                    }) : ""} */}
 
-                                </div>
+                                {/* </div>
                                 <button className='btn btn-lg btn-block shadow-sm' onClick={this.categoryDropdown}>
                                     {this.state.isDropdown ? <DropUpIcon /> : <StyleDropdown />}
                                 </button>
                             </div>
-                        </div>
+                        </div> */}
                         {/* <div className="col-md-3">
                             <div className="right card shadow-sm">
                                 forecast
                                 {this.props.forecastBool?<Forecast />:"loading..."}
                             </div>
                         </div> */}
+                    {/* </div> */}
+
+                    <div className='row'>
+                        <div className='col-md-9'>
+                            
+                            <MainContentsSingleLists
+                                {...this.props}
+                            />
+                        </div>
                     </div>
 
                     <MainPostList

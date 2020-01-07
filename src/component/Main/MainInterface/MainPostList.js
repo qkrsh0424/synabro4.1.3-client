@@ -60,6 +60,9 @@ const Wrapper = styled.div`
     /* border-radius:0px; */
     width:125px;
     height:125px;
+    // object-fit: scale-down;
+    object-fit: cover;
+    object-position: bottom;
 }
 
 .table-bar{
@@ -107,7 +110,7 @@ class PostLists extends React.Component {
                             if(rows.parent_route==='main'){
                                 return (
                                     <div className="table-bar mb-2 hover_animate tb-border-MainPostList" key={index}>
-                                        <Tooltip title={
+                                        {/* <Tooltip title={
                                             <React.Fragment>
                                                 {rows.post_thumbnail_url === 'none' ? <em>No Thumbnail</em> :
                                                     <div>
@@ -115,7 +118,7 @@ class PostLists extends React.Component {
                                                         <img src={rows.post_thumbnail_url} width="250" height="150" />
                                                     </div>}
                                             </React.Fragment>
-                                        }>
+                                        }> */}
     
                                             <Link 
                                                 to={`/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark"
@@ -199,14 +202,14 @@ class PostLists extends React.Component {
     
                                             </Link>
     
-                                        </Tooltip>
+                                        {/* </Tooltip> */}
     
                                     </div>
                                 );
                             }else{
                                 return (
                                     <div className="table-bar mb-2 hover_animate tb-border-MainPostList" key={index}>
-                                        <Tooltip title={
+                                        {/* <Tooltip title={
                                             <React.Fragment>
                                                 {rows.post_thumbnail_url === 'none' ? <em>No Thumbnail</em> :
                                                     <div>
@@ -214,7 +217,7 @@ class PostLists extends React.Component {
                                                         <img src={rows.post_thumbnail_url} width="200px" height="200px" />
                                                     </div>}
                                             </React.Fragment>
-                                        }>
+                                        }> */}
     
                                             <Link to={`/classify/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
     
@@ -287,14 +290,21 @@ class PostLists extends React.Component {
     
                                                     </div>
                                                     <div>
-                                                        <span className='mt-1 mb-1'>{rows.post_thumbnail_url === 'none' ? <img src={`${awsImageURL}/logo/imageNo2.gif`} /> : <img src={rows.post_thumbnail_url} />}</span>
+                                                        <span className='mt-1 mb-1'>
+                                                            {
+                                                                rows.post_thumbnail_url === 'none' ? 
+                                                                    <img src={`${awsImageURL}/logo/imageNo2.gif`} /> 
+                                                                    : 
+                                                                    <img src={rows.post_thumbnail_url} />
+                                                            }
+                                                        </span>
                                                     </div>
                                                 </div>
     
     
                                             </Link>
     
-                                        </Tooltip>
+                                        {/* </Tooltip> */}
     
                                     </div>
                                 );

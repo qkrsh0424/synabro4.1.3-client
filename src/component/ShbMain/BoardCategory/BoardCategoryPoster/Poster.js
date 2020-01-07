@@ -197,17 +197,20 @@ class Poster extends React.Component {
         return (
             <div>
                 <Nav />
-                <PosterBody
-                    {...this.state}
-                    {...this.props}
-                    _handleLikeOn = {this._handleLikeOn}
-                    _handleLikeOff = {this._handleLikeOff}
-                    _scrollMoveToComment = {this._scrollMoveToComment}
-                    _writeComment = {this._writeComment}
-                    _onHandleCommentDataChange = {this._onHandleCommentDataChange}
-                    _DelComment = {this._DelComment}
-                    _deleteMyPoster = {this._deleteMyPoster}
-                />
+                {this.state.post&&
+                    <PosterBody
+                        {...this.state}
+                        {...this.props}
+                        _handleLikeOn = {this._handleLikeOn}
+                        _handleLikeOff = {this._handleLikeOff}
+                        _scrollMoveToComment = {this._scrollMoveToComment}
+                        _writeComment = {this._writeComment}
+                        _onHandleCommentDataChange = {this._onHandleCommentDataChange}
+                        _DelComment = {this._DelComment}
+                        _deleteMyPoster = {this._deleteMyPoster}
+                    />
+                }
+                
                 <Snackbar
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                     open={this.state.openCommentSnackbar}

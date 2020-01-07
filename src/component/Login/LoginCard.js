@@ -129,12 +129,12 @@ class LoginCard extends React.Component{
                 <div className="greeting">
                   상해봄을 더 즐겁고 편리하게 이용하세요.
                 </div>
-                <Link to="./login">
+                <Link to="/login">
                   <button className="loginCard btn btn-outline-primary">상해봄 Login</button>
                 </Link>
                 <div className="loginFooter">
                   <Link to='' className="account_find" onClick={()=>{alert('죄송합니다. 당분간은 관리자에게 직접 연락 바랍니다.')}}>아이디,비밀번호 찾기</Link>
-                  <Link to="./signup">
+                  <Link to="/signup">
                     <div className="sing_up">회원가입</div>
                   </Link>
                 </div>

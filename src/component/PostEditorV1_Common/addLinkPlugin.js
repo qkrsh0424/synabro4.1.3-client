@@ -17,6 +17,7 @@ export const linkStrategy = (contentBlock, callback, contentState) => {
 };
 
 export const Link = props => {
+	// console.log(props);
 	const { contentState, entityKey } = props;
 	const { url } = contentState.getEntity(entityKey).getData();
 	return (
