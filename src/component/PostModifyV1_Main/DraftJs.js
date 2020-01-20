@@ -44,6 +44,7 @@ import {
 } from '../DraftPlugIn';
 import createHighlightPlugin from '../DraftPlugIn/highlightPlugin';
 import createTextColorPlugin from '../DraftPlugIn/textColorPlugin';
+import createFontSizePlugin from '../DraftPlugIn/fontSizePlugin';
 
 import {
     ItalicButton,
@@ -82,6 +83,7 @@ const alignmentPlugin = createAlignmentPlugin();
 const hightlightPlugin = createHighlightPlugin();
 const textColorPlugin = createTextColorPlugin();
 const resizeablePlugin = createResizeablePlugin();
+const fontSizePlugin = createFontSizePlugin();
 
 
 const { AlignmentTool } = alignmentPlugin;
@@ -108,7 +110,8 @@ const plugins = [
     createAddLinkPlugin,
     hightlightPlugin,
     textColorPlugin,
-    resizeablePlugin
+    resizeablePlugin,
+    fontSizePlugin
 ];
 
 //Use Draft Plugin End

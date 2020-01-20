@@ -48,6 +48,7 @@ import {
 } from '../DraftPlugIn';
 import createHighlightPlugin from '../DraftPlugIn/highlightPlugin';
 import createTextColorPlugin from '../DraftPlugIn/textColorPlugin';
+import createFontSizePlugin from '../DraftPlugIn/fontSizePlugin';
 
 import {
     ItalicButton,
@@ -88,6 +89,7 @@ const alignmentPlugin = createAlignmentPlugin();
 const hightlightPlugin = createHighlightPlugin();
 const textColorPlugin = createTextColorPlugin();
 const resizeablePlugin = createResizeablePlugin();
+const fontSizePlugin = createFontSizePlugin();
 
 // const hashtagPlugin = createHashtagPlugin();
 // const linkifyPlugin = createLinkifyPlugin({ target: '_self' });
@@ -118,6 +120,7 @@ const plugins = [
     hightlightPlugin,
     textColorPlugin,
     resizeablePlugin,
+    fontSizePlugin
     
     // linkifyPlugin,
     // hashtagPlugin,
@@ -265,6 +268,9 @@ class DraftJs extends React.Component {
         this.onEditorChange(
             RichUtils.toggleBlockType(this.state.editorState, alignment)
         );
+        // this.onEditorChange(
+        //     RichUtils.toggleInlineStyle(this.state.editorState, alignment)
+        // );
     }
 
     onHeaderTextColor = (color) => {

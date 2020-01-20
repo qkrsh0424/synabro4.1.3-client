@@ -35,6 +35,7 @@ import '../../../StyleCss/Draftjs.css';
 import { myBlockStyleFn } from '../../../DraftPlugIn';
 import createHighLightPlugin from '../../../DraftPlugIn/highlightPlugin';
 import createTextColorPlugin from '../../../DraftPlugIn/textColorPlugin';
+import createFontSizePlugin from '../../../DraftPlugIn/fontSizePlugin';
 
 //Core
 import Paper from '@material-ui/core/Paper';
@@ -58,6 +59,7 @@ const alignmentPlugin = createAlignmentPlugin();
 const highLightPlugin = createHighLightPlugin();
 const textColorPlugin = createTextColorPlugin();
 const resizeablePlugin = createResizeablePlugin();
+const fontSizePlugin = createFontSizePlugin();
 
 
 const decorator = composeDecorators(
@@ -76,7 +78,8 @@ const plugins = [
     textColorPlugin,
     resizeablePlugin,
     createAddLinkPlugin,
-    colorBlockPlugin
+    colorBlockPlugin,
+    fontSizePlugin
 ];
 
 //Use Draft Plugin End

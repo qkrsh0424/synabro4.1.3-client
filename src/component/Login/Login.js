@@ -79,11 +79,13 @@ class Login extends React.Component {
         })
             .then(response => response.data)
             .then(data => {
+                // console.log(process.env.NODE_ENV==='development');
                 if (data.message === 'success') {
                     // console.log(data.cookie);
                     const cookieData = {
                         path: data.cookie.path,
                         expires: new Date(data.cookie.expires),
+                        domain: process.env.NODE_ENV==='production'?'.shbom.com':''
                     }
                     cookie.save('usid', data.sessid, cookieData);
                     this.props.handleLogin(data.sessid, data.user_nickname);

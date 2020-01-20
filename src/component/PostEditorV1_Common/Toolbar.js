@@ -28,6 +28,7 @@ import Paper from '@material-ui/core/Paper';
 import Fade from '@material-ui/core/Fade';
 import Tooltip from '@material-ui/core/Tooltip';
 
+
 class Toolbar extends React.Component {
 
     constructor(props) {
@@ -52,7 +53,7 @@ class Toolbar extends React.Component {
                 height: '40px',
                 width: '40px',
                 border: 'none',
-                color:'white',
+                color: 'white',
             },
             root: {
                 height: 180,
@@ -95,43 +96,69 @@ class Toolbar extends React.Component {
                             style={style.lightTooltip}
                             title={
                                 <React.Fragment>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderStyle("header-one")} style={style.toggleBtnHeader}>H1</ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderStyle("header-two")} style={style.toggleBtnHeader}>H2</ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderStyle("header-three")} style={style.toggleBtnHeader}>H3</ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderStyle("header-four")} style={style.toggleBtnHeader}>H4</ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderStyle("header-five")} style={style.toggleBtnHeader}>H5</ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("header-one")} style={style.toggleBtnHeader}>H1</ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("header-two")} style={style.toggleBtnHeader}>H2</ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("header-three")} style={style.toggleBtnHeader}>H3</ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("header-four")} style={style.toggleBtnHeader}>H4</ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("header-five")} style={style.toggleBtnHeader}>H5</ToggleButton>
                                 </React.Fragment>
                             }
                             interactive disableFocusListener disableTouchListener placement="top"
                         >
-                            <ToggleButton type='button' onClick={this.handleHeaderSelectChange} style={style.toggleBtn}><strong style={{fontSize:'20px'}}>H</strong></ToggleButton>
+                            <ToggleButton type='button' onClick={this.handleHeaderSelectChange} style={style.toggleBtn}><strong style={{ fontSize: '20px' }}>H</strong></ToggleButton>
                         </Tooltip>
 
-                        <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("blockquote")} style={style.toggleBtn}><span style={{fontSize:'20px'}}>&lt;&gt;</span></ToggleButton>
-                        <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("code-block")} style={style.toggleBtn}><span style={{fontSize:'20px'}}>""</span></ToggleButton>
-                        <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("unordered-list-item")} style={style.toggleBtn}><FormatListBulletedIcon/></ToggleButton>
-                        <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("ordered-list-item")} style={style.toggleBtn}><FormatListNumberedIcon/></ToggleButton>
+                        <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("blockquote")} style={style.toggleBtn}><span style={{ fontSize: '20px' }}>&lt;&gt;</span></ToggleButton>
+                        <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("code-block")} style={style.toggleBtn}><span style={{ fontSize: '20px' }}>""</span></ToggleButton>
+                        <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("unordered-list-item")} style={style.toggleBtn}><FormatListBulletedIcon /></ToggleButton>
+                        <ToggleButton type='button' onClick={() => this.props.onHeaderStyle("ordered-list-item")} style={style.toggleBtn}><FormatListNumberedIcon /></ToggleButton>
+
+                        {/* 
+                            텍스트 컬러 툴 버튼
+                        */}
                         <Tooltip
                             style={style.lightTooltip}
-                        
+
                             title={
                                 <React.Fragment>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderTextColor("TEXT_COLOR_WHITE")} style={{background:"white"}}><span></span></ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderTextColor("TEXT_COLOR_RED")} style={{background:"red"}}></ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderTextColor("TEXT_COLOR_ORANGE")} style={{background:"orange"}}></ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderTextColor("TEXT_COLOR_YELLOW")} style={{background:"yellow"}}></ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderTextColor("TEXT_COLOR_GREEN")} style={{background:"green"}}></ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderTextColor("TEXT_COLOR_BLUE")} style={{background:"blue"}}></ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderTextColor("TEXT_COLOR_DARKBLUE")} style={{background:"darkblue"}}></ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderTextColor("TEXT_COLOR_VIOLET")} style={{background:"violet"}}></ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderTextColor("TEXT_COLOR_DARKGRAY")} style={{background:"darkgray"}}></ToggleButton>
-                                    <ToggleButton type='button' onClick={()=>this.props.onHeaderTextColor("TEXT_COLOR_BLACK")} style={{background:"black"}}></ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderTextColor("TEXT_COLOR_WHITE")} style={{ background: "white" }}><span></span></ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderTextColor("TEXT_COLOR_RED")} style={{ background: "red" }}></ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderTextColor("TEXT_COLOR_ORANGE")} style={{ background: "orange" }}></ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderTextColor("TEXT_COLOR_YELLOW")} style={{ background: "yellow" }}></ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderTextColor("TEXT_COLOR_GREEN")} style={{ background: "green" }}></ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderTextColor("TEXT_COLOR_BLUE")} style={{ background: "blue" }}></ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderTextColor("TEXT_COLOR_DARKBLUE")} style={{ background: "darkblue" }}></ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderTextColor("TEXT_COLOR_VIOLET")} style={{ background: "violet" }}></ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderTextColor("TEXT_COLOR_DARKGRAY")} style={{ background: "darkgray" }}></ToggleButton>
+                                    <ToggleButton type='button' onClick={() => this.props.onHeaderTextColor("TEXT_COLOR_BLACK")} style={{ background: "black" }}></ToggleButton>
                                 </React.Fragment>
                             }
                             interactive disableFocusListener disableTouchListener placement="top"
                         >
-                            <ToggleButton type='button' onClick={this.handleHeaderSelectChange} style={style.toggleBtn}><ColorLensIcon/></ToggleButton>
+                            <ToggleButton type='button' onClick={this.handleHeaderSelectChange} style={style.toggleBtn}><ColorLensIcon /></ToggleButton>
                         </Tooltip>
+
+                        {/* 
+                            폰트 사이즈 툴 버튼
+                        */}
+                        <Tooltip
+                            style={style.lightTooltip}
+
+                            title={
+                                <React.Fragment>
+                                    <ToggleButton type='button' style={style.toggleBtnHeader} onClick={() => this.props.onTextStyle("FONT_SIZE_8")}><span>8</span></ToggleButton>
+                                    <ToggleButton type='button' style={style.toggleBtnHeader} onClick={() => this.props.onTextStyle("FONT_SIZE_16")}><span>16</span></ToggleButton>
+                                    <ToggleButton type='button' style={style.toggleBtnHeader} onClick={() => this.props.onTextStyle("FONT_SIZE_24")}><span>24</span></ToggleButton>
+                                    <ToggleButton type='button' style={style.toggleBtnHeader} onClick={() => this.props.onTextStyle("FONT_SIZE_32")}><span>32</span></ToggleButton>
+                                    <ToggleButton type='button' style={style.toggleBtnHeader} onClick={() => this.props.onTextStyle("FONT_SIZE_40")}><span>40</span></ToggleButton>
+                                    
+                                </React.Fragment>
+                            }
+                            interactive disableFocusListener disableTouchListener placement="top"
+                        >
+                            <ToggleButton type='button' onClick={this.handleHeaderSelectChange} style={style.toggleBtn}><FormatSizeIcon/></ToggleButton>
+                        </Tooltip>
+                        
                     </div>
                 </div>
             </div>

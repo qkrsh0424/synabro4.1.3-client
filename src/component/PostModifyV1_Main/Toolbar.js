@@ -131,6 +131,27 @@ class Toolbar extends React.Component {
                         >
                             <ToggleButton type='button' onClick={this.handleHeaderSelectChange} style={style.toggleBtn}><ColorLensIcon/></ToggleButton>
                         </Tooltip>
+
+                        {/* 
+                            폰트 사이즈 툴 버튼
+                        */}
+                        <Tooltip
+                            style={style.lightTooltip}
+
+                            title={
+                                <React.Fragment>
+                                    <ToggleButton type='button' style={style.toggleBtnHeader} onClick={() => this.props.onTextStyle("FONT_SIZE_8")}><span>8</span></ToggleButton>
+                                    <ToggleButton type='button' style={style.toggleBtnHeader} onClick={() => this.props.onTextStyle("FONT_SIZE_16")}><span>16</span></ToggleButton>
+                                    <ToggleButton type='button' style={style.toggleBtnHeader} onClick={() => this.props.onTextStyle("FONT_SIZE_24")}><span>24</span></ToggleButton>
+                                    <ToggleButton type='button' style={style.toggleBtnHeader} onClick={() => this.props.onTextStyle("FONT_SIZE_32")}><span>32</span></ToggleButton>
+                                    <ToggleButton type='button' style={style.toggleBtnHeader} onClick={() => this.props.onTextStyle("FONT_SIZE_40")}><span>40</span></ToggleButton>
+                                    
+                                </React.Fragment>
+                            }
+                            interactive disableFocusListener disableTouchListener placement="top"
+                        >
+                            <ToggleButton type='button' onClick={this.handleHeaderSelectChange} style={style.toggleBtn}><FormatSizeIcon/></ToggleButton>
+                        </Tooltip>
                     </div>
                 </div>
             </div>

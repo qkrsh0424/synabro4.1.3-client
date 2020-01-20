@@ -142,6 +142,15 @@ class BoardCategoryBody extends React.Component {
                             <Grid item xs={12} sm={3}>
                                 <div className='jumbotron'>
                                     <Link to={`/main/category/11?BomNo=1101001`}>신규 게시판 문의 받습니다.</Link>
+                                    <div className='text-center'>
+                                        <img 
+                                            src='https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/bannerImage/%E1%84%89%E1%85%A1%E1%86%BC%E1%84%92%E1%85%A2%E1%84%87%E1%85%A9%E1%86%B7%E1%84%80%E1%85%A9%E1%84%80%E1%85%A2%E1%86%A8%E1%84%89%E1%85%A6%E1%86%AB%E1%84%90%E1%85%A5QR.jpg'
+                                            width='150px'
+                                            height='150px'
+                                        ></img>
+
+                                        <label>상해봄 고객센터</label>
+                                    </div>
                                 </div>
                             </Grid>
                         </Grid>

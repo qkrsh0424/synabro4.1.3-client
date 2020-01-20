@@ -264,6 +264,11 @@ const StyleDropdown = styled(DropdownIcon)`
     //     transform: translate(160px, -45px);
     // }
 `;
+
+const Footer = styled.div`
+    text-align:center
+`;
+
 const propTypes = {};
 
 const defaultProps = {};
@@ -550,6 +555,17 @@ class MainBody extends React.Component {
                     autoHideDuration={3000}
                     message={<span id="message-id">피드를 새로고침 하였습니다.</span>}
                 />
+                <hr/>
+                <Footer>
+                    Icon support
+                    <div>Material Icons : <a href='https://material.io/resources/icons' target='_blank'>www.material.io</a></div>
+                    <div>
+                        Flaticon : <a href="https://www.flaticon.com/" title="Flaticon" target='_blank'>www.flaticon.com</a>
+                        <br/>
+                        (<a href="https://www.flaticon.com/authors/freepik" title="Freepik" target='_blank'>Freepik</a>, <a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a>)
+                    </div>
+                </Footer>
+                
             </Container>
         );
     }

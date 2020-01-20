@@ -72,25 +72,50 @@ const MainContentsSingleLists = (props) => {
 
                 {props.shb_main_items ? props.shb_main_items.map(rows => {
                     if (rows.shb_item_classify!=='board') {
-                        return (
-                            <ListItem>
-                                <ItemIcon>
-                                    <IconButton
-                                        to={`/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`}
-                                        // onClick={this.memoryScroll}
-                                        component={PageLink}
-                                    >
-                                        {rows.shb_item_icon_url ?
-                                            <IconImage src={rows.shb_item_icon_url} /> :
-                                            <IconImage src={`https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/android-icon-144x144.png`} />
-                                        }
-                                    </IconButton>
-                                </ItemIcon>
-                                <ItemTitle>
-                                    {rows.shb_item_name}
-                                </ItemTitle>
-                            </ListItem>
-                        );
+                        if(rows.shb_item_classify==='partner' || rows.shb_item_classify==='ads'){
+                            return (
+                                <ListItem>
+                                    <ItemIcon>
+                                        <IconButton
+                                            to={`/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`}
+                                            // onClick={this.memoryScroll}
+                                            component={PageLink}
+                                            style={{opacity:'0.4'}}
+                                            disabled
+                                        >
+                                            {rows.shb_item_icon_url ?
+                                                <IconImage src={rows.shb_item_icon_url} /> :
+                                                <IconImage src={`https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/android-icon-144x144.png`} />
+                                            }
+                                        </IconButton>
+                                    </ItemIcon>
+                                    <ItemTitle style={{opacity:'0.4', fontSize:'10px'}}>
+                                        {rows.shb_item_name}<br/>(준비중..)
+                                    </ItemTitle>
+                                </ListItem>
+                            );
+                        }else{
+                            return (
+                                <ListItem>
+                                    <ItemIcon>
+                                        <IconButton
+                                            to={`/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`}
+                                            // onClick={this.memoryScroll}
+                                            component={PageLink}
+                                        >
+                                            {rows.shb_item_icon_url ?
+                                                <IconImage src={rows.shb_item_icon_url} /> :
+                                                <IconImage src={`https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/android-icon-144x144.png`} />
+                                            }
+                                        </IconButton>
+                                    </ItemIcon>
+                                    <ItemTitle>
+                                        {rows.shb_item_name}
+                                    </ItemTitle>
+                                </ListItem>
+                            );
+                        }
+                        
                     }
                 }) : ""}
             </ListContainer>

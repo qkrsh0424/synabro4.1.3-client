@@ -61,8 +61,11 @@ const Wrapper = styled.div`
     width:125px;
     height:125px;
     // object-fit: scale-down;
-    object-fit: cover;
-    object-position: bottom;
+    // object-fit: cover;
+    object-fit: contain;
+    // object-position: bottom;
+    // object-position: 100% 0;
+    background: #fcfcfc;
 }
 
 .table-bar{
@@ -219,7 +222,11 @@ class PostLists extends React.Component {
                                             </React.Fragment>
                                         }> */}
     
-                                            <Link to={`/classify/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="text-dark">
+                                            <Link 
+                                                to={`/classify/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} 
+                                                className="text-dark"
+                                                onClick={this.memoryScroll}
+                                            >
     
                                                 <div className="table-bar_column  box-MainPostList">
                                                     <div className="table-bar_column">

@@ -14,6 +14,7 @@ import AdsCategory from '../AdsCategory';
 import ContactCategory from '../ContactCategory';
 import PartnerCategory from '../PartnerCategory';
 import ContentsListsCategory from '../ContentsListsCategory';
+import FeedbackFixCategory from '../FeedbackFixCategory';
 
 class Category extends React.Component {
     _isMounted = false;
@@ -87,6 +88,16 @@ class Category extends React.Component {
                         break;
                     case 'contents-list':
                         categoryComponent.push(<ContentsListsCategory/>);
+                        break;
+                    case 'feedback-fix':
+                        categoryComponent.push(
+                            <FeedbackFixCategory
+                                imageUploadApiAddress={`${serverUrl}/api/uploadimg/draft-oss`} //must defined
+                                writeApiAddress={`${serverUrl}/api/service/feedback/fix/write`} //must defined
+                                getApiAddress={`${serverUrl}/api/service/feedback/fix/get/all`} //must defined
+                                authorizationKey = {'Bearer ' + AuthKey}    //must defined
+                            />
+                        );
                         break;
                     default:
                         break;
