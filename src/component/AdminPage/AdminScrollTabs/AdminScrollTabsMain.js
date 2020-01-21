@@ -11,6 +11,7 @@ import AdminScrollTabHome from '../AdminScrollTabHome';
 import AdminScrollTabApplyList from '../AdminScrollTabApplyList';
 import AdminScrollTabHeaderCategory from '../AdminScrollTabHeaderCategory';
 import AdminScrollTabCategory from '../AdminScrollTabCategory';
+import AdminScrollTabChangePage from '../AdminScrollTabChangePage';
 
 function TabContainer(props) {
   return (
@@ -36,9 +37,31 @@ class AdminScrollTabsMain extends React.Component {
     value: 0,
   };
 
+  componentDidUpdate = async(prevProps, prevState) =>{
+    if (prevProps.group !== this.props.group) {
+      if(this.props.group && localStorage.getItem('tab_value')){
+        await setTimeout(()=>{
+          
+          this.handleGetTabValue(Number(localStorage.getItem('tab_value')));
+
+        },0)
+        await setTimeout(()=>{
+          localStorage.removeItem('tab_value');
+        },0)
+        // localStorage.clear();
+      }else{
+        return;
+      }
+    }
+  }
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
+
+  handleGetTabValue = (value) =>{
+    this.setState({ value });
+  }
 
   render() {
     const { classes } = this.props;
@@ -46,7 +69,7 @@ class AdminScrollTabsMain extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static" style={{background:'black'}}>
+        <AppBar position="static" style={{ background: 'black' }}>
           <Tabs
             value={value}
             onChange={this.handleChange}
@@ -55,47 +78,54 @@ class AdminScrollTabsMain extends React.Component {
             variant="scrollable"
             scrollButtons="auto"
           >
-            <Tab 
-                label={this.props.group?this.props.group.shb_name:""} 
+            <Tab
+              label={this.props.group ? this.props.group.shb_name : ""}
             />
             <Tab label="회원 신청" />
             <Tab label="헤더 카테고리" />
             <Tab label="서브 카테고리" />
-            {/* <Tab label="Item Five" />
-            <Tab label="Item Six" />
+            <Tab label="페이지 수정" />
+            {/* <Tab label="Item Six" />
             <Tab label="Item Seven" /> */}
           </Tabs>
         </AppBar>
-        {value === 0 && 
-            <TabContainer>
-                <AdminScrollTabHome
-                    {...this.props}
-                />
-            </TabContainer>
+        {value === 0 &&
+          <TabContainer>
+            <AdminScrollTabHome
+              {...this.props}
+            />
+          </TabContainer>
         }
-        {value === 1 && 
-            <TabContainer>
-                <AdminScrollTabApplyList
-                    {...this.props}
-                    _getGroupMembers = {this.props._getGroupMembers}
-                />
-            </TabContainer>
+        {value === 1 &&
+          <TabContainer>
+            <AdminScrollTabApplyList
+              {...this.props}
+              _getGroupMembers={this.props._getGroupMembers}
+            />
+          </TabContainer>
         }
-        {value === 2 && 
+        {value === 2 &&
           <TabContainer>
             <AdminScrollTabHeaderCategory
               {...this.props}
             />
           </TabContainer>
         }
-        {value === 3 && 
+        {value === 3 &&
           <TabContainer>
             <AdminScrollTabCategory
               {...this.props}
             />
           </TabContainer>
         }
-        {value === 4 && <TabContainer>Item Five</TabContainer>}
+        {value === 4 &&
+          <TabContainer>
+            <AdminScrollTabChangePage
+              {...this.props}
+              handleGetTabValue={this.handleGetTabValue}
+            />
+          </TabContainer>
+        }
         {value === 5 && <TabContainer>Item Six</TabContainer>}
         {value === 6 && <TabContainer>Item Seven</TabContainer>}
       </div>

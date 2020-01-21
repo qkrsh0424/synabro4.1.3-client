@@ -81,7 +81,7 @@ const MainContentsSingleLists = (props) => {
                                             // onClick={this.memoryScroll}
                                             component={PageLink}
                                             style={{opacity:'0.4'}}
-                                            disabled
+                                            // disabled
                                         >
                                             {rows.shb_item_icon_url ?
                                                 <IconImage src={rows.shb_item_icon_url} /> :

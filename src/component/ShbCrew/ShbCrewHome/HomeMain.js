@@ -94,7 +94,7 @@ class HomeMain extends React.Component{
                         backgroundImage:this.state.shb?`url(${this.state.shb.shb_image_url})`:"",
                         backgroundPosition: 'center',
                         backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'cover',
+                        backgroundSize: 'contain',
                     }}
                 >
                     <Nav/>

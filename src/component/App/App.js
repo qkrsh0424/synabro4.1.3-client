@@ -111,7 +111,7 @@ class App extends React.Component {
         this._set_UnivLists().then(data => {
             this.props.handleSetUnivList(data);
         }).catch(err => console.log(err));
-        localStorage.clear();
+        localStorage.removeItem('scroll');
         // localStorage.setItem("mNumPost",10);
         // await saveScrollZero();
         await setTimeout(()=>{
