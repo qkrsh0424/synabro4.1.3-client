@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{lazy} from 'react';
 import Axios from 'axios';
 
 //Authorization
@@ -15,6 +15,7 @@ import ContactCategory from '../ContactCategory';
 import PartnerCategory from '../PartnerCategory';
 import ContentsListsCategory from '../ContentsListsCategory';
 import FeedbackFixCategory from '../FeedbackFixCategory';
+const MobileLinkShortCutCategory = lazy(()=>import('../MobileLinkShortCutCategory'));
 
 class Category extends React.Component {
     _isMounted = false;
@@ -96,6 +97,13 @@ class Category extends React.Component {
                                 writeApiAddress={`${serverUrl}/api/service/feedback/fix/write`} //must defined
                                 getApiAddress={`${serverUrl}/api/service/feedback/fix/get/all`} //must defined
                                 authorizationKey = {'Bearer ' + AuthKey}    //must defined
+                            />
+                        );
+                        break;
+                    case 'shortcut-mobile':
+                        categoryComponent.push(
+                            <MobileLinkShortCutCategory
+                            
                             />
                         );
                         break;
