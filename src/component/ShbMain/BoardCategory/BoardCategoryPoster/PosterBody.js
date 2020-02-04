@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+
+//react router dom
+import {Link} from 'react-router-dom';
+
 //URL 
 import { awsImageURL } from '../../../../config/awsurl';
 
@@ -110,6 +114,14 @@ margin-bottom:10px;
 margin-top:1rem;
 `;
 
+const CategoryTitleLink = styled(Link)`
+    color:black;
+    font-weight:500;
+    &:hover{
+        text-decoration:none;
+    }
+    
+`;
 class PosterBody extends React.Component {
     constructor(props) {
         super(props);
@@ -163,102 +175,108 @@ class PosterBody extends React.Component {
 
         return (
             <div className='container animate slideIn clearfix CommonPosterPart' style={style.Grid}>
-                <Paper style={style.paperHeader}>
-                    {this.props.categoryTitle ? this.props.categoryTitle : <button className="progress-bar-striped progress-bar-animated btn btn-light btn-lg btn-block"></button>}
-                </Paper>
-                {this.props.post ? this.props.post.map(row => {
+                {this.props.post ? this.props.post.map(row => {       
                     var currentDate = new Date();
                     var createDate = new Date(row.post_created);
 
                     return (
-                        <div className="p-3 mb-2 shadow-sm">
-                            <Header className='clearfix'>
-                                <div className="Header-bar">
-                                    <span className='float-left'>{row.post_title}</span>
-                                    
-                                    <span className='float-right'>
-                                        {this.props._isLogged ?
-                                            <PosterMenuControl
-                                                {...this.state}
-                                                {...this.props}
-                                                _deleteMyPoster={this.props._deleteMyPoster}
-                                            /> : ""
-                                        }
-                                    </span>
-                                </div>
-
-                            </Header>
-                            <User>
-                                <User_pro>
-                                    <img src={`${awsImageURL}/logo/peopleNo.png`} height="40px" width="40px" />
-                                    <User_name>
-                                        <User_id>
-                                            {row.post_user_isSecret && row.post_user_isSecret === 1 ?
-                                                '익명' :
-                                                row.user_nickname
+                        <div>
+                            <Paper style={style.paperHeader}>
+                                <CategoryTitleLink 
+                                    to={`/${row.parent_route}/category/${row.shb_item_id}?BomNo=${row.shb_num}`}
+                                >
+                                    {this.props.categoryTitle ? this.props.categoryTitle : <button className="progress-bar-striped progress-bar-animated btn btn-light btn-lg btn-block"></button>}
+                                </CategoryTitleLink>
+                            </Paper>
+                            <div className="p-3 mb-2 shadow-sm">
+                                <Header className='clearfix'>
+                                    <div className="Header-bar">
+                                        <span className='float-left'>{row.post_title}</span>
+                                        
+                                        <span className='float-right'>
+                                            {this.props._isLogged ?
+                                                <PosterMenuControl
+                                                    {...this.state}
+                                                    {...this.props}
+                                                    _deleteMyPoster={this.props._deleteMyPoster}
+                                                /> : ""
                                             }
-                                        </User_id>
-                                        <Post_time>{calculateTime(currentDate, createDate)}</Post_time>
-                                    </User_name>
-                                </User_pro>
-                                {/* <div>
-                                    <MenuList />
-                                </div> */}
-                                <CopyToClipboard text={window.location.href}>
-                                    <a class="btn btn-outline-secondary float-right">
-                                            <Share_icon/>
-                                    </a>
-                                </CopyToClipboard>
-                            </User>
-                            <div
-                                className="_TextField clearfix"
-                            >
-                                {this.props.post[0]?
-                                    <Editor
-                                        blockRendererFn={MediaBlockRenderer}
-                                        blockStyleFn={myBlockStyleFn}
-                                        editorState={this.state.editorState}
-                                        onChange={this.onEditorChange}
-                                        plugins={plugins}
-                                        readOnly
-                                    />
-                                :""}
-                            </div>
-                            {row.post_materials?
-                                <div>
-                                    <p><strong>첨부파일</strong></p>
-                                    <ul>
-                                    {row.post_materials.map(mat=>{
-                                        
-                                        return(
-                                            <li>
-                                                <a href={mat.url} target='_black' download>{mat.name}</a>
-                                            </li>
-                                        )
-                                        
-                                    })}
-                                    </ul>
+                                        </span>
+                                    </div>
+
+                                </Header>
+                                <User>
+                                    <User_pro>
+                                        <img src={`${awsImageURL}/logo/peopleNo.png`} height="40px" width="40px" />
+                                        <User_name>
+                                            <User_id>
+                                                {row.post_user_isSecret && row.post_user_isSecret === 1 ?
+                                                    '익명' :
+                                                    row.user_nickname
+                                                }
+                                            </User_id>
+                                            <Post_time>{calculateTime(currentDate, createDate)}</Post_time>
+                                        </User_name>
+                                    </User_pro>
+                                    {/* <div>
+                                        <MenuList />
+                                    </div> */}
+                                    <CopyToClipboard text={window.location.href}>
+                                        <a class="btn btn-outline-secondary float-right">
+                                                <Share_icon/>
+                                        </a>
+                                    </CopyToClipboard>
+                                </User>
+                                <div
+                                    className="_TextField clearfix"
+                                >
+                                    {this.props.post[0]?
+                                        <Editor
+                                            blockRendererFn={MediaBlockRenderer}
+                                            blockStyleFn={myBlockStyleFn}
+                                            editorState={this.state.editorState}
+                                            onChange={this.onEditorChange}
+                                            plugins={plugins}
+                                            readOnly
+                                        />
+                                    :""}
                                 </div>
-                            :""}
-                            
-                            <Emoji_bar>
-                                {row.like === 'on' ? <a onClick={() => this.props._handleLikeOff(row.shb_num, row.post_id)} className="text-secondary"><span id='currentLikeOn'><ThumbUpOn_icon /></span> {row.post_like_count}</a> :
-                                    <a onClick={() => this.props._handleLikeOn(row.shb_num, row.post_id)} className="text-secondary"><span id="currentLikeOff"><ThumbUpOff_icon /></span> {row.post_like_count}</a>}
-                                &nbsp;
-                                    <a onClick={() => this.props._scrollMoveToComment()} className="text-secondary"><Comment_icon /> {row.post_comment_count}</a>
-                                &nbsp;
-                                    <span href="#" className="text-secondary"><Eye_icon />{row.post_view_count}</span>
-                            </Emoji_bar>
-                            <hr />
-                            <div id='comment_part'>
-                                <Comments
-                                    head_type={row.shb_num}
-                                    commentData={this.props.commentData}
-                                    comment={this.props.comment}
-                                    _writeComment={this.props._writeComment}
-                                    _onHandleCommentDataChange={this.props._onHandleCommentDataChange}
-                                    _DelComment={this.props._DelComment}
-                                />
+                                {row.post_materials?
+                                    <div>
+                                        <p><strong>첨부파일</strong></p>
+                                        <ul>
+                                        {row.post_materials.map(mat=>{
+                                            
+                                            return(
+                                                <li>
+                                                    <a href={mat.url} target='_black' download>{mat.name}</a>
+                                                </li>
+                                            )
+                                            
+                                        })}
+                                        </ul>
+                                    </div>
+                                :""}
+                                
+                                <Emoji_bar>
+                                    {row.like === 'on' ? <a onClick={() => this.props._handleLikeOff(row.shb_num, row.post_id)} className="text-secondary"><span id='currentLikeOn'><ThumbUpOn_icon /></span> {row.post_like_count}</a> :
+                                        <a onClick={() => this.props._handleLikeOn(row.shb_num, row.post_id)} className="text-secondary"><span id="currentLikeOff"><ThumbUpOff_icon /></span> {row.post_like_count}</a>}
+                                    &nbsp;
+                                        <a onClick={() => this.props._scrollMoveToComment()} className="text-secondary"><Comment_icon /> {row.post_comment_count}</a>
+                                    &nbsp;
+                                        <span href="#" className="text-secondary"><Eye_icon />{row.post_view_count}</span>
+                                </Emoji_bar>
+                                <hr />
+                                <div id='comment_part'>
+                                    <Comments
+                                        head_type={row.shb_num}
+                                        commentData={this.props.commentData}
+                                        comment={this.props.comment}
+                                        _writeComment={this.props._writeComment}
+                                        _onHandleCommentDataChange={this.props._onHandleCommentDataChange}
+                                        _DelComment={this.props._DelComment}
+                                    />
+                                </div>
                             </div>
                         </div>
                     );
