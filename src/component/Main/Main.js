@@ -13,7 +13,7 @@ import * as bannerApi from '../../handler/cliApi/banner';
 
 //Component
 import Nav from '../Nav/Nav';
-import MainBody from './MainInterface';
+// import MainBody from './MainInterface';
 import ScrollTabs from './ScrollTabs';
 // import SaveScrollPosition from '../Scroll/SaveScrollPosition';
 

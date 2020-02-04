@@ -36,7 +36,7 @@ const CategoryListMain = (props) =>{
     }
 
     const _getShbItem = async() => {
-        await shbApi.shb_getShbAllItemList(props.group.shb_num)
+        await adminApi.admin_getSubCategoryListAll(props.group.shb_num)
         .then(data=>setShb_items(data.data));
     }
 

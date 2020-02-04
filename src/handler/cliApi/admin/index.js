@@ -170,6 +170,23 @@ const admin_HeaderCategoryArraySet = async(invisibleArray,visibleArray)=>{
     });
 }
 
+//Sub category
+
+// /category/sub/getshbItemAll
+const admin_getSubCategoryListAll = async(shb_num) =>{
+    return await Axios.get(`${serverUrl}/api/auth/admin/category/sub/getshbItemAll`,{
+        params:{
+            shb_num:shb_num
+        },
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+          }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('잘못된 방식 입니다.');
+    });
+}
+
 const admin_SubCategoryNameUpdate = async(item)=>{
     // console.log(item)
     return await Axios.post(`${serverUrl}/api/auth/admin/category/sub/updateName`,{
@@ -247,6 +264,7 @@ export {
     admin_HeaderCategoryAdd,
     admin_HeaderCategoryArraySet,
 
+    admin_getSubCategoryListAll,
     admin_SubCategoryNameUpdate,
     admin_SubCategoryDelete,
     admin_SubCategoryAdd,

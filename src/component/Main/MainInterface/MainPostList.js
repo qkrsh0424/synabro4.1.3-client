@@ -155,15 +155,16 @@ class PostLists extends React.Component {
     
                                                                 </div>
                                                                 <div className="table-bar_column">
-                                                                    <span className="table-bar_writer" style={{ fontSize: "14px" }}>
-                                                                        {rows.post_user_isSecret && rows.post_user_isSecret===1?
+                                                                    <div className="table-bar_writer" style={{ fontSize: "12px" }}>
+                                                                        글쓴이>{rows.post_user_isSecret && rows.post_user_isSecret===1?
                                                                             '익명':
                                                                             rows.user_nickname.length > 12 ? `${rows.user_nickname.substring(0, 12)}...` : rows.user_nickname
                                                                         }
-                                                                    </span>
-    
-    
-    
+                                                                    </div>
+                                                                    <div className="table-bar_writer" style={{ fontSize: "12px" }}>
+                                                                        {/* {console.log(rows)} */}
+                                                                        작성지><span className='text-success'>메인</span>><span className='text-primary'>{rows.shb_item_name}</span>
+                                                                    </div>
                                                                 </div>
                                                                 <div className="table-bar_column">
     
@@ -254,15 +255,15 @@ class PostLists extends React.Component {
     
                                                                 </div>
                                                                 <div className="table-bar_column">
-                                                                    <span className="table-bar_writer" style={{ fontSize: "14px" }}>
-                                                                        {rows.post_user_isSecret && rows.post_user_isSecret===1?
+                                                                    <div className="table-bar_writer" style={{ fontSize: "12px" }}>
+                                                                        글쓴이>{rows.post_user_isSecret && rows.post_user_isSecret===1?
                                                                             '익명':
                                                                             rows.user_nickname.length > 12 ? `${rows.user_nickname.substring(0, 12)}...` : rows.user_nickname
                                                                         }
-                                                                    </span>
-    
-    
-    
+                                                                    </div>
+                                                                    <div className="table-bar_writer" style={{ fontSize: "12px" }}>
+                                                                        작성지><span className='text-success'>{rows.shb_name}</span>><span className='text-primary'>{rows.shb_item_name}</span>
+                                                                    </div>
                                                                 </div>
                                                                 <div className="table-bar_column">
     

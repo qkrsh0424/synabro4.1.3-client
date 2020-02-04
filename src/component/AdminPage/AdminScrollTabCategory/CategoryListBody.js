@@ -111,8 +111,9 @@ const CategoryListBody = (props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                
+                                {/* {console.log(props.shb_items)} */}
                                 {props.shb_items && props.shb_items.map((row2)=>{
+                                    // console.log(row2)
                                     if(row2.parent_header===row.sih_id){
                                         return(
                                             <StyledTableRow key={row2.shb_item_id}>

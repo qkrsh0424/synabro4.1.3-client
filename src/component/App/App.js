@@ -51,7 +51,7 @@ import PageLoading from './PageLoading';
 // import AdminPage from '../AdminPage';    //origin
 
 //그룹 신청 관련 컴포넌트
-import GroupApply from '../GroupApply';
+// import GroupApply from '../GroupApply';
 
 //각종 하위 컴포넌트
 // import PostEditorCommon from '../PostEditorV1_Common';   //origin
@@ -92,6 +92,7 @@ const AdminPage = lazy(()=>import('../AdminPage'));
 
 const PostEditorCommon = lazy(()=>import('../PostEditorV1_Common'));
 const PostModifyShbMain = lazy(()=>import('../PostModifyV1_Main'));
+const GroupApply = lazy(()=>import('../GroupApply'));
 
 class App extends React.Component {
     constructor(props) {
@@ -112,6 +113,7 @@ class App extends React.Component {
             this.props.handleSetUnivList(data);
         }).catch(err => console.log(err));
         localStorage.removeItem('scroll');
+        localStorage.removeItem('mNumPost');
         // localStorage.setItem("mNumPost",10);
         // await saveScrollZero();
         await setTimeout(()=>{
@@ -233,7 +235,7 @@ class App extends React.Component {
                             <Route exact path='/error' component={ErrorPage404} />
                             <Route component={ErrorPage404} />
                         </Switch>
-                        <h1 className='position-fixed bomVersionCheck1'>Beta version</h1>
+                        {/* <h1 className='position-fixed bomVersionCheck1'>Beta version</h1> */}
 
                         <ControlBar />
                     </Suspense>

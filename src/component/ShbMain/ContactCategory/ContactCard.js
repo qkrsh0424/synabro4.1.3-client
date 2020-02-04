@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 
 const Container = styled.div`
+  margin-left:8px;
+  
   .card_grid_container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -46,13 +48,13 @@ const Container = styled.div`
       transition: opacity 0.1s linear;
       width: 120px;
       overflow:hidden;
-  margin-top: -35px;
-  margin-left: -35px;
-  margin-bottom: 15px;
-  margin-right: 20px;
-  backface-visibility: hidden;
-  vertical-align: top;
-  border-radius: 5px;
+      margin-top: -35px;
+      margin-left: -35px;
+      margin-bottom: 15px;
+      margin-right: 20px;
+      backface-visibility: hidden;
+      vertical-align: top;
+      border-radius: 5px;
   }
 
 `;
@@ -64,27 +66,25 @@ class ContactPresenter extends React.Component {
   render() {
     return (
       <Container>
-        <div>
-          {this.props.contactVals && this.props.contactVals.length > 0 && (
-            <div className="card_grid_container">
-              {this.props.contactVals.map(contact => (
-                <div className="card_grid">
-                  <div className="img_container">
+        {this.props.contactVals && this.props.contactVals.length > 0 && (
+          <div className="card_grid_container">
+            {this.props.contactVals.map(contact => (
+              <div className="card_grid">
+                <div className="img_container">
                   <img src="https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/android-icon-144x144.png" alt="..."></img>
-                  </div>
-                  <div>
+                </div>
+                <div>
                   <p>{contact.contact_name}</p>
                   <p>{contact.category}</p>
                   <p>{contact.company}</p>
                   <p>{contact.Tel}</p>
                   <p>{contact.wechat_id}</p>
                   <p>하고싶은말</p>
-                  </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
+              </div>
+            ))}
+          </div>
+        )}
       </Container>
     );
   }

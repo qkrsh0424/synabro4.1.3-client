@@ -1,4 +1,4 @@
-import React from "react";
+import React,{lazy} from "react";
 import PropTypes from "prop-types";
 
 //router dom
@@ -17,23 +17,25 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
 
 //Icons
-import searchIcon from '@material-ui/icons/Search';
-import Card_giftcard from "@material-ui/icons/CardGiftcard";
-import Language from "@material-ui/icons/Translate";
-import Contact from "@material-ui/icons/ContactPhone";
+// import searchIcon from '@material-ui/icons/Search';
+// import Card_giftcard from "@material-ui/icons/CardGiftcard";
+// import Language from "@material-ui/icons/Translate";
+// import Contact from "@material-ui/icons/ContactPhone";
 import DropdownIcon from '@material-ui/icons/ArrowDownward';
-import DropUpIcon from '@material-ui/icons/ArrowUpward';
+// import DropUpIcon from '@material-ui/icons/ArrowUpward';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 //Component
-import Forecast from "../Forecast";
+// import Forecast from "../Forecast";
 import MainSearch from "../../MainSearch/FullDialog";
 import LoginCard from '../../Login/LoginCard';
 // import MainPostCard1 from './MainPostCard1';
 // import MainPostCard2 from './MainPostCard2';
 import MainPostList from './MainPostList';
 import MainContentsSingleLists from './MainContentsSingleLists';
+// import CoronaComponent from '../../DemoFile/CoronaMain';
+const CoronaComponent = lazy(()=>import('../../DemoFile/CoronaMain'));
 
 const Container = styled.div`
     padding-top: 30px;
@@ -288,20 +290,20 @@ class MainBody extends React.Component {
         this.state = {
             dropdownHeight: "128px",
             isDropdown: false,
-            post:null,
-            numIndex:localStorage.getItem("mNumPost")?localStorage.getItem("mNumPost"):20,
+            post: null,
+            numIndex: localStorage.getItem("mNumPost") ? localStorage.getItem("mNumPost") : 20,
             // numIndex:20,
-            nextPostLoading:false,
-            reloadSnackOpen:false,
+            nextPostLoading: false,
+            reloadSnackOpen: false,
         }
     }
 
-    componentDidMount = async() =>{
+    componentDidMount = async () => {
         await this._getMainAllPosts();
-        await setTimeout(()=>{
+        await setTimeout(() => {
             import('../../Scroll/SaveScrollPosition')
-            .then(ret=>ret.getScrollValY());
-        },0);
+                .then(ret => ret.getScrollValY());
+        }, 0);
     }
 
     categoryDropdown = () => {
@@ -309,45 +311,45 @@ class MainBody extends React.Component {
         this.setState({ dropdownHeight: navHeight, isDropdown: !this.state.isDropdown });
     }
 
-    _getMainAllPosts = async() =>{
+    _getMainAllPosts = async () => {
         return shbApi.shb_getShbAllPostForAllBoundary(this.state.numIndex)
-        .then(data=>{
-            if(data.message==='success'){
-                this.setState({post:data.data});
-            }else if(data.message==='none'){
-                this.setState({post:null});
-            }else{
-                alert('포스트 에러');
-            }
-        });
+            .then(data => {
+                if (data.message === 'success') {
+                    this.setState({ post: data.data });
+                } else if (data.message === 'none') {
+                    this.setState({ post: null });
+                } else {
+                    alert('포스트 에러');
+                }
+            });
 
-        
+
     }
 
-    memoryScroll=()=>{
+    memoryScroll = () => {
         import('../../Scroll/SaveScrollPosition')
-        .then(ret=>ret.saveScrollZero());
+            .then(ret => ret.saveScrollZero());
     }
 
-    nextPost = async() =>{
+    nextPost = async () => {
         // window.localStorage.setItem("mNumPost",);
-        await this.setState({nextPostLoading:true});
-        window.localStorage.setItem("mNumPost",Number(this.state.numIndex)+20);
-        await this.setState({numIndex:window.localStorage.getItem("mNumPost")});
+        await this.setState({ nextPostLoading: true });
+        window.localStorage.setItem("mNumPost", Number(this.state.numIndex) + 20);
+        await this.setState({ numIndex: window.localStorage.getItem("mNumPost") });
         await this._getMainAllPosts(this.state.numIndex);
-        await this.setState({nextPostLoading:false});
+        await this.setState({ nextPostLoading: false });
 
     }
 
-    reloadPost = async()=>{
+    reloadPost = async () => {
         document.documentElement.scrollTop = document.body.scrollTop = 0;
-        await this.setState({numIndex:window.localStorage.getItem("mNumPost"),reloadSnackOpen:true});
+        await this.setState({ numIndex: window.localStorage.getItem("mNumPost"), reloadSnackOpen: true });
         await this._getMainAllPosts(this.state.numIndex);
-        
+
     }
 
-    reloadSnackClose = async()=>{
-        await this.setState({reloadSnackOpen:false});
+    reloadSnackClose = async () => {
+        await this.setState({ reloadSnackOpen: false });
     }
 
     render() {
@@ -362,6 +364,8 @@ class MainBody extends React.Component {
         // console.log(this.props.bannerHeader)
         return (
             <Container>
+                {/* corona */}
+                <CoronaComponent/>
                 <div className="container shadow-sm animate slideIn clearfix pb-5">
                     <div className="row">
                         <div className="col-md-9">
@@ -371,9 +375,9 @@ class MainBody extends React.Component {
                                 data-ride="carousel"
                             >
                                 <div className="carousel-inner mainBene">
-                                    {this.props.bannerHeader? this.props.bannerHeader.map((rows,index)=>{
-                                        if(rows && index===0){
-                                            return(
+                                    {this.props.bannerHeader ? this.props.bannerHeader.map((rows, index) => {
+                                        if (rows && index === 0) {
+                                            return (
                                                 <div
                                                     className="carousel-item active main"
                                                     data-interval="4000"
@@ -387,25 +391,25 @@ class MainBody extends React.Component {
                                                 </div>
                                             )
                                         }
-                                        return(
+                                        return (
                                             <div
-                                                    className="carousel-item main"
-                                                    data-interval="4000"
-                                                >
-                                                    <img
-                                                        // src={require("../../asset/6.jpg")}
-                                                        src={rows.banner_image}
-                                                        className="d-block bene_Big_Size"
-                                                        alt="..."
-                                                    />
-                                                </div>
+                                                className="carousel-item main"
+                                                data-interval="4000"
+                                            >
+                                                <img
+                                                    // src={require("../../asset/6.jpg")}
+                                                    src={rows.banner_image}
+                                                    className="d-block bene_Big_Size"
+                                                    alt="..."
+                                                />
+                                            </div>
                                         );
-                                        
+
                                     })
 
-                                    :
-                                    (beneLoading)
-                                    
+                                        :
+                                        (beneLoading)
+
                                     }
                                 </div>
                                 <a
@@ -454,21 +458,21 @@ class MainBody extends React.Component {
                             <div className='cardWrapper'>
                                 <div className="card nav m-0" style={{ height: this.state.dropdownHeight }}> */}
 
-                                    {/* 
+                    {/* 
                                                 *** 메인 카테고리 ***
                                             */}
-                                    {/* {this.props.shb_lists ? this.props.shb_lists.map(rows => {
+                    {/* {this.props.shb_lists ? this.props.shb_lists.map(rows => {
                                         if (rows.shb_num === 1101001) {
                                             return (
                                                 <StyledLink to={`/${rows.shb_classify}`} onClick={this.memoryScroll}>
                                                     <div className="item">
                                                         <div className="item_icon"> */}
-                                                            {/* <Card_giftcard
+                    {/* <Card_giftcard
                                                                         style={{
                                                                             fontSize: "50px"
                                                                         }}
                                                                     /> */}
-                                                            {/* {rows.shb_icon_url ?
+                    {/* {rows.shb_icon_url ?
                                                                 <img src={rows.shb_icon_url} width="50px" height="50px" /> :
                                                                 <img src={`https://synabrodemo.s3.ap-northeast-2.amazonaws.com/synabrologo/noLogo.png`} width="50px" height="50px" />
                                                             }
@@ -482,10 +486,10 @@ class MainBody extends React.Component {
                                         }
                                     }) : ""} */}
 
-                                    {/* 
+                    {/* 
                                                 *** 서브 메인 카테고리 ***
                                             */}
-                                    {/* {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
+                    {/* {this.props.shb_main_items ? this.props.shb_main_items.map(rows => {
                                         if (rows) {
                                             return (
                                                 <StyledLink to={`/${rows.parent_route}/category/${rows.shb_item_id}?BomNo=${rows.shb_num}`} onClick={this.memoryScroll}>
@@ -504,13 +508,13 @@ class MainBody extends React.Component {
                                         }
                                     }) : ""} */}
 
-                                {/* </div>
+                    {/* </div>
                                 <button className='btn btn-lg btn-block shadow-sm' onClick={this.categoryDropdown}>
                                     {this.state.isDropdown ? <DropUpIcon /> : <StyleDropdown />}
                                 </button>
                             </div>
                         </div> */}
-                        {/* <div className="col-md-3">
+                    {/* <div className="col-md-3">
                             <div className="right card shadow-sm">
                                 forecast
                                 {this.props.forecastBool?<Forecast />:"loading..."}
@@ -520,7 +524,7 @@ class MainBody extends React.Component {
 
                     <div className='row'>
                         <div className='col-md-9'>
-                            
+
                             <MainContentsSingleLists
                                 {...this.props}
                             />
@@ -532,16 +536,16 @@ class MainBody extends React.Component {
                         {...this.state}
                     />
                     <div className='text-center'>
-                        {this.state.nextPostLoading?
-                            <CircularProgress/>
+                        {this.state.nextPostLoading ?
+                            <CircularProgress />
                             :
-                            this.state.post&&this.state.post.length<this.state.numIndex?
-                            <div>
-                                <h5>마지막 포스터 입니다.</h5>
-                                <IconButton type='button' onClick={this.reloadPost}><RefreshIcon style={{fontSize:'35px'}}/></IconButton>
-                            </div>
-                            :
-                            <IconButton type='button' onClick={this.nextPost}><ExpandMoreIcon style={{fontSize:'35px'}}/></IconButton>
+                            this.state.post && this.state.post.length < this.state.numIndex ?
+                                <div>
+                                    <h5>마지막 포스터 입니다.</h5>
+                                    <IconButton type='button' onClick={this.reloadPost}><RefreshIcon style={{ fontSize: '35px' }} /></IconButton>
+                                </div>
+                                :
+                                <IconButton type='button' onClick={this.nextPost}><ExpandMoreIcon style={{ fontSize: '35px' }} /></IconButton>
                         }
                     </div>
                 </div>
@@ -555,17 +559,17 @@ class MainBody extends React.Component {
                     autoHideDuration={3000}
                     message={<span id="message-id">피드를 새로고침 하였습니다.</span>}
                 />
-                <hr/>
+                <hr />
                 <Footer>
                     Icon support
                     <div>Material Icons : <a href='https://material.io/resources/icons' target='_blank'>www.material.io</a></div>
                     <div>
                         Flaticon : <a href="https://www.flaticon.com/" title="Flaticon" target='_blank'>www.flaticon.com</a>
-                        <br/>
+                        <br />
                         (<a href="https://www.flaticon.com/authors/freepik" title="Freepik" target='_blank'>Freepik</a>, <a href="https://www.flaticon.com/authors/flat-icons" title="Flat Icons">Flat Icons</a>)
                     </div>
                 </Footer>
-                
+
             </Container>
         );
     }
