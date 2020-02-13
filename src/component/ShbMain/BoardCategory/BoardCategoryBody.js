@@ -6,8 +6,9 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+//Icons
 import CreateIcon from '@material-ui/icons/Create';
-
+import NewIcon from '@material-ui/icons/FiberNewOutlined';
 //Component
 import PostLists from './PostLists';
 
@@ -67,6 +68,15 @@ class BoardCategoryBody extends React.Component {
                                     >
                                         <CreateIcon />
                                     </Link>
+                                    <a
+                                        className='btn btn-outline-secondary float-right mr-2'
+                                        href={process.env.NODE_ENV==='production'? 
+                                            `http://d2.shbom.com/write?BomNo=${shb_item.shb_num}&Category=${shb_item.shb_item_id}&Pr=${shb_item.parent_route}`
+                                            :
+                                            `http://localhost:3001/write?BomNo=${shb_item.shb_num}&Category=${shb_item.shb_item_id}&Pr=${shb_item.parent_route}`}
+                                    >
+                                        <CreateIcon /><span className='text-danger bold'>*<NewIcon/><span style={{fontSize:'10px'}}>권장</span></span>
+                                    </a>
                                 </Paper>
                             </Grid>
 

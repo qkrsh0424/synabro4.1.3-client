@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CreateIcon from '@material-ui/icons/Create';
+import NewIcon from '@material-ui/icons/FiberNewOutlined';
 
 //Component
 import PostLists from './PostLists';
@@ -71,12 +72,24 @@ class BoardCategoryBody extends React.Component {
                                     </Link> */}
                                     
                                     {this.props.isMember && this.props._isLogged ?
-                                        <Link
-                                            className='btn btn-outline-secondary float-right'
-                                            to={`/classify/${shb_item.parent_route}/category/${shb_item.shb_item_id}/writepost?BomNo=${shb_item.shb_num}&Category=${shb_item.shb_item_id}`}
-                                        >
-                                            <CreateIcon />
-                                        </Link>
+                                        <div>
+                                            <Link
+                                                className='btn btn-outline-secondary float-right'
+                                                to={`/classify/${shb_item.parent_route}/category/${shb_item.shb_item_id}/writepost?BomNo=${shb_item.shb_num}&Category=${shb_item.shb_item_id}`}
+                                            >
+                                                <CreateIcon />
+                                            </Link>
+                                            <a
+                                                className='btn btn-outline-secondary float-right mr-2'
+                                                href={process.env.NODE_ENV==='production'? 
+                                                    `http://d2.shbom.com/write?BomNo=${shb_item.shb_num}&Category=${shb_item.shb_item_id}&Pr=${shb_item.parent_route}`
+                                                    :
+                                                    `http://localhost:3001/write?BomNo=${shb_item.shb_num}&Category=${shb_item.shb_item_id}&Pr=${shb_item.parent_route}`}
+                                            >
+                                                <CreateIcon /><span className='text-danger bold'>*<NewIcon/><span style={{fontSize:'10px'}}>권장</span></span>
+                                            </a>
+                                        </div>
+                                        
                                         :
                                         <div>
                                             <div>

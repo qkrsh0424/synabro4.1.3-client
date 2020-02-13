@@ -15,6 +15,7 @@ import ContactCategory from '../ContactCategory';
 import PartnerCategory from '../PartnerCategory';
 import ContentsListsCategory from '../ContentsListsCategory';
 import FeedbackFixCategory from '../FeedbackFixCategory';
+
 const MobileLinkShortCutCategory = lazy(()=>import('../MobileLinkShortCutCategory'));
 
 class Category extends React.Component {
@@ -113,7 +114,7 @@ class Category extends React.Component {
             }
             return (
                 <div>
-                    <Nav/>
+                    
                     {categoryComponent}
                 </div>
             );

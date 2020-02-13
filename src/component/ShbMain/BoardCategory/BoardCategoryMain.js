@@ -32,7 +32,7 @@ class BoardCategoryMain extends React.Component {
         this.state = {
             postLists: null,
             startPostIndex:0,
-            currentPostIndex:20,
+            currentPostIndex:100,
             nextBtnOn: true,
         }
     }
@@ -62,6 +62,7 @@ class BoardCategoryMain extends React.Component {
         })
         .then(res=>res.data)
         .then(data=>{
+            // console.log(data)
             if(data[0]){
                 this.setState({postLists:data});
             }else{
@@ -69,7 +70,12 @@ class BoardCategoryMain extends React.Component {
             }
             
         })
-        .catch(err=>alert('포스트 겟 에러'))
+        .catch(err=>
+            {
+                console.log(err);
+                alert('포스트 겟 에러')        
+            }
+        )
 
         await setTimeout(()=>{
             getScrollValY('mb');
@@ -87,6 +93,7 @@ class BoardCategoryMain extends React.Component {
         if(this.state.postLists && this.props.shb_item){
             return (
                 <div>
+                    <Nav/>
                     <BoardCategoryBody
                         {...this.props}
                         {...this.state}

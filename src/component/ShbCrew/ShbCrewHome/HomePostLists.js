@@ -16,6 +16,25 @@ class HomePostLists extends React.Component{
             <div className="wrapper_notice animate slideIn">
                 {this.props.postLists?this.props.postLists.map(rows=>{
                     // console.log(rows);
+                    if(rows.editorType==='sheditor'){
+                        return(
+                            <Link 
+                                to={`/postPage?BomNo=${rows.shb_num}&Category=${rows.shb_item_id}&Pr=${rows.parent_route}&PostVal=${rows.post_id}`} 
+                                className="card card_notice_t hover_animate"
+                            >
+                                {rows.post_thumbnail_url==='none'?<img src={`${awsImageURL}/logo/imageNo2.gif`} className="card-img-top car-img-top_t" alt="..."/>:
+                                    <img src={rows.post_thumbnail_url} className="card-img-top car-img-top_t" alt="..."/>
+                                }
+                                
+                                <div className="p-3 text-dark text-bold crewContainerCardHeader">
+                                        {rows.post_title}
+                                </div>
+                                <div className="crewContainerCardBody p-3">
+                                        {rows.shb_item_name}
+                                </div>
+                            </Link>
+                        );
+                    }
                     return(
                         <Link to={`/classify/${rows.parent_route}/category/${rows.shb_item_id}/v/${rows.post_id}?BomNo=${rows.shb_num}`} className="card card_notice_t hover_animate">
                             {rows.post_thumbnail_url==='none'?<img src={`${awsImageURL}/logo/imageNo2.gif`} className="card-img-top car-img-top_t" alt="..."/>:

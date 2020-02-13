@@ -36,6 +36,7 @@ import MainPostList from './MainPostList';
 import MainContentsSingleLists from './MainContentsSingleLists';
 // import CoronaComponent from '../../DemoFile/CoronaMain';
 const CoronaComponent = lazy(()=>import('../../DemoFile/CoronaMain'));
+const ContentsListPart = lazy(()=>import('../ContentsListPart'));
 
 const Container = styled.div`
     padding-top: 30px;
@@ -364,6 +365,9 @@ class MainBody extends React.Component {
         // console.log(this.props.bannerHeader)
         return (
             <Container>
+                <ContentsListPart
+                    {...this.props}
+                />
                 {/* corona */}
                 <CoronaComponent/>
                 <div className="container shadow-sm animate slideIn clearfix pb-5">

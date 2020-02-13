@@ -8,6 +8,7 @@ import Axios from "axios";
 import AuthKey from '../../../config/AuthorizationKey';
 import { serverUrl } from '../../../config/serverUrl';
 
+import Nav from '../../Nav/Nav';
 class ContactCategoryMain extends React.Component {
     constructor(props) {
         super(props);
@@ -99,6 +100,7 @@ class ContactCategoryMain extends React.Component {
     render() {
         return (
             <>
+                <Nav/>
                 <ContactCategoryBody
                     contact={this.state.contact}
                     contactVals={this.state.contactVals}

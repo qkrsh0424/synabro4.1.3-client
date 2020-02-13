@@ -150,6 +150,32 @@ class MyLikeList extends React.Component {
                     {this.state.likeListShb && this.state.likeListShb.length>0?"":<p>등록된 좋아요가 없습니다.</p>}
                     {this.state.likeListShb ? this.state.likeListShb.map((rows, index) => {
                         if(index >= this.state.startIndexShb && index < this.state.lastIndexShb){
+                            if(rows.editorType==='sheditor'){
+                                return (
+                                    <div class="list-group-item __profile_field __border_radius shadow-sm border p-3 mb-2 clearfix">
+                                        <Link 
+                                            to={`/postPage?BomNo=${rows.shb_num}&Category=${rows.shb_item_id}&Pr=${rows.parent_route}&PostVal=${rows.post_id}`}
+                                            className="text-dark"
+                                        >
+                                            <div className="table-bar_column clearfix">
+                                                
+                                                <span className="table-bar_writer">
+                                                    <span className='text-primary'>{index + 1}</span>
+                                                    작성자: {rows.post_user_isSecret && rows.post_user_isSecret===1?
+                                                                '익명':
+                                                                rows.user_nickname
+                                                            }
+                                                </span>
+                                                {/* <span className="table-bar_time float-right">{calculateTime(new Date(), new Date(rows.post_created))}</span> */}
+                                            </div>
+                                            <div className="table-bar_column">
+                                                <p className="font-weight-bold p-2 m-0">{rows.post_title}</p>
+                                            </div>
+                                        </Link>
+                                        <button className="float-right btn btn-outline-info" onClick={()=>this._onHandleUnLike(rows.shb_num, rows.post_id)}>좋아요 취소</button>
+                                    </div>
+                                );
+                            }
                             if(rows.parent_route==='main'){
                                 return (
                                     <div class="list-group-item __profile_field __border_radius shadow-sm border p-3 mb-2 clearfix">

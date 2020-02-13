@@ -110,6 +110,99 @@ class PostLists extends React.Component {
                     {this.props.post ? this.props.post.map((rows, index) => {
 
                         if (rows !== null) {
+                            if(rows.editorType==='sheditor'){
+                                return (
+                                    <div className="table-bar mb-2 hover_animate tb-border-MainPostList" key={index}>
+    
+                                            <Link 
+                                                to={`/postPage?BomNo=${rows.shb_num}&Category=${rows.shb_item_id}&Pr=${rows.parent_route}&PostVal=${rows.post_id}`}
+                                                onClick={this.memoryScroll}
+                                                className="text-dark"
+                                            >
+    
+                                                <div className="table-bar_column box-MainPostList">
+                                                    <div className="table-bar_column">
+                                                        <div className="font-weight-bold px-3 pt-3  m-0 clearfix">
+                                                            <div>
+    
+                                                                <div className='topic_custom mb-0' style={{ fontSize: "16px" }}>
+                                                                    <span className='text-primary' fontSize="14px" >{index + 1}</span>
+                                                                    &nbsp;
+                                                                    {
+                                                                        window.innerWidth<800?
+
+                                                                        rows.post_title && rows.post_title.length > 32 ?
+                                                                        `${rows.post_title.substring(0, 32)}...` :
+                                                                        rows.post_title
+                                                                        :
+                                                                        rows.post_title && rows.post_title.length > 70 ?
+                                                                        `${rows.post_title.substring(0, 70)}...` :
+                                                                        rows.post_title
+                                                                    }
+    
+                                                                    {rows.post_image_count !== 0 ?
+                                                                        <span href="#" className="font-weight-normal"><PhotoLibraryOutlinedIcon style={{ fontSize: "14px" }} />({rows.post_image_count})</span>
+                                                                        : ""
+                                                                    }
+    
+                                                                </div>
+                                                                <div className="table-bar_column">
+                                                                    <div className="table-bar_writer" style={{ fontSize: "12px" }}>
+                                                                        글쓴이>{rows.post_user_isSecret && rows.post_user_isSecret===1?
+                                                                            '익명':
+                                                                            rows.user_nickname.length > 12 ? `${rows.user_nickname.substring(0, 12)}...` : rows.user_nickname
+                                                                        }
+                                                                    </div>
+                                                                    <div className="table-bar_writer" style={{ fontSize: "12px" }}>
+                                                                        {/* {console.log(rows)} */}
+                                                                        작성지><span className='text-success'>{rows.shb_name === '상해봄' ? '메인':rows.shb_name}</span>><span className='text-primary'>{rows.shb_item_name}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="table-bar_column">
+    
+                                                                    {/* 리스트에서 좋아요 누를수 있음 */}
+                                                                    {/* {rows.liked === 'on' ? <a onClick={() => this._onHandleUnLike(rows.univ_id, rows.post_id)} className="text-secondary"><ThumbUpOn_icon />{rows.post_like_count}</a>
+                                                            : <a onClick={() => this._onHandleLike(rows.univ_id, rows.post_id)} className="text-secondary"><ThumbUpOff_icon />{rows.post_like_count}</a>} */}
+    
+                                                                    {/* 리스트에서 좋아요 누를수 없음 */}
+                                                                    <span className="table-bar_time text-secondary text"> {calculateTime(new Date(), new Date(rows.post_created))} </span>
+                                                                    {rows.liked === 'on' ? <span className="text-secondary"><ThumbUpOn_icon />{rows.post_like_count}</span>
+                                                                        : <span className="text-secondary text" style={{ fontSize: '14px' }}>
+                                                                            {/* <ThumbUpOff_icon  style={{fontSize:'14px'}} /> */}
+                                                                            <span className="text">추천 </span>
+                                                                            {rows.post_like_count}</span>}
+                                                                    &nbsp;
+                                                                <span href="#" className="text-secondary text" style={{ fontSize: '14px' }}>
+                                                                        {/* <Comment_icon style={{fontSize:'14px'}} /> */}
+                                                                        <span className="text">댓글  </span>
+                                                                        {rows.post_comment_count}</span>
+                                                                    &nbsp;
+                                                                <span href="#" className="text-secondary text" style={{ fontSize: '14px' }}>
+                                                                        {/* <Eye_icon style={{fontSize:'14px'}} /> */}
+                                                                        <span className="text">조회 </span>
+                                                                        {rows.post_view_count}
+                                                                    </span>
+    
+                                                                </div>
+                                                            </div>
+    
+    
+                                                        </div>
+    
+                                                    </div>
+                                                    <div>
+                                                        <span className='mt-1 mb-1'>{rows.post_thumbnail_url === 'none' ? <img src={`${awsImageURL}/logo/imageNo2.gif`} /> : <img src={rows.post_thumbnail_url} />}</span>
+                                                    </div>
+                                                </div>
+    
+    
+                                            </Link>
+    
+                                        {/* </Tooltip> */}
+    
+                                    </div>
+                                );
+                            }
                             if(rows.parent_route==='main'){
                                 return (
                                     <div className="table-bar mb-2 hover_animate tb-border-MainPostList" key={index}>

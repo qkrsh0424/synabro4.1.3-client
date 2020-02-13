@@ -12,6 +12,7 @@ import ImageUploadLoading from './ImageUploadLoading';
 import SubmitConfirmDialog from './SubmitConfirmDialog';
 import ImageViewDialog from './ImageViewDialog';
 import AfterSubmitLoading from './AfterSubmitLoading';
+import Nav from '../../Nav/Nav';
 
 const FeedbackFixMain = (props) => {
     const {
@@ -204,6 +205,7 @@ const FeedbackFixMain = (props) => {
 
     return (
         <>
+            <Nav/>
             {/* 이미지 업로드시 이미지가 저장되는 동안의 로딩 */}
             {imageUploadLoading ?
                 <ImageUploadLoading

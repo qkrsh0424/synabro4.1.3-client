@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 //Compoent
 import AdsCategoryBody from './AdsCategoryBody';
-
+import Nav from '../../Nav/Nav';
 
 class AdsCategoryMain extends React.Component{
     constructor(props){
@@ -16,7 +16,11 @@ class AdsCategoryMain extends React.Component{
     
     render(){
         return(
-            <AdsCategoryBody />
+            <div>
+                <Nav/>
+                <AdsCategoryBody />
+            </div>
+            
         );
     }
     

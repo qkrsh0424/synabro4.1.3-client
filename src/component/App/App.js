@@ -78,6 +78,7 @@ const ControlBar = lazy(()=>import('../ControlBar'));
 const ShbMainIntro = lazy(()=>import('../ShbMain/Intro'));
 const ShbMainCategory = lazy(()=>import('../ShbMain/Category'));
 const ShbMainBoardPoster = lazy(()=>import('../ShbMain/BoardCategory/BoardCategoryPoster'));
+const ContentsList = lazy(()=>import('../ShbMain/ContentsListsCategory'));
 
 const ShbCrewIntro = lazy(()=>import('../ShbCrew/Intro'));
 const ShbCrewHome = lazy(()=>import('../ShbCrew/ShbCrewHome'));
@@ -93,6 +94,9 @@ const AdminPage = lazy(()=>import('../AdminPage'));
 const PostEditorCommon = lazy(()=>import('../PostEditorV1_Common'));
 const PostModifyShbMain = lazy(()=>import('../PostModifyV1_Main'));
 const GroupApply = lazy(()=>import('../GroupApply'));
+
+//Sheditor 관련
+const ShEditorPoster = lazy(()=>import('../ShEditorPoster'));
 
 class App extends React.Component {
     constructor(props) {
@@ -200,6 +204,7 @@ class App extends React.Component {
                                 exact path='/main/modifypost'
                                 component={PostModifyShbMain}
                             />
+                            <Route exact path='/contentsList' component={ContentsList}/>
 
                             {/* SHB crew Route */}
                             <Route exact path='/classify/:crew' component={ShbCrewIntro} />
@@ -231,6 +236,9 @@ class App extends React.Component {
 
                             <Route exact path='/apply' component={GroupApply}/>
 
+                            {/* Sheditor 관련 */}
+                            <Route exact path='/postPage' component={ShEditorPoster}/>
+                            
                             {/* error 관련 라우터 */}
                             <Route exact path='/error' component={ErrorPage404} />
                             <Route component={ErrorPage404} />

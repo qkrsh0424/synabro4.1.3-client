@@ -60,6 +60,10 @@ class Poster extends React.Component {
             // const materials = JSON.parse(data[0].post_materials);
             // console.log(materials.length);
             if(data[0].message==='success'){
+                console.log(data[0]);
+                if(data[0].editorType && data[0].editorType === 'sheditor'){
+                    return window.location.href=`http://localhost:3001/postPage?BomNo=${this.state.queryValues.BomNo}&Category=${this.props.match.params.shb_item_id}`;
+                }
                 this.setState({post:data});
             }else if(data[0].message==='error'){
                 alert('잘못된 접근 방식입니다.');
@@ -196,6 +200,7 @@ class Poster extends React.Component {
     render() {
         return (
             <div>
+                {console.log(this.props._sess)}
                 <Nav />
                 {this.state.post&&
                     <PosterBody

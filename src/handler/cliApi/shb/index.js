@@ -73,7 +73,7 @@ const shb_getShbAllItemHeader = async(shb_num) =>{
 }
 
 const shb_getShbAllItemList = async(shb_num) =>{
-    return await Axios.get(`${serverUrl}/api/shb/getshbItemAll`,{
+    return await Axios.get(`${serverUrl}/api/shb/getshbItemAll/havePostCount`,{
         params:{
             shb_num:shb_num
         },

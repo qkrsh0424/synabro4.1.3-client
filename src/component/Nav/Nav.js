@@ -42,6 +42,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { maxWidth } from '@material-ui/system';
 
 
+//Compoennt
+import Translate from '../Translate';
 const propTypes = {
 
 }
@@ -89,6 +91,8 @@ class Nav extends React.Component {
       left: false,
       auth: this.props._isLogged,
       anchorEl: null,
+      translatePopOpen:false,
+      translateAnchorEl:null
     }
 
     this.toggleDrawer = this.toggleDrawer.bind(this);
@@ -178,6 +182,13 @@ class Nav extends React.Component {
     document.documentElement.scrollTop = document.body.scrollTop = 0;
   }
 
+  handleTranslateOpen = (e) =>{
+    this.setState({translatePopOpen:!this.state.translatePopOpen, translateAnchorEl:e.currentTarget})
+  }
+
+  handleTranslateClose = (e) =>{
+    this.setState({translatePopOpen:false})
+  }
   render() {
     // console.log(window.innerWidth);
     const activeStyle = {
@@ -298,6 +309,9 @@ class Nav extends React.Component {
             >
               상해봄
             </Typography>
+            <Button onClick={this.handleTranslateOpen}>
+              번역기
+            </Button>
 
             {this.props._isLogged ?
               <div>
@@ -365,6 +379,15 @@ class Nav extends React.Component {
           </div>
         </Drawer>
       </div>
+      {this.state.translatePopOpen && 
+        <Translate
+          translatePopOpen = {this.state.translatePopOpen}
+          translateAnchorEl = {this.state.translateAnchorEl}
+
+          handleTranslateClose={this.handleTranslateClose}
+        />
+      }
+      
     </div>
       
     );

@@ -33,7 +33,7 @@ class BoardCategoryMain extends React.Component {
         this.state = {
             postLists: '',
             startPostIndex:0,
-            currentPostIndex:20,
+            currentPostIndex:100,
             nextBtnOn: true,
             isMember:false,
             canApplyGroup:false,

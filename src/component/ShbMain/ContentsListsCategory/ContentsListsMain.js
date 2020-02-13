@@ -5,6 +5,7 @@ import * as shbApi from '../../../handler/cliApi/shb';
 
 //Component
 import ContetnsListsBody from './ContentsListsBody';
+import Nav from '../../Nav/Nav';
 
 const ContentsListsMain = () =>{
     const [queryString, setQueryString] = useState(null);
@@ -30,6 +31,7 @@ const ContentsListsMain = () =>{
 
     return (
         <div>
+            <Nav/>
             {contentsLists&&
                 <ContetnsListsBody
                     shb_main_items = {contentsLists}
