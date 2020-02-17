@@ -23,31 +23,33 @@ function ControlBar(props) {
 
     return (
         <div>
-            {isDesktopOrLaptop && <>
+            {isDesktopOrLaptop && 
+                <>
                     <div>
                         <div className='position-fixed controlCircleButtonFirst'><GotoHomeActionButton /></div>
                         <div className='position-fixed controlCircleButtonSecond'><MoreActionButton /></div>
                         <div className='position-fixed controlCircleButtonThird'><BackActionButton /></div>
                         <div className='position-fixed controlCircleButtonForth'><UpActionButton /></div>
                     </div>
-                {isBigScreen && 
-                    <div>
-                        <div className='position-fixed controlCircleButtonFirst'><GotoHomeActionButton /></div>
-                        <div className='position-fixed controlCircleButtonSecond'><MoreActionButton /></div>
-                        <div className='position-fixed controlCircleButtonThird'><BackActionButton /></div>
-                        <div className='position-fixed controlCircleButtonForth'><UpActionButton /></div>
-                    </div>
-                }
-                {isTabletOrMobile && 
-                    <div>
-                        <div className='position-fixed controlCircleButtonFirst'><GotoHomeActionButton /></div>
-                        <div className='position-fixed controlCircleButtonSecond'><MoreActionButton /></div>
-                        <div className='position-fixed controlCircleButtonThird'><BackActionButton /></div>
-                        <div className='position-fixed controlCircleButtonForth'><UpActionButton /></div>
-                    </div>
-                }
-            </>}
-            {isTabletOrMobileDevice && <div className='dynamic-height'><BottomNav /></div>}
+                    {isBigScreen && 
+                        <div>
+                            <div className='position-fixed controlCircleButtonFirst'><GotoHomeActionButton /></div>
+                            <div className='position-fixed controlCircleButtonSecond'><MoreActionButton /></div>
+                            <div className='position-fixed controlCircleButtonThird'><BackActionButton /></div>
+                            <div className='position-fixed controlCircleButtonForth'><UpActionButton /></div>
+                        </div>
+                    }
+                    {isTabletOrMobile && 
+                        <div>
+                            <div className='position-fixed controlCircleButtonFirst'><GotoHomeActionButton /></div>
+                            <div className='position-fixed controlCircleButtonSecond'><MoreActionButton /></div>
+                            <div className='position-fixed controlCircleButtonThird'><BackActionButton /></div>
+                            <div className='position-fixed controlCircleButtonForth'><UpActionButton /></div>
+                        </div>
+                    }
+                </>
+            }
+            {/* {isTabletOrMobileDevice && <div className='dynamic-height'><BottomNav /></div>} */}
         </div>
     );
 }

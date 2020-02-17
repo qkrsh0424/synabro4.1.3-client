@@ -37,6 +37,7 @@ import MainContentsSingleLists from './MainContentsSingleLists';
 // import CoronaComponent from '../../DemoFile/CoronaMain';
 const CoronaComponent = lazy(()=>import('../../DemoFile/CoronaMain'));
 const ContentsListPart = lazy(()=>import('../ContentsListPart'));
+const ITGPostList = lazy(()=>import('../../ITGPostList'));
 
 const Container = styled.div`
     padding-top: 30px;
@@ -534,7 +535,10 @@ class MainBody extends React.Component {
                             />
                         </div>
                     </div>
-
+                    <ITGPostList
+                        {...this.props}
+                        {...this.state}
+                    />
                     <MainPostList
                         {...this.props}
                         {...this.state}
