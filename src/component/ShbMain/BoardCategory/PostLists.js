@@ -164,7 +164,12 @@ class PostLists extends React.Component {
                                                             }
                                                             <br/>
                                                                 <span style={{fontSize:'10px',fontWeight:'unset', color:'gray'}}>
-                                                                    {rows.post_textOnly && rows.post_textOnly}
+                                                                    {rows.post_textOnly && 
+                                                                        window.innerWidth<900?
+                                                                        `${rows.post_textOnly.substring(0,80)}...`
+                                                                        :
+                                                                        `${rows.post_textOnly.substring(0,200)}...`
+                                                                    }
                                                                 </span>
                                                         </div>
                                                         

@@ -64,7 +64,7 @@ export default class extends React.Component {
       searchTerm: value
     });
 
-    await this.searchByTerm();
+    // await this.searchByTerm();
   };
 
   searchByTerm = async () => {

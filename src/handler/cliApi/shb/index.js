@@ -133,6 +133,24 @@ const shb_getShbAllPostForAllBoundary = async(numIndex) =>{
     }
     
 }
+// post recomend 관련 api
+const shb_getRecomendPost = async(numIndex) =>{
+    // console.log(numIndex);
+    return await Axios.get(`${serverUrl}/api/shb/post/getpost/recomend`,{
+        params:{
+            numIndex:numIndex
+        },
+        headers:{
+            Authorization:'Bearer ' + AuthKey
+            }
+    }).then(res=>res.data)
+    .catch(err=>{
+        alert('잘못된 방식 입니다.');
+        window.location.href='/'
+    });
+    
+}
+
 /**
  * 
  * 지정된 SHB_NUM의 모든 포스터를 로드할때 쓰는 API
@@ -340,6 +358,6 @@ export {
     shb_getParentRouteAll,
     shb_getShbAllList, shb_getShbOne,
     shb_getShbAllItemHeader,shb_getShbAllItemList, shb_getShbOneItem, 
-    shb_getShbAllPostForAllBoundary,shb_getShbAllPostForShbNum, shb_getShbOnePost, shb_posterValidationAndMenuControl, shb_deletePosterOne,
+    shb_getShbAllPostForAllBoundary, shb_getRecomendPost, shb_getShbAllPostForShbNum, shb_getShbOnePost, shb_posterValidationAndMenuControl, shb_deletePosterOne,
     shb_getAllCommentOfCategory, shb_writeCommentOfCategory,shb_deleteCommentOfCategory,
     handleLikeOn, handleLikeOff };

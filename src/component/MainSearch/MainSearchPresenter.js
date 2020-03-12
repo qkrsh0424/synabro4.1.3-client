@@ -5,7 +5,6 @@ import styled from "styled-components";
 import PostList from './PostLists';
 import { calculateTime } from "./handler";
 import Message from "./message";
-
 // import {
 //   Notification_icon,
 //   ViewList_icon,
@@ -52,12 +51,12 @@ const MainsearchPresenter = ({
     
   <Container>
     <Form onSubmit={handleSubmit}>
-                  <Input
-                    placeholder="정보를 검색하세요."
-                    value={searchTerm}
-                    onChange={updateTerm}
-                  />
-                </Form>
+      <Input
+        placeholder="정보를 검색하세요."
+        value={searchTerm}
+        onChange={updateTerm}
+      />
+    </Form>
     {loading ? (
       <div className="loader"></div>
     ) : (

@@ -9,7 +9,7 @@ const PostListMain = (props) =>{
     } = props
     return(
         <div>
-            {console.log(post)}
+            {/* {console.log(post)} */}
             <PostListBody/>
         </div>
         

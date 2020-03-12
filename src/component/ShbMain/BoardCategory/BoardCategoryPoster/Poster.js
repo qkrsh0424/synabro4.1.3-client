@@ -52,15 +52,40 @@ class Poster extends React.Component {
             
         })
     }
+
+    // ** viewCountCheck result boolean
+    viewCountCheck = ()=>{
+        if(localStorage.getItem('shbom_vp')){
+            let vpArray = JSON.parse(localStorage.getItem('shbom_vp'));
+            for(let i= 0 ; i<vpArray.length;i++){
+                if(vpArray[i]===this.props.match.params.post_id){
+                    return false;
+                }
+            }
+            if(vpArray.length>=5){
+                vpArray.shift();
+            }
+            vpArray.push(this.props.match.params.post_id);
+            localStorage.setItem('shbom_vp',JSON.stringify(vpArray));
+            return true;
+        }else{
+            let vpArray = JSON.stringify([this.props.match.params.post_id]);
+            localStorage.setItem('shbom_vp',vpArray);
+            return true;
+        }
+    }
+
     _loadPost = () =>{
-        postApi.post_ViewCountPlus(this.props.match.params.post_id);
+        if(this.viewCountCheck()){
+            postApi.post_ViewCountPlus(this.props.match.params.post_id)
+        }
         api.shb_getShbOnePost(this.props._sess, this.props.match.params.post_id)
         .then(data=>{
             // console.log(data[0].post_materials)
             // const materials = JSON.parse(data[0].post_materials);
             // console.log(materials.length);
             if(data[0].message==='success'){
-                console.log(data[0]);
+                // console.log(data[0]);
                 if(data[0].editorType && data[0].editorType === 'sheditor'){
                     return window.location.href=`http://localhost:3001/postPage?BomNo=${this.state.queryValues.BomNo}&Category=${this.props.match.params.shb_item_id}`;
                 }
@@ -200,7 +225,7 @@ class Poster extends React.Component {
     render() {
         return (
             <div>
-                {console.log(this.props._sess)}
+                {/* {console.log(this.props._sess)} */}
                 <Nav />
                 {this.state.post&&
                     <PosterBody

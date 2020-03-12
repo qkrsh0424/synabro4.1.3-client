@@ -57,8 +57,33 @@ class Poster extends React.Component {
 
             })
     }
+
+    // ** viewCountCheck result boolean
+    viewCountCheck = ()=>{
+        if(localStorage.getItem('shbom_vp')){
+            let vpArray = JSON.parse(localStorage.getItem('shbom_vp'));
+            for(let i= 0 ; i<vpArray.length;i++){
+                if(vpArray[i]===this.props.match.params.post_id){
+                    return false;
+                }
+            }
+            if(vpArray.length>=5){
+                vpArray.shift();
+            }
+            vpArray.push(this.props.match.params.post_id);
+            localStorage.setItem('shbom_vp',JSON.stringify(vpArray));
+            return true;
+        }else{
+            let vpArray = JSON.stringify([this.props.match.params.post_id]);
+            localStorage.setItem('shbom_vp',vpArray);
+            return true;
+        }
+    }
+
     _loadPost = () => {
-        postApi.post_ViewCountPlus(this.props.match.params.post_id);
+        if(this.viewCountCheck()){
+            postApi.post_ViewCountPlus(this.props.match.params.post_id)
+        }
         api.shb_getShbOnePost(this.props._sess, this.props.match.params.post_id)
             .then(data => {
                 // console.log(data[0])

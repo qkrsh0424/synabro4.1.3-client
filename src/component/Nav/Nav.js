@@ -1,6 +1,8 @@
 import React from 'react';
 import Axios from 'axios';
 
+//API
+import * as notiApi from '../../handler/cliApi/notification';
 //Authorization
 import AuthKey from '../../config/AuthorizationKey';
 
@@ -33,14 +35,16 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Tooltip from '@material-ui/core/Tooltip';
-import { maxWidth } from '@material-ui/system';
 
+//Core
+import Badge from '@material-ui/core/Badge';
+
+//icons
+import NotificationIcon from '@material-ui/icons/NotificationsRounded';
 
 //Compoennt
 import Translate from '../Translate';
@@ -92,7 +96,8 @@ class Nav extends React.Component {
       auth: this.props._isLogged,
       anchorEl: null,
       translatePopOpen:false,
-      translateAnchorEl:null
+      translateAnchorEl:null,
+      notificationCount:0,
     }
 
     this.toggleDrawer = this.toggleDrawer.bind(this);
@@ -107,6 +112,16 @@ class Nav extends React.Component {
   }
 
   componentDidMount = () =>{
+    notiApi.notification_GetNotificationListLength(this.state.cookiesUSID)
+    .then(res=>{
+      if(res.data.message==='non-user'){
+        return;
+      }
+
+      if(res.data.message==='success'){
+        this.setState({notificationCount:res.data.notiLength})
+      }
+    })
     setTimeout(()=>{
       window.onscroll = function() {myFunction()};
 
@@ -315,13 +330,19 @@ class Nav extends React.Component {
 
             {this.props._isLogged ?
               <div>
+                
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : undefined}
                   aria-haspopup="true"
                   onClick={this.handleMenu}
                   color="inherit"
                 >
-                  <AccountCircle />
+                  <Badge 
+                    badgeContent={this.state.notificationCount}
+                    color="primary"
+                  >
+                    <AccountCircle />
+                  </Badge>
                 </IconButton>
                 <Menu
                   id="menu-appbar"
@@ -339,7 +360,16 @@ class Nav extends React.Component {
                 >
                   <MenuItem component={PageLink} to={'/profile'}>내 프로필</MenuItem>
                   {/* <MenuItem onClick={this.handleClose}>My account</MenuItem> */}
+                  <MenuItem component={PageLink} to={'/mynotification'}>
+                    <Badge 
+                      badgeContent={this.state.notificationCount}
+                      color="primary"
+                    >
+                      알림
+                    </Badge>
+                  </MenuItem>
                   <MenuItem onClick={this.handleLogout}>로그아웃</MenuItem>
+                  
                 </Menu>
               </div> :
               <div>

@@ -1,13 +1,25 @@
 import React from 'react';
 import './ControlBar.css';
 import { useMediaQuery } from 'react-responsive';
+import styled from 'styled-components';
 
 import GotoHomeActionButton from './GotoHomeActionButton';
 import BackActionButton from './BackActionButton';
 import MoreActionButton from './MoreActionButton';
 import UpActionButton from './UpActionButton';
-import BottomNav from './BottomNav';
+// import BottomNav from './BottomNav';
 
+const MobileVersionBack = styled.div`
+    position:fixed;
+    bottom:5%;
+    left:3%;
+`
+
+const MobileVersionScrollUp = styled.div`
+    position:fixed;
+    bottom:5%;
+    right:3%;
+`
 function ControlBar(props) {
 
     const isDesktopOrLaptop = useMediaQuery({
@@ -50,6 +62,12 @@ function ControlBar(props) {
                 </>
             }
             {/* {isTabletOrMobileDevice && <div className='dynamic-height'><BottomNav /></div>} */}
+            {isTabletOrMobileDevice && 
+                <div>
+                    <MobileVersionBack><BackActionButton /></MobileVersionBack>
+                    <MobileVersionScrollUp><UpActionButton /></MobileVersionScrollUp>
+                </div>
+            }
         </div>
     );
 }

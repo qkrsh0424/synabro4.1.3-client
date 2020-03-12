@@ -1,7 +1,7 @@
 import React from 'react';
 
 //server Url
-import {awsImageURL} from '../../config/awsurl';
+import { awsImageURL } from '../../config/awsurl';
 
 //handler
 import { calculateTime } from '../../controler/calculateTime';
@@ -18,6 +18,9 @@ import CopyToClipboard from 'react-copy-to-clipboard';
 //Core
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 //Icons
 import Share_icon from '@material-ui/icons/Share';
@@ -25,6 +28,7 @@ import ThumbUpOff_icon from '@material-ui/icons/ThumbUpAltOutlined';
 import ThumbUpOn_icon from '@material-ui/icons/ThumbUpAlt';
 import Comment_icon from '@material-ui/icons/Comment';
 import Eye_icon from '@material-ui/icons/RemoveRedEye';
+import TranslateIcon from '@material-ui/icons/TranslateRounded';
 
 
 //Component
@@ -121,6 +125,9 @@ const PostCountInfoBox = styled.div`
     }
 `;
 
+const TranslateFunctionBox = styled.div`
+
+`;
 const CommentBox = styled.div`
 
 `;
@@ -168,6 +175,18 @@ const IconButtonEl = styled(IconButton)`
     font-size:15px !important;
     padding:0 !important;
 `;
+
+const TranslateMenuButton = styled(Button)`
+    background:#fbcd41 !important;
+    color:white !important;
+    &:hover{
+        background:#f99e1c !important;
+        color:#9484e8 !important;
+    }
+    
+`;
+const ITEM_HEIGHT = 48;
+
 const PosterBody = (props) => {
     //state
     const {
@@ -176,6 +195,8 @@ const PosterBody = (props) => {
         postModule,
         commonFiles,
         queryValues,
+        pageTransMenuOpen,
+        pageTransMenuAnchor
     } = props;
 
     const {
@@ -189,8 +210,11 @@ const PosterBody = (props) => {
         _handleLikeOn,
         _handleLikeOff,
         loadPost,
-        scrollMoveToComment
-    } = props; 
+        scrollMoveToComment,
+        translatePage,
+        handleTranslateMenuOpen,
+        handleTranslateMenuClose
+    } = props;
 
     var currentDate = new Date();
     // var createDate = new Date(metaData.post_created);
@@ -243,7 +267,7 @@ const PosterBody = (props) => {
                         <span className='float-right'>
                             {_isLogged ?
                                 <PosterMenuControl
-                                    postOwner = {metaData.postOwner}
+                                    postOwner={metaData.postOwner}
                                     queryValues={queryValues}
 
                                     _deleteMyPoster={_deleteMyPoster}
@@ -270,13 +294,13 @@ const PosterBody = (props) => {
                                 <MenuList />
                             </div> */}
                             <CopyToClipboard text={window.location.href}>
-                                <a class="btn btn-outline-secondary float-right">
-                                        <Share_icon/>
+                                <a className="btn btn-outline-secondary float-right">
+                                    <Share_icon />
                                 </a>
                             </CopyToClipboard>
                         </User>
                     </UserInfoBox>
-                    <MainContentBox>
+                    <MainContentBox id='sheditorPart' >
                         {postModule ?
                             postModule.map(moduler => {
                                 if (moduler.imageSliderOn) {
@@ -322,22 +346,22 @@ const PosterBody = (props) => {
                         }
                     </MainContentBox>
                     <CommonFilesBox>
-                        {commonFiles && commonFiles[0]?
+                        {commonFiles && commonFiles[0] ?
                             <div>
                                 <p><strong>첨부파일</strong></p>
                                 <ul>
-                                {commonFiles.map(mat=>{
-                                    
-                                    return(
-                                        <li>
-                                            <a href={mat.url} target='_black' download>{mat.name}</a>
-                                        </li>
-                                    )
-                                    
-                                })}
+                                    {commonFiles.map(mat => {
+
+                                        return (
+                                            <li>
+                                                <a href={mat.url} target='_black' download>{mat.name}</a>
+                                            </li>
+                                        )
+
+                                    })}
                                 </ul>
                             </div>
-                        :""}
+                            : ""}
                     </CommonFilesBox>
                     <PostCountInfoBox>
                         {metaData.liked === 'on' ? <a onClick={() => _handleLikeOff(metaData.shb_num, metaData.post_id)} className="text-secondary"><span id='currentLikeOn'><ThumbUpOn_icon /></span> {metaData.post_like_count}</a> :
@@ -347,20 +371,59 @@ const PosterBody = (props) => {
                         &nbsp;
                             <span href="#" className="text-secondary"><Eye_icon />{metaData.post_view_count}</span>
                     </PostCountInfoBox>
+                    <TranslateFunctionBox>
+                        <TranslateMenuButton 
+                            type='button' 
+                            onClick={handleTranslateMenuOpen} 
+                        ><TranslateIcon/>Translate</TranslateMenuButton>
+                        
+                        <Menu
+                            id="long-menu"
+                            anchorEl={pageTransMenuAnchor}
+                            keepMounted
+                            open={pageTransMenuOpen}
+                            onClose={handleTranslateMenuClose}
+                            PaperProps={{
+                                style: {
+                                    maxHeight: ITEM_HEIGHT * 4.5,
+                                    width: 200,
+                                },
+                            }}
+                        >
+                            <MenuItem onClick={() => translatePage('ko-zh')}>
+                                한국어->中文
+                            </MenuItem>
+                            <MenuItem onClick={() => translatePage('ko-en')}>
+                                한국어->English
+                            </MenuItem>
+                            <MenuItem onClick={() => translatePage('zh-ko')}>
+                                中文->한국어
+                            </MenuItem>
+                            <MenuItem onClick={() => translatePage('zh-en')}>
+                                中文->English
+                            </MenuItem>
+                            <MenuItem onClick={() => translatePage('en-ko')}>
+                                English->한국어
+                            </MenuItem>
+                            <MenuItem onClick={() => translatePage('en-zh')}>
+                                English->中文
+                            </MenuItem>
+                        </Menu>
+                    </TranslateFunctionBox>
                     <hr />
                     <CommentBox id='comment_part'>
                         <Comments
                             head_type={metaData.shb_num}
-                            queryValues = {queryValues}
+                            queryValues={queryValues}
                             _sess={_sess}
-                            _isLogged = {_isLogged}
+                            _isLogged={_isLogged}
 
                             loadPost={loadPost}
-                            // commentData={this.props.commentData}
-                            // comment={this.props.comment}
-                            // _writeComment={this.props._writeComment}
-                            // _onHandleCommentDataChange={this.props._onHandleCommentDataChange}
-                            // _DelComment={this.props._DelComment}
+                        // commentData={this.props.commentData}
+                        // comment={this.props.comment}
+                        // _writeComment={this.props._writeComment}
+                        // _onHandleCommentDataChange={this.props._onHandleCommentDataChange}
+                        // _DelComment={this.props._DelComment}
                         />
                     </CommentBox>
                 </ContentWrapper>

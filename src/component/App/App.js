@@ -95,8 +95,14 @@ const PostEditorCommon = lazy(()=>import('../PostEditorV1_Common'));
 const PostModifyShbMain = lazy(()=>import('../PostModifyV1_Main'));
 const GroupApply = lazy(()=>import('../GroupApply'));
 
+// 알림 페이지
+const NotificationPage = lazy(()=>import('../NotificationPage'));
+
 //Sheditor 관련
 const ShEditorPoster = lazy(()=>import('../ShEditorPoster'));
+
+//DemoFiles
+const VideoStream = lazy(()=>import('../DemoFile/VideoStream'));
 
 class App extends React.Component {
     constructor(props) {
@@ -236,8 +242,14 @@ class App extends React.Component {
 
                             <Route exact path='/apply' component={GroupApply}/>
 
+                            {/* NotificationPage 관련 */}
+                            <Route exact path='/mynotification' component={NotificationPage}/>
+
                             {/* Sheditor 관련 */}
                             <Route exact path='/postPage' component={ShEditorPoster}/>
+                            
+                            {/* DemoFiles */}
+                            <Route exact path='/video' component={VideoStream}/>
                             
                             {/* error 관련 라우터 */}
                             <Route exact path='/error' component={ErrorPage404} />

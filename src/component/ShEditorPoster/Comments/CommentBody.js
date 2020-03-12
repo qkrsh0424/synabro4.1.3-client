@@ -229,7 +229,7 @@ const CommentBody = (props) => {
                                     {rows.cmt_desc}
                                 </span>
                                 <div className='comment-actions'>
-                                    <div classname="reply">
+                                    <div className="reply">
                                         <Button variant={'outlined'} color={'primary'} disabled>답글달기</Button>
                                     </div>
                                     {rows.mycomment ?

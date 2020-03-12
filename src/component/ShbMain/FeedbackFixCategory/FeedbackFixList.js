@@ -4,6 +4,9 @@ import styled from 'styled-components';
 //CalcTime Function
 import { calculateTime } from "../../../controler/calculateTime";
 
+// Core
+import Button from '@material-ui/core/Button';
+
 const Container = styled.div`
     
 `;
@@ -44,6 +47,14 @@ const DescriptionPart = styled.div`
     border-radius: 15px;
 `
 
+const DebatePartWrapper = styled.div`
+    border:1px solid gray;
+    padding:8px;
+`;
+
+const DebatePartBox = styled.div`
+
+`;
 const _proccessStatus = (stn) =>{
     switch(stn){
         case 0: 
@@ -76,11 +87,14 @@ const getFormatDate = (dat) =>{
 
 const FeedbackFixList = (props) =>{
     const {
-        getFeedbackList
+        getFeedbackList,
+        debatePartOpen,
+        debateSelected
     } = props;
 
     const {
-        handleImageViewDialogOpen
+        handleImageViewDialogOpen,
+        handleDebatePartOpen
     } = props;
     return(
         <Container>
@@ -109,8 +123,28 @@ const FeedbackFixList = (props) =>{
                         <DescriptionPart>
                             {item.fdDesc}
                         </DescriptionPart>
+                        {debateSelected===item.fdId && debatePartOpen &&
+                            <DebatePartWrapper>
+                                준비중입니다.
+                            </DebatePartWrapper>
+                        }
                         
-                        
+                        {debatePartOpen ?
+                            <Button 
+                                type='button'
+                                onClick={()=>handleDebatePartOpen(item)}
+                            >
+                                토론 닫기
+                            </Button>
+                            :
+                            
+                            <Button 
+                                type='button'
+                                onClick={()=>handleDebatePartOpen(item)}
+                            >
+                                토론 보기
+                            </Button>
+                        }
 
                     </ItemWrapper>
                 );

@@ -34,10 +34,11 @@ import LoginCard from '../../Login/LoginCard';
 // import MainPostCard2 from './MainPostCard2';
 import MainPostList from './MainPostList';
 import MainContentsSingleLists from './MainContentsSingleLists';
-// import CoronaComponent from '../../DemoFile/CoronaMain';
-const CoronaComponent = lazy(()=>import('../../DemoFile/CoronaMain'));
+
+// const CoronaComponent = lazy(()=>import('../../DemoFile/CoronaMain'));
 const ContentsListPart = lazy(()=>import('../ContentsListPart'));
 const ITGPostList = lazy(()=>import('../../ITGPostList'));
+const RecomendPost = lazy(()=>import('../RecomentPost'));
 
 const Container = styled.div`
     padding-top: 30px;
@@ -370,7 +371,7 @@ class MainBody extends React.Component {
                     {...this.props}
                 />
                 {/* corona */}
-                <CoronaComponent/>
+                {/* <CoronaComponent/> */}
                 <div className="container shadow-sm animate slideIn clearfix pb-5">
                     <div className="row">
                         <div className="col-md-9">
@@ -535,7 +536,11 @@ class MainBody extends React.Component {
                             />
                         </div>
                     </div>
-                    <ITGPostList
+                    {/* <ITGPostList
+                        {...this.props}
+                        {...this.state}
+                    /> */}
+                    <RecomendPost
                         {...this.props}
                         {...this.state}
                     />

@@ -34,6 +34,9 @@ const FeedbackFixMain = (props) => {
     const [imageViewDialogOpen, setImageViewDialogOpen] = useState(false);
     const [imageViewData, setImageViewData] = useState(null);
 
+    const [debatePartOpen, setDebatePartOpen] = useState(false);
+    const [debateSelected, setDebateSelected] = useState(null);
+
     useEffect(()=>{
         getFeedbackFixListAll();
     },[])
@@ -203,6 +206,11 @@ const FeedbackFixMain = (props) => {
         setAfterSubmitSnackbarOpen(false);
     }
 
+    const handleDebatePartOpen = (item) =>{
+        
+        setDebatePartOpen(!debatePartOpen);
+        setDebateSelected(item.fdId);
+    }
     return (
         <>
             <Nav/>
@@ -217,6 +225,8 @@ const FeedbackFixMain = (props) => {
                 description={description}
                 feedImageList={feedImageList}
                 getFeedbackList = {getFeedbackList}
+                debatePartOpen = {debatePartOpen}
+                debateSelected={debateSelected}
 
                 handleChangeDescription={handleChangeDescription}
                 _handleUploadImage={_handleUploadImage}
@@ -224,6 +234,7 @@ const FeedbackFixMain = (props) => {
                 _handleDeleteImage={_handleDeleteImage}
                 _checkSubmitFeedback={_checkSubmitFeedback}
                 handleImageViewDialogOpen={handleImageViewDialogOpen}
+                handleDebatePartOpen={handleDebatePartOpen}
             />
 
             {/* 개선사항 등록을 누른후 마지막 서밋 체크 agree시 _handleSubmitFeedback() 불러온다 */}

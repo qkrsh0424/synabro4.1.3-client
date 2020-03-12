@@ -74,6 +74,8 @@ const FeedbackFixBody = (props) => {
         description,
         feedImageList,
         getFeedbackList,
+        debatePartOpen,
+        debateSelected
     } = props;
 
     const { 
@@ -82,7 +84,8 @@ const FeedbackFixBody = (props) => {
         onImageUpload,
         _handleDeleteImage,
         _checkSubmitFeedback,
-        handleImageViewDialogOpen
+        handleImageViewDialogOpen,
+        handleDebatePartOpen
     } = props;
 
     return (
@@ -130,8 +133,11 @@ const FeedbackFixBody = (props) => {
                     {getFeedbackList ? 
                         <FeedbackFixList
                             getFeedbackList={getFeedbackList}
+                            debatePartOpen={debatePartOpen}
+                            debateSelected={debateSelected}
 
                             handleImageViewDialogOpen={handleImageViewDialogOpen}
+                            handleDebatePartOpen={handleDebatePartOpen}
                         />
                         :
                         <div className='text-center'>

@@ -2,6 +2,7 @@ import React,{useState, useEffect} from 'react';
 
 //API
 import * as shbApi from '../../../handler/cliApi/shb';
+import * as notiApi from '../../../handler/cliApi/notification';
 
 //Component
 import CommentBody from './CommentBody';
@@ -45,6 +46,7 @@ const CommentMain = (props) =>{
         shbApi.shb_writeCommentOfCategory(_sess, commentInputData, queryValues.PostVal, queryValues.BomNo)
         .then(async data=>{
             if(data.message==='success'){
+                UpToCommentNotification(_sess, queryValues, data.commentId);
                 loadComment();
                 loadPost();
                 setCommentInputData('');
@@ -89,6 +91,17 @@ const CommentMain = (props) =>{
               });
         },100)
         
+    }
+
+    const UpToCommentNotification = (_sess, queryValues, commentId) =>{
+        notiApi.notification_UpToComment(_sess, queryValues,commentId)
+        .then(res=>{
+            if(res.data.message==='success' || res.data.message==='owner'){
+                return;
+            }else{
+                alert('noti_error');
+            }
+        })
     }
 
     return(

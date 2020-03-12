@@ -106,6 +106,7 @@ class PostLists extends React.Component {
     render() {
         return (
             <Wrapper className='MainPostList'>
+                <h4 style={{fontWeight:'700', color:'#fdaa30'}}>NEW</h4>
                 <div className='table-body animate slideIn clearfix '>
                     {this.props.post ? this.props.post.map((rows, index) => {
 

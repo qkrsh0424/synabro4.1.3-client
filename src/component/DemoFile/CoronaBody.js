@@ -49,7 +49,7 @@ const CoronaBody = (props) => {
         <div>
             <CoronaWrapper>
                 <CoronaBox>
-                    <h3 className='textTitle'>코로나 현황 실시간 데이터</h3>
+                    <h3 className='textTitle'>코로나19 현황 실시간 데이터</h3>
                     {coronaData && <div>{coronaData.currentDate}</div>}
                     {coronaData?
                         <div className='wrapper'>
@@ -133,7 +133,7 @@ const CoronaBody = (props) => {
                                                 의심환자
                                             </div>
                                             <div>
-                                                {coronaDataKorea.suspect}명
+                                                null명
                                             </div>
                                         </div>
                                     </CoronaBox>
@@ -157,7 +157,7 @@ const CoronaBody = (props) => {
                                                 치유환자
                                             </div>
                                             <div>
-                                                {coronaDataKorea.heal}명
+                                                {coronaDataKorea.cure}명
                                             </div>
                                         </div>
                                     </CoronaBox>
@@ -227,7 +227,7 @@ const CoronaBody = (props) => {
                     }
 
                 </CoronaBox>
-                <div className='text-center'><a href='https://news.qq.com/' target='_blank'>출처 : 腾讯新闻</a></div>
+                {/* <div className='text-center'><a href='https://news.qq.com/' target='_blank'>출처 : 腾讯新闻</a></div> */}
                 <div style={{ border: '1px solid #f1f1f1', borderRadius: '15px', margin: '8px', padding: '15px' }} className='text-center'>
                     <Link to='/main/category/71?BomNo=1101001' style={{ fontSize: '20px' }}>코로나 게시판 바로가기</Link>
                 </div>
