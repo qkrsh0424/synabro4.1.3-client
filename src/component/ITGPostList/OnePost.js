@@ -15,6 +15,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 const Container = styled.div`
     border: 1px solid #f1f1f1;
     border-radius: 15px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
 `;
 
 
@@ -110,12 +111,12 @@ const OnePost = () => {
                 </IconButton>
             </HeaderContainer>
             <ImagePartContainer>
-                {/* <ImagePartWrapper>
+                <ImagePartWrapper>
                     <ImageEl 
                         src='https://synabrodemo.oss-ap-southeast-1.aliyuncs.com/categoryIcons/catalog-flaticon.png'
                         height={window.innerWidth<900?'300px':'600px'}
                     />
-                </ImagePartWrapper> */}
+                </ImagePartWrapper>
             </ImagePartContainer>
             <hr/>
             <BodyContainer>

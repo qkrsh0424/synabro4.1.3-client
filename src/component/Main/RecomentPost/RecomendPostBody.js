@@ -9,6 +9,7 @@ import {calculateTime} from '../../../controler/calculateTime';
 //Icons
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import PhotoLibraryOutlinedIcon from '@material-ui/icons/PhotoLibraryOutlined';
+import VideoLibraryOutlinedIcon from'@material-ui/icons/VideoLibraryOutlined';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 const Container = styled.div`
     margin: 15px 0;
@@ -112,6 +113,7 @@ const RecomendBody = (props) => {
                             <PostTitleEl>
                                 <FavoriteIcon style={{color:'white', background: 'linear-gradient(to right, #fbcd41 0%, #fda42d 100%)', borderRadius:'10px'}} /> {rows.post_title}
                                 {rows.post_image_count ? <span><PhotoLibraryOutlinedIcon/>({rows.post_image_count})</span>:''}
+                                {rows.post_video_count ? <span><VideoLibraryOutlinedIcon/>({rows.post_video_count})</span>:''}
                             </PostTitleEl>
                             <AuthorEl>
                                 글쓴이>{rows.user_nickname}

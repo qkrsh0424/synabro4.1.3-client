@@ -33,8 +33,9 @@ class BoardCategoryMain extends React.Component {
         this.state = {
             postLists: '',
             startPostIndex:0,
-            currentPostIndex:100,
-            nextBtnOn: true,
+            currentPostIndex:20,
+            nextPostLoading:false,
+            reloadSnackOpen:false,
             isMember:false,
             canApplyGroup:false,
 
@@ -107,6 +108,22 @@ class BoardCategoryMain extends React.Component {
         this._getPost();
         
     }
+    handleReloadPost = async()=>{
+        document.documentElement.scrollTop = document.body.scrollTop = 0;
+        await this.setState({ reloadSnackOpen: true });
+        await this._getPost();
+    }
+    handleNextPost = async()=>{
+        await this.setState({ nextPostLoading: true });
+        await this.setState({ currentPostIndex: this.state.currentPostIndex+20 });
+        await this._getPost();
+        await this.setState({ nextPostLoading: false });
+    }
+
+    handleReloadSnackClose = async()=>{
+        await this.setState({ reloadSnackOpen: false });
+    }
+
     render() {
         // console.log(this.props.shb);
         // console.log(this.state.postLists.length);
@@ -119,6 +136,10 @@ class BoardCategoryMain extends React.Component {
                             {...this.props}
                             {...this.state}
                             _onClickReloadPost = {this._onClickReloadPost}
+                            handleReloadPost = {this.handleReloadPost}
+                            handleNextPost = {this.handleNextPost}
+                            handleReloadSnackClose={this.handleReloadSnackClose}
+
                         />
                     </div>
                 :

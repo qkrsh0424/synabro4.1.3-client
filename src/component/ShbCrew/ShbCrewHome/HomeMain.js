@@ -20,6 +20,10 @@ class HomeMain extends React.Component{
             shb_item:null,
             postLists:null,
             bannerHeader:null,
+            startPostIndex:0,
+            currentPostIndex:20,
+            nextPostLoading:false,
+            reloadSnackOpen:false,
         }
     }
 
@@ -36,6 +40,7 @@ class HomeMain extends React.Component{
     componentDidUpdate = (prevProps, prevState)=>{
         if (prevProps.location != this.props.location) {
             document.documentElement.scrollTop = document.body.scrollTop = 0;
+            this.setState({currentPostIndex:20});
             this._getShb();
             this._getShbItemHeader();
             this._getShbItem();
@@ -63,7 +68,7 @@ class HomeMain extends React.Component{
     }
 
     _getPostListsForShbNum = async()=>{
-        await api.shb_getShbAllPostForShbNum(this.props.match.params.shb_num)
+        await api.shb_getShbAllPostForShbNum(this.props.match.params.shb_num,this.state.startPostIndex,this.state.currentPostIndex)
         .then(data=>this.setState({postLists:data}));
     }
 
@@ -80,6 +85,23 @@ class HomeMain extends React.Component{
                 this.setState({bannerHeader:null});
             }
         });
+    }
+
+    reloadPost = async () =>{
+        document.documentElement.scrollTop = document.body.scrollTop = 0;
+        await this.setState({ reloadSnackOpen: true });
+        await this._getPostListsForShbNum();
+    }
+
+    nextPost = async () =>{
+        await this.setState({ nextPostLoading: true });
+        await this.setState({ currentPostIndex: this.state.currentPostIndex+20 });
+        await this._getPostListsForShbNum();
+        await this.setState({ nextPostLoading: false });
+    }
+
+    handleReloadSnackClose = async()=>{
+        await this.setState({ reloadSnackOpen: false });
     }
 
     render(){
@@ -128,6 +150,10 @@ class HomeMain extends React.Component{
                 <HomeBody
                     {...this.props}
                     {...this.state}
+
+                    reloadPost = {this.reloadPost}
+                    nextPost = {this.nextPost}
+                    handleReloadSnackClose = {this.handleReloadSnackClose}
                 />
             </div>
         );

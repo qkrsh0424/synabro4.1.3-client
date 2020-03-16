@@ -36,6 +36,7 @@ import MainPostList from './MainPostList';
 import MainContentsSingleLists from './MainContentsSingleLists';
 
 // const CoronaComponent = lazy(()=>import('../../DemoFile/CoronaMain'));
+// const MainSearch = lazy(()=>import('../../MainSearch/FullDialog'));
 const ContentsListPart = lazy(()=>import('../ContentsListPart'));
 const ITGPostList = lazy(()=>import('../../ITGPostList'));
 const RecomendPost = lazy(()=>import('../RecomentPost'));
@@ -544,6 +545,7 @@ class MainBody extends React.Component {
                         {...this.props}
                         {...this.state}
                     />
+                    {/* <ITGPostList/> */}
                     <MainPostList
                         {...this.props}
                         {...this.state}

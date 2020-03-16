@@ -25,6 +25,7 @@ import Comment_icon from '@material-ui/icons/Comment';
 import Eye_icon from '@material-ui/icons/RemoveRedEye';
 import Notification_icon from '@material-ui/icons/NotificationImportant';
 import PhotoLibraryOutlinedIcon from '@material-ui/icons/PhotoLibraryOutlined';
+import VideoLibraryOutlinedIcon from '@material-ui/icons/VideoLibraryOutlined';
 
 import { calculateTime } from '../../../controler/calculateTime';
 
@@ -145,7 +146,10 @@ class PostLists extends React.Component {
                                                                         <span href="#" className="font-weight-normal"><PhotoLibraryOutlinedIcon style={{ fontSize: "14px" }} />({rows.post_image_count})</span>
                                                                         : ""
                                                                     }
-    
+                                                                    {rows.post_video_count !== 0 ?
+                                                                        <span href="#" className="font-weight-normal"><VideoLibraryOutlinedIcon style={{ fontSize: "14px" }} />({rows.post_video_count})</span>
+                                                                        : ""
+                                                                    }
                                                                 </div>
                                                                 <div className="table-bar_column">
                                                                     <div className="table-bar_writer" style={{ fontSize: "12px" }}>

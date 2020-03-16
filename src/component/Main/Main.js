@@ -15,6 +15,7 @@ import * as bannerApi from '../../handler/cliApi/banner';
 import Nav from '../Nav/Nav';
 // import MainBody from './MainInterface';
 import ScrollTabs from './ScrollTabs';
+// const ScrollTabs = React.lazy(()=>import('./ScrollTabs'));
 // import SaveScrollPosition from '../Scroll/SaveScrollPosition';
 
 
