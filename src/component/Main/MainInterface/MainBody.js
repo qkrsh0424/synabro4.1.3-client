@@ -35,6 +35,7 @@ import LoginCard from '../../Login/LoginCard';
 import MainPostList from './MainPostList';
 import MainContentsSingleLists from './MainContentsSingleLists';
 
+// import AdSense from 'react-adsense';
 // const CoronaComponent = lazy(()=>import('../../DemoFile/CoronaMain'));
 // const MainSearch = lazy(()=>import('../../MainSearch/FullDialog'));
 const ContentsListPart = lazy(()=>import('../ContentsListPart'));
@@ -546,6 +547,16 @@ class MainBody extends React.Component {
                         {...this.state}
                     />
                     {/* <ITGPostList/> */}
+
+                    {/* Google Ads FullWidth */}
+                    {/* <AdSense.Google
+                        client='ca-pub-2340864651976007'
+                        slot='7610136091'
+                        style={{ display: 'block' }}
+                        format='auto'
+                        responsive='true'
+                    /> */}
+
                     <MainPostList
                         {...this.props}
                         {...this.state}

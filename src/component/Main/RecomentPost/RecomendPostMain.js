@@ -44,6 +44,7 @@ const RecomendMain = (props) =>{
         <div>
             {recomendPostList && 
                 <RecomendBody
+                    path={props.location.pathname}
                     recomendPostList={recomendPostList}
 
                     handleChangeRoute={handleChangeRoute}

@@ -86,7 +86,11 @@ class Category extends React.Component {
                         categoryComponent.push(<ContactCategory/>);
                         break;
                     case 'partner':
-                        categoryComponent.push(<PartnerCategory/>);
+                        categoryComponent.push(
+                            <PartnerCategory
+                                {...this.props}
+                            />
+                        );
                         break;
                     case 'contents-list':
                         categoryComponent.push(<ContentsListsCategory/>);

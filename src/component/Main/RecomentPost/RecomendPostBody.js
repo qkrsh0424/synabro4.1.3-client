@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{usePath} from 'react';
 
 //styled 
 import styled from 'styled-components';
@@ -11,6 +11,10 @@ import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import PhotoLibraryOutlinedIcon from '@material-ui/icons/PhotoLibraryOutlined';
 import VideoLibraryOutlinedIcon from'@material-ui/icons/VideoLibraryOutlined';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+
+// GoogleAds
+import GoogleAds_Infeed from '../../GoogleAds/GoogleAds_Infeed';
+// import GoogleAds_InfeedHooks from '../../GoogleAds/GoogleAds_InfeedHooks';
 const Container = styled.div`
     margin: 15px 0;
     padding: 8px 0;
@@ -85,6 +89,7 @@ let currentTime = new Date();
 
 const RecomendBody = (props) => {
     const {
+        path,
         recomendPostList
     } = props;
 
@@ -133,6 +138,9 @@ const RecomendBody = (props) => {
                     </PostWrapper>
                 );
             })}
+            <GoogleAds_Infeed
+                path={props.path}
+            />
 
 
         </Container>

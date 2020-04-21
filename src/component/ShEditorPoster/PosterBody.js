@@ -35,7 +35,6 @@ import TranslateIcon from '@material-ui/icons/TranslateRounded';
 import ImageSliderForm from './ImageSliderForm';
 import PosterMenuControl from './PosterMenuControl';
 import Comments from './Comments';
-
 const style = {
     paperHeader: {
         padding: '1rem',

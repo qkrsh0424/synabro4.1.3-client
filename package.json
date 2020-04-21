@@ -24,6 +24,7 @@
     "popper.js": "^1.15.0",
     "query-string": "^6.8.3",
     "react": "^16.9.0",
+    "react-adsense": "^0.1.0",
     "react-app-polyfill": "^1.0.5",
     "react-contenteditable": "^3.3.2",
     "react-cookies": "^0.1.1",
@@ -43,7 +44,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "analyze":"source-map-explorer build/static/js/*"
+    "analyze": "source-map-explorer build/static/js/*"
   },
   "eslintConfig": {
     "extends": "react-app"
